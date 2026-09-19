@@ -1,8 +1,10 @@
 # Internship Committee Portal — IIM Rohtak
 
 A static, GitHub Pages–ready website for the Internship Committee (IC) of IIM
-Rohtak. Built with plain HTML, CSS and JavaScript — no framework, no build
-step, no server required to run it.
+Rohtak. Built with plain HTML, CSS and JavaScript — no framework and no build
+step needed to run or deploy it. (The one exception is the homepage's 3D
+gallery, a small React island that ships **pre-built** in `assets/` — see
+section 8 — so you still don't need to build anything unless you edit it.)
 
 ---
 
@@ -10,7 +12,7 @@ step, no server required to run it.
 
 ```
 /project
-  index.html                 Home (3D logo signature + primary nav cards)
+  index.html                 Home (3D logo signature + circular 3D gallery of the six sections)
   knowledge-repository.html  Knowledge Repository landing (4 sub-tiles)
   courses.html                Course Repository
   case-studies.html           Case Studies
@@ -25,7 +27,7 @@ step, no server required to run it.
     base.css        tokens, typography, resets, accessibility
     layout.css       sidebar, topbar, mobile drawer, grids
     components.css   cards, buttons, badges, chips
-    home.css          hero + the 3D revolving-logo signature
+    home.css          hero, the 3D revolving-logo signature, gallery section layout
     lp-detail.css      Live Project detail page layout
 
   /js
@@ -41,6 +43,8 @@ step, no server required to run it.
     render-live-projects.js
     render-live-project-detail.js
 
+  /gallery                       React + TypeScript + Tailwind source of the homepage gallery (see section 8)
+
   /data                          bundled DEMO data (used until Sheets are wired up)
     courses.json
     case-studies.json
@@ -51,6 +55,7 @@ step, no server required to run it.
 
   /assets
     logo.png                     IC IIM Rohtak logo (1600×1600)
+    circular-gallery.js / .css   BUILT output of /gallery — loaded by index.html (don't edit by hand)
 ```
 
 ### About the logo file
@@ -311,3 +316,51 @@ Per the brief, this MVP does not include search/filtering (beyond the
 simple domain pills on the Course Repository), user accounts,
 authentication, analytics dashboards, or a backend — all of that is listed
 above as a future step, not missing functionality.
+
+---
+
+## 8. Homepage circular gallery (React island)
+
+The six cards on the home page — Live Projects, Course Repository, Case
+Competitions, Case Studies, IIMR Student Resources and GitHub Repositories —
+are rendered by a small React component as a 3D ring that rotates with page
+scroll (and drifts slowly on its own). Everything else on the site stays plain
+HTML/CSS/JS.
+
+```
+/gallery
+  package.json  tsconfig.json  tailwind.config.ts  components.json  build.mjs
+  /src
+    main.tsx                         mounts the gallery into #circular-gallery-root
+    index.css                        Tailwind + scoped shadcn design tokens
+    demo.tsx                         the original animal-gallery demo (reference only, not shipped)
+    /components
+      home-gallery.tsx               the six portal cards, images, live-status badge, responsive fit
+      /ui/circular-gallery.tsx       the CircularGallery component (shadcn path: @/components/ui)
+    /lib/utils.ts                    shadcn `cn()` helper (for components added later)
+```
+
+**You do not need to rebuild** unless you change something in `/gallery`. The
+site loads the already-built `assets/circular-gallery.js` and
+`assets/circular-gallery.css`.
+
+To change a card's title, blurb, link or photo, edit `buildItems()` in
+`gallery/src/components/home-gallery.tsx`, then rebuild:
+
+```bash
+cd gallery
+npm install
+npm run build        # writes ../assets/circular-gallery.js and .css
+```
+
+Notes:
+- Tailwind is **scoped** to `#circular-gallery-root` and its global reset is
+  turned off, so it can't affect any other part of the site.
+- Card photos are hot-linked from Unsplash (`images.unsplash.com`). If a photo
+  is ever unreachable the card falls back to a plain gradient with its text.
+- With JavaScript disabled, or if the bundle fails to load, the home page
+  shows the same six sections as ordinary cards (the fallback in `index.html`).
+- The Live Projects card's "Applications open / closed" badge is driven by
+  `ICData.getLiveProjects()`, exactly like the old home-page badge.
+- `knowledge-repository.html` still exists (the sub-pages' "← Knowledge
+  Repository" breadcrumbs link to it) but the home page no longer points to it.
