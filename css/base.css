@@ -6,34 +6,39 @@
 
 :root{
   /* --- Color tokens --- */
-  --bg:               #010006;
-  --bg-radial-1:      #070a17;
-  --bg-radial-2:      #01000a;
-  --sidebar-bg:       #05060fee;
-  --sidebar-border:   rgba(140,160,255,0.10);
+  --bg:               #F7F4EE;
+  --bg-radial-1:      #EBF0FC;
+  --bg-radial-2:      #FBF2E4;
+  --sidebar-bg:       #FDFBF6ee;
+  --sidebar-border:   rgba(30,32,48,0.08);
 
-  --surface:          rgba(16, 22, 46, 0.50);
-  --surface-strong:   rgba(18, 26, 54, 0.72);
-  --surface-border:   rgba(150, 170, 255, 0.14);
-  --surface-border-hover: rgba(150, 180, 255, 0.32);
+  --surface:          rgba(255, 255, 255, 0.55);
+  --surface-strong:   rgba(255, 255, 255, 0.85);
+  --surface-border:   rgba(30, 32, 48, 0.09);
+  --surface-border-hover: rgba(30, 32, 48, 0.18);
 
   --accent:           #3B6BF6;   /* cobalt / electric blue */
-  --accent-soft:      #5C86FF;
-  --accent-2:         #38C6D9;   /* cyan-indigo secondary */
-  --accent-2-soft:    #6C7CFF;
+  --accent-rgb:        59,107,246;
+  --accent-soft:      #1D4ED8;
+  --accent-2:         #0E7490;   /* deep teal secondary */
+  --accent-2-rgb:      14,116,144;
+  --accent-2-soft:    #3C57C7;
 
-  --text-primary:     #F3F1EA;
-  --text-secondary:   #99A2BE;
-  --text-muted:       #656E8C;
+  --text-primary:     #1C1F2B;
+  --text-secondary:   #5A6178;
+  --text-muted:       #868EA3;
 
-  --live-red:         #FF4457;
+  --live-red:         #DC2626;
 
-  --stage-1:          #FF4457;  /* Applications Open   — red */
-  --stage-1-rgb:       255,68,87;
-  --stage-2:          #FFC53D;  /* Selection Ongoing   — yellow */
-  --stage-2-rgb:       255,197,61;
-  --stage-3:          #33D17A;  /* Ongoing Project     — green */
-  --stage-3-rgb:       51,209,122;
+  --gold:             #B45309;  /* deadlines, ratings, warnings */
+  --gold-rgb:          180,83,9;
+
+  --stage-1:          #DC2626;  /* Applications Open   — red */
+  --stage-1-rgb:       220,38,38;
+  --stage-2:          #B45309;  /* Selection Ongoing   — yellow/amber */
+  --stage-2-rgb:       180,83,9;
+  --stage-3:          #15803D;  /* Ongoing Project     — green */
+  --stage-3-rgb:       21,128,61;
 
   --radius-s:  10px;
   --radius-m:  16px;
@@ -58,7 +63,7 @@ body{
   min-height:100vh;
   background:
     radial-gradient(1100px 700px at 82% -8%, var(--bg-radial-1) 0%, transparent 60%),
-    radial-gradient(900px 600px at -10% 110%, #060a1c 0%, transparent 55%),
+    radial-gradient(900px 600px at -10% 110%, var(--bg-radial-2) 0%, transparent 55%),
     var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -97,8 +102,8 @@ button:focus-visible,
 /* --- Scrollbar (subtle) --- */
 ::-webkit-scrollbar{ width: 10px; height: 10px; }
 ::-webkit-scrollbar-track{ background: transparent; }
-::-webkit-scrollbar-thumb{ background: rgba(120,140,220,0.25); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover{ background: rgba(120,140,220,0.4); }
+::-webkit-scrollbar-thumb{ background: rgba(30,40,80,0.16); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover{ background: rgba(30,40,80,0.28); }
 
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce){

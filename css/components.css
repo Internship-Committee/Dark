@@ -19,7 +19,7 @@
   color: #fff;
   box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset;
 }
-.btn-primary:hover{ transform: translateY(-2px); background: #2C55D8; }
+.btn-primary:hover{ transform: translateY(-2px); background: #2C55D8; box-shadow: 0 10px 24px -12px rgba(59,107,246,0.5), 0 1px 0 rgba(255,255,255,0.08) inset; }
 .btn-primary:hover svg{ transform: translateX(3px); }
 .btn-ghost{
   background: var(--surface);
@@ -36,14 +36,14 @@
   border-radius: var(--radius-l);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -24px rgba(0,0,0,0.6);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 16px 34px -22px rgba(30,32,50,0.14);
   transition: transform .28s var(--ease), box-shadow .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
 }
 .glass-card:hover{
   transform: translateY(-4px);
   border-color: var(--surface-border-hover);
   background: var(--surface-strong);
-  box-shadow: 0 18px 34px -20px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
+  box-shadow: 0 18px 34px -20px rgba(30,32,50,0.18), 0 1px 0 rgba(255,255,255,0.8) inset;
 }
 
 /* ---------------- Home nav cards ---------------- */
@@ -61,8 +61,8 @@
   width: 44px; height:44px;
   flex-shrink: 0;
   border-radius: 12px;
-  background: rgba(59,107,246,0.14);
-  border: 1px solid rgba(92,134,255,0.28);
+  background: rgba(var(--accent-rgb),0.13);
+  border: 1px solid rgba(var(--accent-rgb),0.28);
   display:flex; align-items:center; justify-content:center;
   color: var(--accent-2);
 }
@@ -94,7 +94,7 @@
 }
 .home-card--live .card-live-badge .pulse-dot{
   width:7px; height:7px; border-radius:50%; background: var(--live-red);
-  box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
+  box-shadow: 0 0 0 0 rgba(var(--stage-1-rgb),0.6);
   animation: pulse-dot-1 1.8s infinite;
 }
 .home-card--live .card-live-badge.is-closed{
@@ -110,12 +110,12 @@
 .course-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .price-chip{
   font-weight:800; font-size: 14px; color: var(--text-primary);
-  background: rgba(56,198,217,0.12); border:1px solid rgba(56,198,217,0.28);
+  background: rgba(var(--accent-2-rgb),0.10); border:1px solid rgba(var(--accent-2-rgb),0.28);
   padding: 5px 12px; border-radius: 999px;
 }
 .rating{
   display:flex; align-items:center; gap:6px;
-  font-size: 13.5px; font-weight:700; color: #FFC857;
+  font-size: 13.5px; font-weight:700; color: var(--gold);
 }
 .rating svg{ width:15px; height:15px; }
 .domain-tag{
@@ -124,8 +124,8 @@
   color: var(--accent-2);
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(56,198,217,0.3);
-  background: rgba(56,198,217,0.08);
+  border: 1px solid rgba(var(--accent-2-rgb),0.32);
+  background: rgba(var(--accent-2-rgb),0.08);
 }
 .duration-chip{
   display:inline-flex; align-items:center; gap:6px;
@@ -160,19 +160,28 @@
   align-self:flex-start;
   font-size: 10.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
   padding: 5px 11px; border-radius: 999px;
-  color:#CFE0FF; background: rgba(120,150,255,0.12); border:1px solid rgba(120,150,255,0.3);
+  color: var(--accent-soft); background: rgba(var(--accent-rgb),0.09); border:1px solid rgba(var(--accent-rgb),0.30);
 }
 .resource-type-badge.type-e-database{
-  color:#8CF0B0; background: rgba(60,220,140,0.1); border:1px solid rgba(60,220,140,0.28);
+  color: var(--stage-3); background: rgba(var(--stage-3-rgb),0.10); border:1px solid rgba(var(--stage-3-rgb),0.30);
 }
 .resource-type-badge.type-online-journals{
-  color:#FFD98A; background: rgba(255,200,80,0.1); border:1px solid rgba(255,200,80,0.3);
+  color: var(--gold); background: rgba(var(--gold-rgb),0.10); border:1px solid rgba(var(--gold-rgb),0.30);
 }
 
 /* ---------------- Competition card ---------------- */
 .competition-card{
   padding: 22px 24px;
   display:flex; flex-direction:column; gap:12px;
+  /* more translucent than the default glass-card surface, so cards read
+     as "floating" panes over whatever is scrolling behind the sticky,
+     fading header */
+  background: rgba(255,255,255,0.32);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.competition-card:hover{
+  background: rgba(255,255,255,0.5);
 }
 .competition-card h3{ font-size: 1.1rem; margin:0; }
 .competition-card .institute{ font-size:13.5px; color: var(--text-secondary); }
@@ -181,7 +190,7 @@
   display:inline-flex; align-items:center; gap:7px;
   font-size: 12.5px; font-weight:800;
   padding: 6px 13px; border-radius:999px;
-  color: #FFD98A; background: rgba(255,200,80,0.1); border: 1px solid rgba(255,200,80,0.3);
+  color: var(--gold); background: rgba(var(--gold-rgb),0.10); border: 1px solid rgba(var(--gold-rgb),0.32);
 }
 .deadline-pill svg{ width:13px; height:13px; }
 .competition-card .card-link{
@@ -231,13 +240,13 @@
 .meta-chip{
   font-size: 12px; font-weight:600; color: var(--text-secondary);
   padding: 5px 11px; border-radius: 999px;
-  border: 1px solid var(--surface-border); background: rgba(255,255,255,0.03);
+  border: 1px solid var(--surface-border); background: rgba(30,32,48,0.035);
   display:inline-flex; align-items:center; gap:6px;
 }
 .meta-chip svg{ width:12px; height:12px; }
 .lp-card .lp-deadline{
   margin-top:6px;
-  font-size: 12.5px; font-weight:700; color: #FFD98A;
+  font-size: 12.5px; font-weight:700; color: var(--gold);
 }
 .lp-card .card-link{
   margin-top:6px;
@@ -253,7 +262,7 @@
 }
 .subtile .card-icon{
   width: 42px; height:42px; border-radius:11px;
-  background: rgba(59,107,246,0.14); border: 1px solid rgba(92,134,255,0.28);
+  background: rgba(var(--accent-rgb),0.13); border: 1px solid rgba(var(--accent-rgb),0.28);
   display:flex; align-items:center; justify-content:center; color: var(--accent-2);
   margin-bottom: 6px;
 }
@@ -294,7 +303,7 @@
   height: 190px;
   border-radius: var(--radius-l);
   border: 1px solid var(--surface-border);
-  background: linear-gradient(100deg, rgba(255,255,255,0.02) 30%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 70%);
+  background: linear-gradient(100deg, rgba(30,32,48,0.035) 30%, rgba(30,32,48,0.09) 50%, rgba(30,32,48,0.035) 70%);
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite;
 }

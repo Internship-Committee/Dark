@@ -1,0 +1,190 @@
+/* ============================================================
+   IC Portal — Homepage "scene": one continuous pinned 3D stage.
+   Marquee (No Guts No Glory / Integrity. Collaboration. Passion.)
+   dissolves into a circular 3D card gallery that rotates around
+   a central revolving IC logo — driven by scroll while the user
+   is actively scrolling, and gently self-rotating (idle spin)
+   the rest of the time so the ring never just dead-stops. Being
+   a closed ring, there's no "last card" — it loops forever.
+   ============================================================ */
+
+.scene{
+  --sc-bg-1:      #150408;
+  --sc-bg-2:      #2a0912;
+  --sc-maroon:    #6e1224;
+  --sc-maroon-br: #b3203f;
+  --sc-glow:      rgba(179,32,63,0.35);
+  --sc-cream:     #f4ecdf;
+  --sc-muted:     #c39a95;
+
+  position: relative;
+  width: 100%;
+  margin: -56px -56px 0;
+  padding: 0 56px;
+  background: linear-gradient(190deg, var(--sc-bg-1) 0%, var(--sc-bg-2) 55%, var(--sc-bg-1) 100%);
+  border-radius: 0 0 32px 32px;
+  color: var(--sc-cream);
+  height: 640vh; /* precise value is set by js/scene.js once it runs */
+}
+
+.scene-sticky{
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 2200px;
+}
+
+.scene-hint{
+  position: absolute;
+  top: 42px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  margin: 0;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--sc-muted);
+  transition: opacity .4s var(--ease);
+}
+.scene-hint::after{
+  content: ""; display: block; width: 1px; height: 26px; margin: 10px auto 0;
+  background: linear-gradient(var(--sc-maroon-br), transparent);
+}
+
+/* ---- centre hub: the logo the whole gallery revolves around ---- */
+.scene-logo-stage{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+.scene-logo{
+  position: absolute; top: 50%; left: 50%;
+  width: 240px; height: 240px;
+  transform-style: preserve-3d;
+  will-change: transform;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 28px;
+  background: linear-gradient(155deg, rgba(70,12,22,0.94), rgba(12,3,5,0.94));
+  border: 1px solid rgba(244,236,223,0.14);
+  box-shadow: 0 0 0 1px rgba(179,32,63,0.25) inset, 0 30px 70px rgba(0,0,0,0.55), 0 0 90px var(--sc-glow);
+  padding: 24px;
+}
+.scene-logo img{
+  width: 100%; height: 100%; object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 0 24px rgba(244,236,223,0.2));
+}
+
+/* ---- marquee layer (fades/flies out as the ring takes over) ---- */
+.scene-marquee{
+  position: absolute; inset: 0;
+  z-index: 10;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+.marquee-row{ overflow: hidden; width: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-row--top{ position: relative; margin-bottom: -0.08em; }
+.marquee-row--bottom{ position: relative; margin-top: -0.08em; }
+.marquee-track{ display: flex; width: max-content; }
+.marquee-track--left{  animation: marquee-left 24s linear infinite; }
+.marquee-track--right{ animation: marquee-right 28s linear infinite; }
+@keyframes marquee-left{  from{ transform: translateX(0); }    to{ transform: translateX(-50%); } }
+@keyframes marquee-right{ from{ transform: translateX(-50%); } to{ transform: translateX(0); } }
+.marquee-group{ display: flex; align-items: center; flex-shrink: 0; }
+.marquee-item{ display: inline-block; padding: 0 .5em; white-space: nowrap; }
+.marquee-item--serif{
+  font-family: var(--font-display); font-style: italic; font-weight: 600;
+  font-size: clamp(2.4rem, 7.4vw, 6.2rem); line-height: 1; letter-spacing: -0.01em;
+  color: var(--sc-muted);
+}
+.marquee-item--sans{
+  font-family: var(--font-body); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.4rem, 7.4vw, 6.2rem); line-height: 1; letter-spacing: -0.01em;
+  color: var(--sc-cream);
+}
+.marquee-sep{ display: inline-block; padding: 0 .5em; font-size: clamp(1rem, 2vw, 1.7rem); color: var(--sc-maroon-br); vertical-align: middle; }
+
+/* ---- the circular gallery ring ---- */
+.scene-cards{
+  position: absolute; inset: 0;
+  z-index: 15;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.cf-card{
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(340px, 62vw);
+  margin-left: min(-170px, -31vw);
+  margin-top: -190px;
+  text-decoration: none;
+  color: inherit;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.cf-card-inner{
+  padding: 30px 26px 26px;
+  border-radius: 22px;
+  text-align: center;
+  background: linear-gradient(160deg, rgba(105,20,34,0.88), rgba(24,6,10,0.92));
+  border: 1px solid rgba(244,236,223,0.22);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 0 40px rgba(179,32,63,0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cf-card .card-icon{
+  width: 44px; height: 44px; margin: 0 auto 16px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(179,32,63,0.22); border: 1px solid rgba(179,32,63,0.4);
+  color: var(--sc-cream);
+}
+.cf-card .card-icon svg{ width: 21px; height: 21px; }
+.cf-card h3{ margin: 0 0 8px; font-size: 1.32rem; font-weight: 700; color: var(--sc-cream); }
+.cf-card p{ margin: 0 auto; max-width: 28ch; font-size: 13.5px; color: var(--sc-muted); }
+.cf-card .card-cta, .cf-card .card-live-badge{
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 18px; font-size: 13px; font-weight: 700; color: var(--sc-cream);
+}
+.cf-card .card-cta svg{ width: 14px; height: 14px; transition: transform .22s var(--ease); }
+.cf-card.is-active .card-cta svg{ transform: translateX(4px); }
+.cf-card .card-live-badge{ letter-spacing: .04em; text-transform: uppercase; color: var(--live-red); }
+.cf-card .card-live-badge .pulse-dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--live-red); animation: pulse-dot-1 1.8s infinite; }
+.cf-card .card-live-badge.is-closed .pulse-dot{ animation: none; background: var(--text-muted); }
+.cf-card:not(.is-active) .cf-card-inner{ cursor: pointer; }
+
+/* ---- progress dots ---- */
+.scene-dots{
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  z-index: 30; display: flex; gap: 10px;
+}
+.cf-dot{ width: 7px; height: 7px; border-radius: 50%; background: rgba(244,236,223,0.25); transition: background .25s var(--ease), transform .25s var(--ease); }
+.cf-dot.is-active{ background: var(--sc-maroon-br); transform: scale(1.4); }
+
+@media (max-width: 900px){
+  .scene{ margin: -34px -20px 0; padding: 0 20px; border-radius: 0 0 22px 22px; }
+  .cf-card{ width: min(250px, 70vw); margin-left: min(-125px, -35vw); margin-top: -150px; }
+  .cf-card-inner{ padding: 22px 18px 20px; }
+  .scene-logo{ width: 150px; height: 150px; padding: 16px; }
+}
+
+/* ---- reduced motion / no-JS fallback: plain stacked list ---- */
+.scene.sc-static .scene-sticky{ position: static; height: auto; overflow: visible; display: block; }
+.scene.sc-static{ height: auto !important; padding-top: 60px; padding-bottom: 60px; }
+.scene.sc-static .scene-logo-stage,
+.scene.sc-static .scene-hint,
+.scene.sc-static .scene-dots{ display: none; }
+.scene.sc-static .scene-marquee{ position: static; margin-bottom: 40px; }
+.scene.sc-static .marquee-track--left, .scene.sc-static .marquee-track--right{ animation: none; }
+.scene.sc-static .scene-cards{ position: static; display: flex; flex-direction: column; gap: 20px; align-items: center; padding: 20px 0 60px; }
+.scene.sc-static .cf-card{ position: static; margin: 0; transform: none !important; opacity: 1 !important; width: min(460px, 100%); }

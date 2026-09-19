@@ -42,7 +42,7 @@
   cursor: pointer;
   transition: background .18s var(--ease), color .18s var(--ease);
 }
-.sidebar-pin-btn:hover{ background: rgba(120,140,255,0.12); color: var(--text-primary); }
+.sidebar-pin-btn:hover{ background: rgba(var(--accent-rgb),0.10); color: var(--text-primary); }
 
 /* ---------------- Sidebar text truncation (prevents label/email wrapping) ---------------- */
 .sidebar-brand .brand-text{ display:flex; flex-direction:column; line-height:1.2; min-width:0; overflow:hidden; flex: 1; padding-right: 26px; }
@@ -66,8 +66,7 @@
 }
 .sidebar-brand img{
   width:38px; height:38px; object-fit:contain; flex-shrink:0;
-  /* render the logo in white for the dark sidebar background, per brief */
-  filter: brightness(0) invert(1);
+  /* logo is drawn in black; render it as-is for the light sidebar background */
 }
 
 .sidebar-nav{
@@ -88,9 +87,9 @@
   margin-bottom: 2px;
   min-width: 0;
 }
-.nav-link:hover{ background: rgba(120,140,255,0.08); color: var(--text-primary); }
+.nav-link:hover{ background: rgba(var(--accent-rgb),0.07); color: var(--text-primary); }
 .nav-link.is-active{
-  background: linear-gradient(90deg, rgba(59,107,246,0.20), rgba(59,107,246,0.04));
+  background: linear-gradient(90deg, rgba(var(--accent-rgb),0.16), rgba(var(--accent-rgb),0.03));
   color: var(--text-primary);
   box-shadow: inset 2px 0 0 var(--accent);
 }
@@ -121,7 +120,7 @@
   min-width: 0;
 }
 .nav-group-trigger .nav-label{ flex:1; text-align:left; }
-.nav-group-trigger:hover{ background: rgba(120,140,255,0.08); color: var(--text-primary); }
+.nav-group-trigger:hover{ background: rgba(var(--accent-rgb),0.07); color: var(--text-primary); }
 .nav-group-trigger .chevron{
   width:14px; height:14px; flex-shrink:0;
   transition: transform .25s var(--ease), opacity .2s var(--ease);
@@ -173,7 +172,6 @@
   backdrop-filter: blur(14px);
 }
 .mobile-topbar .brand-text strong{ font-family: var(--font-display); font-size: 15px; }
-.mobile-topbar img{ filter: brightness(0) invert(1); }
 .menu-btn{
   width: 42px; height: 42px;
   border-radius: var(--radius-s);
@@ -188,7 +186,7 @@
 .sidebar-scrim{
   display:none;
   position: fixed; inset:0;
-  background: rgba(1,0,6,0.6);
+  background: rgba(18,18,28,0.32);
   backdrop-filter: blur(2px);
   z-index: 55;
 }
@@ -246,7 +244,7 @@
     position: fixed; left:0; top:0; height: 100dvh;
     transform: translateX(-104%);
     transition: transform .32s var(--ease);
-    box-shadow: 24px 0 60px rgba(0,0,0,.5);
+    box-shadow: 24px 0 60px rgba(30,30,45,.16);
   }
   .app-shell.nav-open .sidebar{ transform: translateX(0); }
   .app-shell.nav-open .sidebar-scrim{ display:block; }
@@ -276,7 +274,20 @@
   justify-content: space-between;
   gap: 28px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  margin: -56px -56px 40px;
+  padding: 30px 56px 44px;
+  position: sticky;
+  top: 0;
+  z-index: 45;
+  background: linear-gradient(to bottom,
+    var(--bg) 0%,
+    var(--bg) 55%,
+    rgba(247,244,238,0) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+@media (max-width: 900px){
+  .page-header-row{ margin: -34px -20px 40px; padding: 22px 20px 30px; }
 }
 .page-header-row .page-header{ margin-bottom: 0; }
 
@@ -286,7 +297,7 @@
   gap: 16px;
   padding: 16px 18px;
   border-radius: var(--radius-m, 16px);
-  background: linear-gradient(135deg, rgba(59,107,246,0.14), rgba(56,198,217,0.08));
+  background: linear-gradient(135deg, rgba(var(--accent-rgb),0.13), rgba(var(--accent-2-rgb),0.08));
   border: 1px solid var(--surface-border);
   max-width: 340px;
   flex-shrink: 0;
@@ -301,7 +312,7 @@
   color: var(--accent-2);
   font-weight: 600;
   text-decoration: none;
-  border-bottom: 1px solid rgba(56,198,217,0.4);
+  border-bottom: 1px solid rgba(var(--accent-2-rgb),0.4);
 }
 .showcase-card a.showcase-link:hover{ border-bottom-color: var(--accent-2); }
 .showcase-card .showcase-btn{
@@ -349,7 +360,7 @@
   color: var(--text-secondary);
   font-size: 14.5px;
 }
-.state-msg.is-error{ border-color: rgba(255,90,110,0.35); color: #ffb2ba; }
+.state-msg.is-error{ border-color: rgba(220,38,38,0.35); color: var(--live-red); }
 
 footer.site-footer{
   margin-top: 70px;
@@ -365,3 +376,80 @@ footer.site-footer{
   line-height: 1.5;
 }
 .footer-built span{ display: block; }
+
+/* ============================================================
+   Courses page — "Cased It" banner background
+   One image (assets/courses-bg.jpg) doubles as both the sidebar skin
+   (its dark left panel) and the main content backdrop (its lighter
+   right half) — sidebar and main are made transparent so the same
+   fixed image reads as one continuous scene behind both.
+   ============================================================ */
+body[data-page="courses"]{
+  background: var(--bg);
+}
+body[data-page="courses"] .app-shell{ background: transparent; }
+body[data-page="courses"] .main{
+  background-image: url('../assets/courses-main-bg.jpg');
+  background-size: cover;
+  background-position: left center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+body[data-page="courses"] .sidebar{
+  background-image:
+    linear-gradient(rgba(15,22,38,0.82), rgba(15,22,38,0.82)),
+    url('../assets/courses-sidebar-bg.jpg');
+  background-size: cover, contain;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-color: #1c2739;
+  border-right-color: rgba(255,255,255,0.14);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body[data-page="courses"] .sidebar-brand,
+body[data-page="courses"] .sidebar-footer{
+  border-color: rgba(255,255,255,0.16);
+}
+body[data-page="courses"] .sidebar [data-ic-logo]{
+  filter: brightness(0) invert(1);
+}
+
+/* Sidebar font colors — switched to light tones so they read against the
+   dark half of the banner */
+body[data-page="courses"] .sidebar .brand-text strong{ color: #FFF8EC; }
+body[data-page="courses"] .sidebar .brand-text span,
+body[data-page="courses"] .sidebar .nav-link,
+body[data-page="courses"] .sidebar .nav-group-trigger,
+body[data-page="courses"] .sidebar .sidebar-pin-btn,
+body[data-page="courses"] .sidebar .sidebar-footer a{
+  color: rgba(255,248,236,0.72);
+}
+body[data-page="courses"] .sidebar .nav-link:hover,
+body[data-page="courses"] .sidebar .nav-group-trigger:hover,
+body[data-page="courses"] .sidebar .nav-group.is-open .nav-group-trigger,
+body[data-page="courses"] .sidebar .sidebar-pin-btn:hover{
+  background: rgba(255,255,255,0.10);
+  color: #FFF8EC;
+}
+body[data-page="courses"] .sidebar .nav-link.is-active{
+  color: #FFF8EC;
+  background: linear-gradient(90deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
+  box-shadow: inset 2px 0 0 #FFD98A;
+}
+body[data-page="courses"] .sidebar .sidebar-footer a:hover{ color: #FFD98A; }
+
+@media (max-width: 900px){
+  body[data-page="courses"] .mobile-topbar{
+    background: rgba(12,18,36,0.72);
+    border-bottom-color: rgba(255,255,255,0.14);
+  }
+  body[data-page="courses"] .mobile-topbar .brand-text strong{ color: #FFF8EC; }
+  body[data-page="courses"] .mobile-topbar [data-ic-logo]{ filter: brightness(0) invert(1); }
+  body[data-page="courses"] .menu-btn{
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.24);
+    color: #FFF8EC;
+  }
+}
