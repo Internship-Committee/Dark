@@ -32,19 +32,32 @@ interface CircularGalleryProps extends HTMLAttributes<HTMLDivElement> {
   radius?: number;
   /** Controls the speed of auto-rotation when not scrolling. */
   autoRotateSpeed?: number;
+  /**
+   * Controlled rotation, in degrees. When provided, the gallery stops listening to the
+   * page scroll and stops auto-rotating on its own — the parent drives the ring
+   * (see lib/immersive-scroll.ts, which gives it an endless, wheel/touch-driven spin).
+   */
+  rotation?: number;
+  /**
+   * 0 → 1 "assemble" amount used for the hero → gallery morph. At 0 the ring is
+   * collapsed, tilted and invisible; at 1 it is the normal full-size ring.
+   */
+  intro?: number;
 }
 
 const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
-  ({ items, className, radius = 600, autoRotateSpeed = 0.02, ...props }, ref) => {
-    const [rotation, setRotation] = useState(0);
+  ({ items, className, radius = 600, autoRotateSpeed = 0.02, rotation: rotationProp, intro = 1, ...props }, ref) => {
+    const controlled = rotationProp !== undefined;
+    const [internalRotation, setRotation] = useState(0);
     const [isScrolling, setIsScrolling] = useState(false);
     // (browser-safe timer type — avoids needing @types/node)
     const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const animationFrameRef = useRef<number | null>(null);
     const lastProgressRef = useRef<number | null>(null);
 
-    // Effect to handle scroll-based rotation
+    // Effect to handle scroll-based rotation (skipped when the parent controls the rotation)
     useEffect(() => {
+      if (controlled) return;
       const getProgress = () => {
         const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
         return scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
@@ -78,10 +91,11 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           clearTimeout(scrollTimeoutRef.current);
         }
       };
-    }, []);
+    }, [controlled]);
 
-    // Effect for auto-rotation when not scrolling
+    // Effect for auto-rotation when not scrolling (skipped when controlled)
     useEffect(() => {
+      if (controlled) return;
       const autoRotate = () => {
         if (!isScrolling) {
           setRotation(prev => prev + autoRotateSpeed);
@@ -96,10 +110,18 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           cancelAnimationFrame(animationFrameRef.current);
         }
       };
-    }, [isScrolling, autoRotateSpeed]);
+    }, [controlled, isScrolling, autoRotateSpeed]);
 
+    const rotation = rotationProp ?? internalRotation;
     const anglePerItem = 360 / items.length;
-    
+
+    // Morph-in: the ring opens up from the centre, tilts flat and fades in as `intro` goes 0 → 1
+    const t = Math.min(1, Math.max(0, intro));
+    const ringRadius = radius * (0.3 + 0.7 * t);
+    const ringTilt = (1 - t) * 14;
+    const cardScale = 0.75 + 0.25 * t;
+    const introFade = Math.min(1, t * 1.6);
+
     return (
       <div
         ref={ref}
@@ -112,7 +134,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
         <div
           className="relative w-full h-full"
           style={{
-            transform: `rotateY(${rotation}deg)`,
+            transform: `rotateX(${ringTilt}deg) rotateY(${rotation}deg)`,
             transformStyle: 'preserve-3d',
           }}
         >
@@ -121,7 +143,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
             const totalRotation = rotation % 360;
             const relativeAngle = (itemAngle + totalRotation + 360) % 360;
             const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
-            const opacity = Math.max(0.3, 1 - (normalizedAngle / 180));
+            const opacity = Math.max(0.3, 1 - (normalizedAngle / 180)) * introFade;
 
             const cardClasses = "relative block w-full h-full rounded-lg shadow-2xl overflow-hidden group border border-border bg-card/70 dark:bg-card/30 backdrop-blur-lg";
             const cardBody = (
@@ -161,13 +183,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                 aria-label={item.common}
                 className="absolute w-[300px] h-[400px]"
                 style={{
-                  transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
+                  transform: `rotateY(${itemAngle}deg) translateZ(${ringRadius}px) scale(${cardScale})`,
                   left: '50%',
                   top: '50%',
                   marginLeft: '-150px',
                   marginTop: '-200px',
                   opacity: opacity,
-                  transition: 'opacity 0.3s linear',
+                  // When controlled, the parent already eases the motion — a CSS transition would only add lag
+                  transition: controlled ? 'none' : 'opacity 0.3s linear',
                   // Cards facing away from the viewer are hidden instead of showing a mirrored back,
                   // so the text on real (non-photo) content stays legible.
                   backfaceVisibility: 'hidden',
