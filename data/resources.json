@@ -2,19 +2,19 @@
   {
     "Resource Name": "IIMR Library Portal",
     "Description": "Access journals, databases and past theses.",
-    "Resource Type": "E-Database",
+    "College Login Required": "Yes",
     "Link": "https://example.com/iimr-library"
   },
   {
     "Resource Name": "CMIE Prowess",
     "Description": "Company financial and economic database used for projects.",
-    "Resource Type": "E-Database",
+    "College Login Required": "Yes",
     "Link": "https://example.com/cmie-prowess"
   },
   {
     "Resource Name": "Investopedia",
     "Description": "Free reference for finance and markets terminology.",
-    "Resource Type": "Online Journals",
+    "College Login Required": "No",
     "Link": "https://www.investopedia.com"
   }
 ]

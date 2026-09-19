@@ -28,13 +28,6 @@
 
   --live-red:         #FF4457;
 
-  --stage-1:          #FF4457;  /* Applications Open   — red */
-  --stage-1-rgb:       255,68,87;
-  --stage-2:          #FFC53D;  /* Selection Ongoing   — yellow */
-  --stage-2-rgb:       255,197,61;
-  --stage-3:          #33D17A;  /* Ongoing Project     — green */
-  --stage-3-rgb:       51,209,122;
-
   --radius-s:  10px;
   --radius-m:  16px;
   --radius-l:  22px;
@@ -43,7 +36,6 @@
   --font-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --sidebar-w: 272px;
-  --sidebar-w-collapsed: 84px;
   --header-h: 72px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

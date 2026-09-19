@@ -114,7 +114,6 @@ const ICData = (() => {
       domain: pick(row, "Domain", "domain") || "Uncategorized",
       price:  pick(row, "Price", "price"),
       rating: parseFloat(pick(row, "Rating", "rating")) || null,
-      duration: pick(row, "Duration", "Course Duration", "duration"),
       link:   pick(row, "Course Link", "link", "url")
     };
   }
@@ -136,140 +135,57 @@ const ICData = (() => {
   }
 
   function normResource(row){
+    const loginRaw = (pick(row, "College Login Required", "login") || "").toString().trim().toLowerCase();
     return {
       name: pick(row, "Resource Name", "name"),
       description: pick(row, "Description", "description"),
-      resourceType: pick(row, "Resource Type", "type", "resource type") || "Resource",
+      loginRequired: ["yes", "y", "true", "required"].includes(loginRaw),
       link: pick(row, "Link", "link", "url")
     };
   }
 
   function normCompetition(row){
-    const scrapedAt = pick(row, "Scraped At", "scraped_at", "scrapedat");
     return {
       name: pick(row, "Competition Name", "name"),
       institute: pick(row, "Institute", "organising institute", "institute"),
-      deadline: resolveDeadline(pick(row, "Deadline", "deadline"), scrapedAt),
+      deadline: pick(row, "Deadline", "deadline"),
       link: pick(row, "Link", "link", "url")
     };
   }
 
-  // ---- Relative deadline resolution --------------------------------
-  // Scraped sources sometimes provide a human, relative deadline string
-  // (e.g. "24 days left", "1 Month Left", "2 Hours Left") alongside a
-  // "Scraped At" timestamp for when that snapshot was taken, instead of
-  // a fixed calendar date. This resolves that pair into a single,
-  // absolute date (time is intentionally dropped — only the date the
-  // deadline actually falls on matters downstream).
-  //
-  // A normal, already-parseable date (e.g. "2026-10-12") is left exactly
-  // as-is and passes straight through, so existing sheet rows keep
-  // working unchanged.
-
-  const RELATIVE_DEADLINE_RE = /(\d+)\s*(hour|hours|hr|hrs|day|days|week|weeks|month|months|year|years)\s*left/i;
-
-  function parseRelativeDeadline(text){
-    const m = (text || "").toString().trim().match(RELATIVE_DEADLINE_RE);
-    if (!m) return null;
-    return { amount: parseInt(m[1], 10), unit: m[2].toLowerCase().replace(/s$/, "") };
-  }
-
-  function addToDate(base, amount, unit){
-    const d = new Date(base.getTime());
-    switch (unit){
-      case "hour": case "hr": d.setHours(d.getHours() + amount); break;
-      case "day":  d.setDate(d.getDate() + amount); break;
-      case "week": d.setDate(d.getDate() + (amount * 7)); break;
-      case "month": d.setMonth(d.getMonth() + amount); break;
-      case "year": d.setFullYear(d.getFullYear() + amount); break;
-    }
-    return d;
-  }
-
-  function resolveDeadline(deadlineRaw, scrapedAtRaw){
-    if (!deadlineRaw) return "";
-
-    // Already an absolute, parseable date — pass through untouched.
-    if (!isNaN(Date.parse(deadlineRaw))) return deadlineRaw;
-
-    // Otherwise, try to interpret it as a relative offset from the
-    // "Scraped At" timestamp (or from right now, if that's missing/bad).
-    const rel = parseRelativeDeadline(deadlineRaw);
-    if (rel){
-      const scrapedAtMs = Date.parse(scrapedAtRaw);
-      const base = isNaN(scrapedAtMs) ? new Date() : new Date(scrapedAtMs);
-      return addToDate(base, rel.amount, rel.unit).toISOString();
-    }
-
-    // Unrecognized format — pass through as-is (matches old behavior).
-    return deadlineRaw;
-  }
-
-  // Live Project stages. Put just the NUMBER in the sheet's "Status" column
-  // — no need to type these labels out row after row:
-  //   0 = Closed        (hidden from the site entirely, doesn't show on the status bar)
-  //   1 = Applications Open
-  //   2 = Selection Process Ongoing
-  //   3 = Ongoing Project
-  // Leaving "Status" blank defaults to 1 (Applications Open). The words
-  // "Live"/"Closed" (used by older rows) still work too, for backward
-  // compatibility.
-  const LP_STAGES = {
-    0: "Closed",
-    1: "Applications Open",
-    2: "Selection Process Ongoing",
-    3: "Ongoing Project"
-  };
-
-  function parseStage(raw){
-    const v = (raw == null ? "" : raw).toString().trim().toLowerCase();
-    if (v === "") return 1;
-    if (v === "0" || v === "closed") return 0;
-    if (v === "1" || v === "live" || v === "open" || v === "applications open" || v === "application open") return 1;
-    if (v === "2" || v === "selection process ongoing" || v === "selection ongoing" || v === "selection") return 2;
-    if (v === "3" || v === "ongoing project" || v === "project ongoing" || v === "ongoing") return 3;
-    const n = parseInt(v, 10);
-    if (!isNaN(n) && n >= 0 && n <= 3) return n;
-    return 1; // unrecognized text defaults to "Applications Open" rather than hiding the row
-  }
-
   function normLiveProject(row){
-    const stage = parseStage(pick(row, "Status", "status"));
+    const rolesRaw = pick(row, "Roles", "role", "project/role");
     return {
       id: pick(row, "ID", "id") || slugify(pick(row, "Company", "company") + "-" + pick(row, "Project/Role", "role")),
       company: pick(row, "Company", "company"),
-      stage: stage,
-      stageLabel: LP_STAGES[stage],
       status: (pick(row, "Status", "status") || "Live"),
       tagline: pick(row, "Tagline", "opening", "about the company summary"),
       aboutCompany: pick(row, "About the Company", "about"),
+      jobDescription: pick(row, "Job Description", "job description"),
       roles: parseRoles(row),
       selectionCriteria: splitLines(pick(row, "Selection Criteria", "selection criteria")),
       location: pick(row, "Location", "location") || "Remote",
       duration: pick(row, "Project Duration", "duration"),
       applyUrl: pick(row, "Apply URL", "apply link", "application link"),
-      deadline: resolveDeadline(pick(row, "Deadline", "application deadline"), pick(row, "Scraped At", "scraped_at", "scrapedat")),
+      deadline: pick(row, "Deadline", "application deadline"),
+      policyNote: pick(row, "Policy Note", "important note", "important ic policy note"),
       googleDocUrl: pick(row, "Google Doc URL", "google doc")
     };
   }
 
   function parseRoles(row){
-    // Supports any number of "Role N" column sets (Role 1, Role 2, Role 3,
-    // Role 4, ...) — just keeps checking increasing numbers until it hits
-    // one that isn't filled in. Add as many "Role N / Role N Responsibilities /
-    // Role N Takeaways" column triples to the sheet as you need; no code
-    // change required.
+    // Supports either a single "Roles" JSON-ish field, or up to two
+    // role columns (Role 1 / Role 2 + their responsibilities/takeaways)
+    // depending on how the committee's sheet is structured.
     const roles = [];
-    let n = 1;
-    while (true){
+    for (const n of [1, 2, 3]){
       const title = pick(row, `Role ${n}`, `role${n}`);
-      if (!title) break;
+      if (!title) continue;
       roles.push({
         title,
         responsibilities: splitLines(pick(row, `Role ${n} Responsibilities`, `role${n} responsibilities`, `key responsibilities ${n}`)),
         takeaway: pick(row, `Role ${n} Takeaways`, `role${n} takeaway`, `takeaways ${n}`, "Takeaways / Stipend")
       });
-      n++;
     }
     if (roles.length === 0){
       const single = pick(row, "Role", "roles");
@@ -334,7 +250,7 @@ const ICData = (() => {
   async function getLiveProjects(){
     const rows = await fetchSource("liveProjects");
     return rows.map(normLiveProject)
-      .filter(p => p.stage !== 0)
+      .filter(p => (p.status || "").toLowerCase() !== "closed")
       .sort((a, b) => parseDeadline(a.deadline) - parseDeadline(b.deadline));
   }
 

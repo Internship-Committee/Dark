@@ -109,8 +109,6 @@
   .hero-cards{ max-width: 100%; }
 }
 
-/* On desktop/laptop, keep everything above the fold — no scrolling needed
-   to see the hero + all three cards. Mobile keeps its natural, roomier flow. */
 .home-section{
   max-width: 1080px;
   margin: 90px auto 0;
