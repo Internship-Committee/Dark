@@ -24,26 +24,28 @@
   transition: width .28s var(--ease);
 }
 
-/* ---------------- Collapse toggle ---------------- */
-.sidebar-collapse-btn{
+/* ---------------- Collapse / pin toggle ("<<") ---------------- */
+.sidebar-pin-btn{
   position: absolute;
-  top: 32px;
-  right: -13px;
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  border: 1px solid var(--surface-border);
-  background: var(--surface-strong);
-  color: var(--text-secondary);
-  display:flex; align-items:center; justify-content:center;
+  top: 24px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  padding: 6px 7px;
+  border-radius: var(--radius-s);
   cursor: pointer;
-  z-index: 61;
-  transition: background .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
+  transition: background .18s var(--ease), color .18s var(--ease);
 }
-.sidebar-collapse-btn:hover{ background: var(--accent); color: #fff; }
-.sidebar-collapse-btn svg{ width:14px; height:14px; transition: transform .28s var(--ease); }
+.sidebar-pin-btn:hover{ background: rgba(120,140,255,0.12); color: var(--text-primary); }
 
 /* ---------------- Sidebar text truncation (prevents label/email wrapping) ---------------- */
-.sidebar-brand .brand-text{ display:flex; flex-direction:column; line-height:1.2; min-width:0; overflow:hidden; }
+.sidebar-brand .brand-text{ display:flex; flex-direction:column; line-height:1.2; min-width:0; overflow:hidden; flex: 1; padding-right: 26px; }
 .sidebar-brand .brand-text strong,
 .sidebar-brand .brand-text span{
   white-space: nowrap;
@@ -56,6 +58,7 @@
 .sidebar-brand .brand-text span{ font-size: 11px; color: var(--text-muted); letter-spacing:.06em; text-transform:uppercase; }
 
 .sidebar-brand{
+  position: relative;
   display:flex; align-items:center; gap:12px;
   padding: 26px 24px 20px;
   border-bottom: 1px solid var(--sidebar-border);
@@ -190,43 +193,55 @@
   z-index: 55;
 }
 
-/* ---------------- Collapsed sidebar (desktop) ---------------- */
-.app-shell.sidebar-collapsed .sidebar{ width: var(--sidebar-w-collapsed); }
-.app-shell.sidebar-collapsed .sidebar-collapse-btn svg{ transform: rotate(180deg); }
+/* ---------------- Collapsed sidebar (desktop only — see media query below) ----------------
+   Collapsing to an icon-only rail is a *pinned* state (persisted, click-driven).
+   While collapsed, hovering anywhere on the sidebar adds `.sidebar-preview` via JS,
+   which temporarily reveals the full sidebar again without changing the pinned
+   state — it reverts the instant the pointer leaves. Every "hide this while
+   collapsed" rule below is gated with :not(.sidebar-preview) so the preview
+   looks identical to the normal expanded sidebar. There is no separate expand
+   affordance/arrow shown on the collapsed rail — hovering it is the only cue. */
+@media (min-width: 901px){
+  .app-shell.sidebar-collapsed .sidebar{ width: var(--sidebar-w-collapsed); }
+  .app-shell.sidebar-collapsed.sidebar-preview .sidebar{ width: var(--sidebar-w); }
 
-.app-shell.sidebar-collapsed .sidebar-brand{
-  padding: 26px 0 20px;
-  justify-content: center;
-}
-.app-shell.sidebar-collapsed .sidebar-brand .brand-text{ display:none; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-brand{
+    padding: 26px 0 20px;
+    justify-content: center;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-brand .brand-text,
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-pin-btn{
+    display: none;
+  }
 
-.app-shell.sidebar-collapsed .sidebar-nav{ padding: 18px 10px; }
-.app-shell.sidebar-collapsed .nav-link,
-.app-shell.sidebar-collapsed .nav-group-trigger{
-  justify-content: center;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.app-shell.sidebar-collapsed .nav-submenu .nav-link{ padding-left: 10px; }
-.app-shell.sidebar-collapsed .nav-label,
-.app-shell.sidebar-collapsed .nav-group-trigger .chevron{
-  display: none;
-}
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-nav{ padding: 18px 10px; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-link,
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-group-trigger{
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-submenu .nav-link{ padding-left: 10px; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-label,
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-group-trigger .chevron{
+    display: none;
+  }
 
-.app-shell.sidebar-collapsed .sidebar-footer{
-  padding: 18px 10px 24px;
-  align-items: center;
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer{
+    padding: 18px 10px 24px;
+    align-items: center;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer a{
+    justify-content: center;
+    width: 100%;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer a span{ display: none; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer svg{ margin-top: 0; }
 }
-.app-shell.sidebar-collapsed .sidebar-footer a{
-  justify-content: center;
-  width: 100%;
-}
-.app-shell.sidebar-collapsed .sidebar-footer a span{ display: none; }
-.app-shell.sidebar-collapsed .sidebar-footer svg{ margin-top: 0; }
 
 @media (max-width: 900px){
   .mobile-topbar{ display:flex; }
-  .sidebar-collapse-btn{ display: none; }
+  .sidebar-pin-btn{ display: none; }
   .sidebar{
     position: fixed; left:0; top:0; height: 100dvh;
     transform: translateX(-104%);
@@ -236,8 +251,6 @@
   .app-shell.nav-open .sidebar{ transform: translateX(0); }
   .app-shell.nav-open .sidebar-scrim{ display:block; }
   .app-shell{ flex-direction: column; }
-  /* Collapse state is a desktop-only affordance; never shrink the mobile drawer */
-  .app-shell.sidebar-collapsed .sidebar{ width: var(--sidebar-w); }
 }
 
 /* ---------------- Main content ---------------- */

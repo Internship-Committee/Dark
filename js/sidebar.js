@@ -54,28 +54,47 @@
       });
     }
 
-    // Desktop sidebar collapse / expand
-    const collapseBtn = document.querySelector(".sidebar-collapse-btn");
+    // Desktop sidebar collapse / pin-open, with a hover preview while collapsed.
+    // - Collapsed (pinned shut) is a persisted state, toggled only by clicking "<<".
+    // - Hovering the sidebar while collapsed adds a temporary ".sidebar-preview"
+    //   class that visually reopens it without touching the pinned state, so it
+    //   snaps back to icon-only the moment the pointer leaves.
+    // - Clicking "<<" while collapsed (including mid-preview) pins it open;
+    //   clicking it while open collapses it again.
+    const pinBtn = document.querySelector(".sidebar-pin-btn");
     const COLLAPSE_KEY = "ic-sidebar-collapsed";
 
     function setCollapsed(collapsed){
       if (!shell) return;
       shell.classList.toggle("sidebar-collapsed", collapsed);
-      if (collapseBtn){
-        collapseBtn.setAttribute("aria-expanded", String(!collapsed));
-        collapseBtn.setAttribute("aria-label", collapsed ? "Expand sidebar" : "Collapse sidebar");
+      shell.classList.remove("sidebar-preview");
+      if (pinBtn){
+        pinBtn.setAttribute("aria-label", collapsed ? "Expand sidebar" : "Collapse sidebar");
+        pinBtn.title = collapsed ? "Expand sidebar" : "Collapse sidebar";
       }
       try { localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0"); } catch (e) { /* storage unavailable */ }
     }
 
-    if (shell && collapseBtn){
+    if (shell){
       let stored = null;
       try { stored = localStorage.getItem(COLLAPSE_KEY); } catch (e) { /* storage unavailable */ }
       if (stored === "1") setCollapsed(true);
 
-      collapseBtn.addEventListener("click", () => {
-        setCollapsed(!shell.classList.contains("sidebar-collapsed"));
-      });
+      if (pinBtn){
+        pinBtn.addEventListener("click", () => {
+          setCollapsed(!shell.classList.contains("sidebar-collapsed"));
+        });
+      }
+
+      const sidebarEl = shell.querySelector(".sidebar");
+      if (sidebarEl){
+        sidebarEl.addEventListener("mouseenter", () => {
+          if (shell.classList.contains("sidebar-collapsed")) shell.classList.add("sidebar-preview");
+        });
+        sidebarEl.addEventListener("mouseleave", () => {
+          shell.classList.remove("sidebar-preview");
+        });
+      }
     }
 
     // Active link highlighting based on body[data-page]
