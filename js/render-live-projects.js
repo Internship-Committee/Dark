@@ -8,9 +8,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       grid.innerHTML = `<div class="state-msg">No live projects at the moment. New rows added to the Live Projects sheet will appear here automatically, ordered by application deadline.</div>`;
       return;
     }
+    const stageShort = { 1: "OPEN", 2: "SELECTION", 3: "ONGOING" };
     grid.innerHTML = items.map(p => `
       <a class="glass-card lp-card" href="live-project.html?id=${encodeURIComponent(p.id)}">
-        <span class="live-flag"><span class="pulse-dot"></span> LIVE</span>
+        <span class="live-flag stage-${p.stage}"><span class="pulse-dot"></span> ${escapeHtml(stageShort[p.stage] || "LIVE")}</span>
         <h3>${escapeHtml(p.company)}</h3>
         ${p.roles.length ? `<span class="role-line">${escapeHtml(p.roles.map(r=>r.title).join(" · "))}</span>` : ""}
         <div class="lp-meta-row">

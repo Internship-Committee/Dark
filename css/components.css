@@ -48,57 +48,57 @@
 
 /* ---------------- Home nav cards ---------------- */
 .home-card{
-  padding: 30px 28px;
-  min-height: 210px;
+  padding: 30px 28px 28px;
+  min-height: 224px;
   display:flex; flex-direction:column; justify-content:space-between;
+  text-align:center;
+}
+.home-card .card-head{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin-bottom: 16px;
 }
 .home-card .card-icon{
-  width: 46px; height:46px;
+  width: 44px; height:44px;
+  flex-shrink: 0;
   border-radius: 12px;
   background: rgba(59,107,246,0.14);
   border: 1px solid rgba(92,134,255,0.28);
   display:flex; align-items:center; justify-content:center;
   color: var(--accent-2);
-  margin-bottom: 26px;
 }
-.home-card .card-icon svg{ width:22px; height:22px; }
-.home-card h3{ font-size: 1.35rem; margin-bottom: 8px; }
-.home-card p{ font-size: 13.8px; margin-bottom: 18px; }
-.home-card .card-cta{
-  display:inline-flex; align-items:center; gap:8px;
-  font-size: 13px; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+.home-card .card-icon svg{ width:21px; height:21px; }
+.home-card h3{ font-size: 1.55rem; font-weight: 700; margin: 0; }
+.home-card p{ font-size: 14px; margin: 0 auto; max-width: 32ch; }
+
+/* Shared bottom CTA slot — same size/weight/alignment across all three cards */
+.home-card .card-cta,
+.home-card .muted-link,
+.home-card .card-live-badge{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  align-self: center;
+  margin-top: 20px;
+  font-size: 13.5px; font-weight:700;
+}
+.home-card .card-cta,
+.home-card .muted-link{
   color: var(--accent-soft);
 }
-.home-card .card-cta svg{ width:14px; height:14px; transition: transform .22s var(--ease); }
+.home-card .card-cta svg,
+.home-card .muted-link svg{ width:14px; height:14px; transition: transform .22s var(--ease); }
 .home-card:hover .card-cta svg{ transform: translateX(4px); }
 
-/* Variant: tag-led card (breaks the icon-square+arrow pattern) */
-.home-card--tagged h3{ margin-bottom: 12px; }
-.home-card--tagged .card-tags{ display:flex; gap:8px; margin-bottom: 14px; }
-.home-card--tagged .card-tag{
-  font-size: 11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
-  color: var(--text-secondary);
-  padding: 5px 11px; border-radius: 999px;
-  border: 1px solid var(--surface-border);
-}
-.home-card--tagged .muted-link{ font-size: 13.8px; font-weight:700; }
-
-/* Variant: live-status card */
+/* Variant: live-status card — badge sits in the same bottom slot as the CTAs */
 .home-card--live .card-live-badge{
-  display:inline-flex; align-items:center; gap:7px;
-  font-size: 11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  letter-spacing:.04em; text-transform:uppercase;
   color: var(--live-red);
-  margin-bottom: 22px;
 }
 .home-card--live .card-live-badge .pulse-dot{
   width:7px; height:7px; border-radius:50%; background: var(--live-red);
   box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
-  animation: pulse-dot 1.8s infinite;
+  animation: pulse-dot-1 1.8s infinite;
 }
-.home-card--live .btn-small{
-  align-self: flex-start;
-  padding: 9px 16px;
-  font-size: 13px;
+.home-card--live .card-live-badge.is-closed{
+  color: var(--text-muted);
 }
 
 /* ---------------- Course card ---------------- */
@@ -127,6 +127,11 @@
   border: 1px solid rgba(56,198,217,0.3);
   background: rgba(56,198,217,0.08);
 }
+.duration-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size: 12.5px; font-weight:600; color: var(--text-secondary);
+}
+.duration-chip svg{ width:13px; height:13px; flex-shrink:0; }
 .course-card .card-link{
   margin-top:4px;
   display:inline-flex; align-items:center; gap:7px;
@@ -148,16 +153,20 @@
 }
 .list-card .card-link svg{ width:14px; height:14px; }
 
-.login-badge{
+/* Resource type badge. Base rule is the fallback look for any type the
+   committee adds later that isn't explicitly styled below (e.g. a brand
+   new "Case Repository" type just works, no CSS change required). */
+.resource-type-badge{
   align-self:flex-start;
   font-size: 10.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
   padding: 5px 11px; border-radius: 999px;
+  color:#CFE0FF; background: rgba(120,150,255,0.12); border:1px solid rgba(120,150,255,0.3);
 }
-.login-badge.required{
-  color:#FFB199; background: rgba(255,110,70,0.12); border:1px solid rgba(255,110,70,0.3);
-}
-.login-badge.not-required{
+.resource-type-badge.type-e-database{
   color:#8CF0B0; background: rgba(60,220,140,0.1); border:1px solid rgba(60,220,140,0.28);
+}
+.resource-type-badge.type-online-journals{
+  color:#FFD98A; background: rgba(255,200,80,0.1); border:1px solid rgba(255,200,80,0.3);
 }
 
 /* ---------------- Competition card ---------------- */
@@ -175,6 +184,11 @@
   color: #FFD98A; background: rgba(255,200,80,0.1); border: 1px solid rgba(255,200,80,0.3);
 }
 .deadline-pill svg{ width:13px; height:13px; }
+.competition-card .card-link{
+  display:inline-flex; align-items:center; gap:7px;
+  font-size: 13.5px; font-weight:700; color: var(--accent-soft);
+}
+.competition-card .card-link svg{ width:14px; height:14px; flex-shrink:0; }
 
 /* ---------------- Live project card ---------------- */
 .lp-card{
@@ -186,17 +200,30 @@
   position:absolute; top:18px; right:18px;
   display:flex; align-items:center; gap:6px;
   font-size: 10.5px; font-weight:800; letter-spacing:.08em;
-  color: var(--live-red);
 }
 .lp-card .live-flag .pulse-dot{
-  width:7px; height:7px; border-radius:50%; background: var(--live-red);
-  box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
-  animation: pulse-dot 1.8s infinite;
+  width:7px; height:7px; border-radius:50%;
 }
-@keyframes pulse-dot{
-  0%{ box-shadow: 0 0 0 0 rgba(255,68,87,0.55); }
-  70%{ box-shadow: 0 0 0 7px rgba(255,68,87,0); }
-  100%{ box-shadow: 0 0 0 0 rgba(255,68,87,0); }
+.live-flag.stage-1{ color: var(--stage-1); }
+.live-flag.stage-1 .pulse-dot{ background: var(--stage-1); animation: pulse-dot-1 1.8s infinite; }
+.live-flag.stage-2{ color: var(--stage-2); }
+.live-flag.stage-2 .pulse-dot{ background: var(--stage-2); animation: pulse-dot-2 1.8s infinite; }
+.live-flag.stage-3{ color: var(--stage-3); }
+.live-flag.stage-3 .pulse-dot{ background: var(--stage-3); animation: pulse-dot-3 1.8s infinite; }
+@keyframes pulse-dot-1{
+  0%{ box-shadow: 0 0 0 0 rgba(var(--stage-1-rgb),0.55); }
+  70%{ box-shadow: 0 0 0 7px rgba(var(--stage-1-rgb),0); }
+  100%{ box-shadow: 0 0 0 0 rgba(var(--stage-1-rgb),0); }
+}
+@keyframes pulse-dot-2{
+  0%{ box-shadow: 0 0 0 0 rgba(var(--stage-2-rgb),0.55); }
+  70%{ box-shadow: 0 0 0 7px rgba(var(--stage-2-rgb),0); }
+  100%{ box-shadow: 0 0 0 0 rgba(var(--stage-2-rgb),0); }
+}
+@keyframes pulse-dot-3{
+  0%{ box-shadow: 0 0 0 0 rgba(var(--stage-3-rgb),0.55); }
+  70%{ box-shadow: 0 0 0 7px rgba(var(--stage-3-rgb),0); }
+  100%{ box-shadow: 0 0 0 0 rgba(var(--stage-3-rgb),0); }
 }
 .lp-card h3{ font-size: 1.15rem; margin: 4px 0 0; padding-right: 60px; }
 .lp-card .role-line{ font-size: 13.5px; color: var(--text-secondary); }
@@ -274,4 +301,13 @@
 @keyframes shimmer{
   0%{ background-position: 140% 0; }
   100%{ background-position: -60% 0; }
+}
+
+/* ---------------- Page disclaimer (prices / deadlines subject to change) ---------------- */
+.page-disclaimer{
+  margin: 18px 2px 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  font-style: italic;
 }

@@ -12,12 +12,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       <article class="glass-card competition-card">
         <h3>${escapeHtml(c.name)}</h3>
         <p class="institute">${escapeHtml(c.institute)}</p>
-        ${c.deadline ? `<span class="deadline-pill">${ICIcons.calendar} ${escapeHtml(formatDate(c.deadline))}</span>` : ""}
+        ${c.deadline ? `<span class="deadline-pill">${ICIcons.calendar} ${escapeHtml(formatDate(c.deadline))}*</span>` : ""}
         <a class="card-link" href="${escapeHtml(c.link)}" target="_blank" rel="noopener">
           Competition details ${ICIcons.externalLink}
         </a>
       </article>
     `).join("");
+    showDisclaimer(grid, "*Deadlines are subject to change at the organizer's discretion — always confirm the exact date on the competition's official page before submitting.");
   }catch(err){
     grid.innerHTML = `<div class="state-msg is-error">${escapeHtml(err.message)}</div>`;
   }
@@ -27,4 +28,15 @@ function formatDate(d){
   const t = new Date(d);
   if (isNaN(t.getTime())) return d;
   return t.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function showDisclaimer(afterEl, text){
+  let note = document.getElementById("competitions-disclaimer");
+  if (!note){
+    note = document.createElement("p");
+    note.id = "competitions-disclaimer";
+    note.className = "page-disclaimer";
+    afterEl.insertAdjacentElement("afterend", note);
+  }
+  note.textContent = text;
 }

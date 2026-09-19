@@ -4,6 +4,7 @@
     "Domain": "Finance",
     "Price": "₹2,499",
     "Rating": "4.6",
+    "Duration": "6 weeks",
     "Course Link": "https://example.com/course/financial-modelling"
   },
   {
@@ -11,6 +12,7 @@
     "Domain": "Marketing",
     "Price": "Free",
     "Rating": "4.4",
+    "Duration": "3 weeks",
     "Course Link": "https://example.com/course/digital-marketing"
   },
   {
@@ -18,6 +20,7 @@
     "Domain": "Leadership",
     "Price": "₹1,199",
     "Rating": "4.5",
+    "Duration": "4 weeks",
     "Course Link": "https://example.com/course/people-analytics"
   },
   {
@@ -25,6 +28,7 @@
     "Domain": "Consulting",
     "Price": "₹3,999",
     "Rating": "4.8",
+    "Duration": "8 weeks",
     "Course Link": "https://example.com/course/case-interview"
   },
   {
@@ -32,6 +36,7 @@
     "Domain": "Operations Management",
     "Price": "₹999",
     "Rating": "4.3",
+    "Duration": "5 weeks",
     "Course Link": "https://example.com/course/lean-six-sigma"
   },
   {
@@ -39,6 +44,7 @@
     "Domain": "Entrepreneurship",
     "Price": "₹1,499",
     "Rating": "4.6",
+    "Duration": "4 weeks",
     "Course Link": "https://example.com/course/startup-growth"
   },
   {
@@ -46,6 +52,7 @@
     "Domain": "Data Analytics",
     "Price": "₹1,799",
     "Rating": "4.7",
+    "Duration": "6 weeks",
     "Course Link": "https://example.com/course/sql-data-viz"
   },
   {
@@ -53,6 +60,7 @@
     "Domain": "Business Analytics",
     "Price": "₹2,199",
     "Rating": "4.5",
+    "Duration": "7 weeks",
     "Course Link": "https://example.com/course/business-analytics"
   },
   {
@@ -60,6 +68,7 @@
     "Domain": "Finance",
     "Price": "₹4,499",
     "Rating": "4.7",
+    "Duration": "10 weeks",
     "Course Link": "https://example.com/course/equity-research"
   }
 ]

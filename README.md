@@ -71,7 +71,7 @@ white against the dark background — no need to pre-process it.
 ## 2. Data architecture — how content flows
 
 ```
-Google Sheet  →  Apps Script Web App (JSON)  →  js/config.js (one URL)
+Google Sheet (CSV export)  →  js/config.js (sheet ID + tab names)
       →  js/data-adapter.js (fetch + normalize)  →  render-*.js  →  cards
 ```
 
@@ -88,13 +88,22 @@ case-insensitive) in each Google Sheet tab:
 
 **Courses**
 ```
-Course Name | Domain | Price | Rating | Course Link
+Course Name | Domain | Price | Rating | Duration | Course Link
 ```
 `Domain` should be one of: Finance, Marketing, Consulting, Entrepreneurship,
 Leadership, Data Analytics, Business Analytics, Operations Management (or a
 new one you add later) — the filter pills on the Course Repository page are
 generated from whatever values appear in the sheet, so a new domain needs no
 code change. The "All" pill is always added automatically.
+
+`Duration` is a free-text field (e.g. `6 weeks`, `40 hours`, `Self-paced`) —
+whatever the course provider lists. It shows up as a small chip under the
+course title and is entirely optional; leave it blank and the chip is just
+skipped.
+
+Every price shown on the page gets a trailing asterisk, and the page carries
+a small disclaimer noting prices can vary — since course providers change
+pricing outside the committee's control.
 
 **Case Studies**
 ```
@@ -108,28 +117,54 @@ Repository Name | Description | Link
 
 **IIMR Resources**
 ```
-Resource Name | Description | College Login Required | Link
+Resource Name | Description | Resource Type | Link
 ```
-`College Login Required` should contain `Yes` or `No`.
+`Resource Type` replaces the old "College Login Required" column. Put
+whatever the resource actually is — currently `E-Database` or
+`Online Journals` are used, but this is a free-text field: type a new value
+(e.g. `Case Repository`) whenever a new kind of resource is added and it'll
+show up correctly styled with no code change (new types just use a neutral
+default badge colour until someone styles them specifically in
+`css/components.css`).
 
 **Case Competitions**
 ```
 Competition Name | Institute | Deadline | Link
 ```
 `Deadline` can be any parseable date (e.g. `2026-10-12` or `12 Oct 2026`) —
-the page sorts and formats it automatically.
+the page sorts and formats it automatically, and every deadline shown gets
+a trailing asterisk plus a small disclaimer noting deadlines can shift, since
+organizers change these outside the committee's control.
+
+**Scraper-fed deadlines (optional):** if a tab's `Deadline` column instead
+gets a relative, human string from an automated scraper — like
+`24 days left`, `1 Month Left`, or `2 Hours Left` — add a `Scraped At`
+column with the timestamp the scraper took that snapshot at (any parseable
+date/time, e.g. `2026-09-05T15:46:00+00:00`). The site resolves the pair
+into one absolute date automatically (only the date is shown — the exact
+time doesn't matter and is dropped). This applies to both the Case
+Competitions and Live Projects tabs. A normal, already-exact date in
+`Deadline` (e.g. `2026-10-12`) is left completely alone either way, so this
+is purely additive and optional.
 
 **Live Projects**
 ```
-ID | Company | Status | Tagline | About the Company | Job Description |
+ID | Company | Status | Tagline | About the Company |
 Role 1 | Role 1 Responsibilities | Role 1 Takeaways |
 Role 2 | Role 2 Responsibilities | Role 2 Takeaways |
+Role 3 | Role 3 Responsibilities | Role 3 Takeaways |
+... (as many "Role N" triples as you need) ...
 Selection Criteria | Location | Project Duration |
-Apply URL | Deadline | Policy Note | Google Doc URL
+Apply URL | Deadline | Google Doc URL
 ```
 - `ID` should be a short unique slug per row (e.g. `acme-2026-outreach`) —
   it's what the detail page URL uses (`live-project.html?id=acme-2026-outreach`).
   If you leave it blank, one is generated automatically from the company name.
+- Roles are unlimited: add `Role 4`, `Role 5`, etc. (each with its own
+  `Responsibilities` and `Takeaways` columns) if a project has more than
+  three roles — no code change needed. Roles are read in order starting
+  from `Role 1`; leave no gaps (don't skip from `Role 1` straight to
+  `Role 3`).
 - `Role 1 Responsibilities` / `Selection Criteria`: put one point per line
   inside the cell (press <kbd>Alt/⌥</kbd>+<kbd>Enter</kbd> in Sheets for a
   line break within a cell) — the page turns each line into a bullet.
@@ -194,12 +229,12 @@ information.
    in a Google Doc.
 2. When it's ready to publish, someone on the committee copies the
    relevant fields into one row of the Live Projects sheet (Company, About,
-   Job Description, Role(s), Selection Criteria, Location, Duration, Apply
-   URL, Deadline, Policy Note) — the `Google Doc URL` column just keeps a
+   Role(s), Selection Criteria, Location, Duration, Apply
+   URL, Deadline) — the `Google Doc URL` column just keeps a
    reference back to the source document for the committee's own records.
    This takes a couple of minutes per project and is far more reliable
    than trying to auto-parse a Doc's formatting in the browser.
-3. The website renders that row into a polished, native page automatically
+3. The website renders that row into a native page automatically
    — no HTML is written by hand.
 
 **If you later want to remove that manual copy step:** the architecture

@@ -28,8 +28,8 @@ const IC_CONFIG = {
   committee: {
     email: "internshipcommittee@iimrohtak.ac.in", // TODO: confirm official IC email
     emailIsPlaceholder: true,
-    linkedin: "https://www.linkedin.com/company/ic-iim-rohtak/", // TODO: confirm official IC LinkedIn URL
-    linkedinIsPlaceholder: true
+    linkedin: "https://www.linkedin.com/company/ipm-internship-committee-iim-rohtak/",
+    linkedinIsPlaceholder: false
   },
 
   // Logo asset used across the site (sidebar + homepage 3D signature).
@@ -59,8 +59,8 @@ const IC_CONFIG = {
     caseStudies: true,
     githubRepos: true,
     resources: true,
-    competitions: true,
-    liveProjects: true
+    competitions: false,
+    liveProjects: false
   },
 
   // Local fallback / demo data (bundled with the site, edited by hand

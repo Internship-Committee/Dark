@@ -48,8 +48,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       <article class="glass-card course-card">
         <span class="domain-tag">${escapeHtml(c.domain || "Uncategorized")}</span>
         <h3>${escapeHtml(c.name)}</h3>
+        ${c.duration ? `<span class="duration-chip">${ICIcons.calendar} ${escapeHtml(c.duration)}</span>` : ""}
         <div class="course-row">
-          ${c.price ? `<span class="price-chip">${escapeHtml(c.price)}</span>` : `<span></span>`}
+          ${c.price ? `<span class="price-chip">${escapeHtml(c.price)}*</span>` : `<span></span>`}
           ${c.rating ? `<span class="rating">${ratingStars(c.rating)}</span>` : ""}
         </div>
         <a class="card-link" href="${escapeHtml(c.link)}" target="_blank" rel="noopener">
@@ -57,8 +58,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         </a>
       </article>
     `).join("");
+    showDisclaimer(grid, "*Prices are subject to variation — please confirm the final price on the course's official page before enrolling.");
   }
 
   renderFilters();
   renderGrid();
 });
+
+function showDisclaimer(afterEl, text){
+  let note = document.getElementById("courses-disclaimer");
+  if (!note){
+    note = document.createElement("p");
+    note.id = "courses-disclaimer";
+    note.className = "page-disclaimer";
+    afterEl.insertAdjacentElement("afterend", note);
+  }
+  note.textContent = text;
+}

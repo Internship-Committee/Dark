@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     grid.innerHTML = items.map(r => `
       <article class="glass-card list-card">
-        <span class="login-badge ${r.loginRequired ? "required" : "not-required"}">
-          ${r.loginRequired ? "College login required" : "No college login"}
+        <span class="resource-type-badge ${typeClass(r.resourceType)}">
+          ${escapeHtml(r.resourceType)}
         </span>
         <h3>${escapeHtml(r.name)}</h3>
         ${r.description ? `<p class="desc">${escapeHtml(r.description)}</p>` : ""}
@@ -24,3 +24,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     grid.innerHTML = `<div class="state-msg is-error">${escapeHtml(err.message)}</div>`;
   }
 });
+
+// Turns a resource type like "E-Database" or "Online Journals" into a
+// CSS-friendly class name ("e-database", "online-journals"). Unknown /
+// future types (anything not styled explicitly in components.css) still
+// get a sensible default look via the base ".resource-type-badge" rule —
+// no code change needed when the committee adds a new type to the sheet.
+function typeClass(type){
+  return "type-" + (type || "resource")
+    .toString().toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
