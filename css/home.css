@@ -1,17 +1,56 @@
 /* ============================================================
-   IC Portal — Homepage: hero, 3D revolving logo signature
+   IC Portal — Homepage: bold oversized hero + 3D revolving logo
    ============================================================ */
+
+/* ---- Homepage backdrop: a quieter, near-black base (closer to the
+   reference moodboard) instead of the bolder burgundy glow used on
+   inner pages — just a faint warmth top and bottom, nothing loud. ---- */
+body[data-page="home"]{
+  background:
+    radial-gradient(1300px 820px at 50% -14%, rgba(58,18,27,0.20) 0%, transparent 60%),
+    radial-gradient(1100px 760px at 50% 112%, rgba(28,10,13,0.32) 0%, transparent 58%),
+    #0d0b0c;
+}
+
+/* ---- Scroll-jacked stage: hero + gallery share one screen ----
+   Until the visitor fully morphs into the gallery and then keeps
+   scrolling down a bit further, the page itself does not scroll —
+   the wheel/touch input instead drives the hero→gallery morph and
+   then the gallery's (unlimited) rotation. See assets/circular-gallery.js. */
+body.stage-locked{ overflow: hidden; height: 100vh; }
+
+.scrollstage{ position: relative; }
+.scrollstage.is-enhanced{
+  height: 86vh;
+  min-height: 560px;
+  overflow: hidden;
+}
+.scrollstage.is-enhanced .stage-layer{
+  position: absolute; inset: 0;
+  /* Opacity/transform/blur are driven every frame by the eased JS morph
+     (see assets/circular-gallery.js) rather than a CSS transition, so the
+     two layers dissolve into each other as one continuous move instead of
+     each snapping toward whatever the last scroll tick asked for. */
+  transition: visibility 0s linear .3s;
+  will-change: opacity, transform, filter;
+}
+/* Fully-faded layer stops accepting keyboard focus once it's out of view */
+.scrollstage.is-enhanced .stage-layer[aria-hidden="true"]{ visibility: hidden; }
+
+@media (max-width: 900px){
+  .scrollstage.is-enhanced{ height: calc(100vh - var(--header-h)); min-height: 460px; }
+}
 
 .hero{
   position: relative;
-  min-height: 78vh;
+  min-height: 86vh;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center;
   padding: 60px 20px 30px;
   overflow: hidden;
 }
 
-/* ---- 3D revolving logo stage (signature element) ---- */
+/* ---- 3D revolving logo stage (sits BEHIND the oversized wordmark) ---- */
 .logo-stage{
   position:absolute;
   inset: 0;
@@ -21,25 +60,24 @@
   pointer-events:none;
 }
 .logo-orbit{
-  width: min(58vw, 620px);
-  height: min(58vw, 620px);
+  width: min(46vw, 480px);
+  height: min(46vw, 480px);
   position: relative;
   transform-style: preserve-3d;
   animation: revolve 22s linear infinite;
-  opacity: 0.5;
+  opacity: 0.22;
 }
 .logo-orbit img{
   position:absolute; inset:0;
   width:100%; height:100%;
   object-fit: contain;
-  /* render supplied logo artwork in white for the dark background */
-  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(59,107,246,0.35));
+  filter: brightness(0) invert(1) sepia(0.4) saturate(3) hue-rotate(300deg) drop-shadow(0 0 70px rgba(162,51,71,0.45));
 }
 .logo-orbit::after{
   content:"";
   position:absolute; inset: -8%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,107,246,0.22), transparent 68%);
+  background: radial-gradient(circle, rgba(162,51,71,0.24), transparent 68%);
   transform: translateZ(-40px);
 }
 
@@ -55,32 +93,35 @@
 .hero-inner{
   position: relative;
   z-index: 2;
-  max-width: 760px;
-  margin-bottom: 56px;
+  max-width: 900px;
+  margin-bottom: 52px;
 }
 
 .hero-eyebrow{
-  font-size: 12.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
-  color: var(--text-muted);
+  font-family: var(--font-heavy);
+  font-size: 12px; font-weight:800; letter-spacing:.26em; text-transform:uppercase;
+  color: var(--accent-2);
   margin-bottom: 22px;
 }
 
+/* Oversized, tightly-tracked, uppercase grotesk wordmark. */
 .hero-tagline{
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2.3rem, 6vw, 4.4rem);
-  line-height: 1.12;
-  letter-spacing: -0.01em;
-  margin: 0 0 20px;
-  background: linear-gradient(100deg, #ffffff 10%, #cfe0ff 45%, #9fb8ff 65%, #ffffff 92%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  font-family: var(--font-heavy);
+  font-weight: 900;
+  font-size: clamp(2.8rem, 10vw, 7.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+  color: var(--text-primary);
 }
 .hero-tagline em{
   font-style: italic;
-  color: var(--accent-2);
-  -webkit-text-fill-color: var(--accent-2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-transform: none;
+  color: var(--accent-soft);
+  letter-spacing: -0.01em;
 }
 
 .hero-sub{
@@ -121,12 +162,13 @@
 .home-section .section-intro p{ margin:0; max-width: 46ch; font-size: 14px; }
 
 
-/* ---- Hero: scroll cue (replaces the old row of three cards) ---- */
+/* ---- Hero: scroll cue ---- */
 .hero-scroll-cue{
   position: relative;
   z-index: 2;
   display:inline-flex; flex-direction:column; align-items:center; gap:6px;
-  font-size: 12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  font-family: var(--font-heavy);
+  font-size: 11.5px; font-weight:800; letter-spacing:.2em; text-transform:uppercase;
   color: var(--text-muted);
   transition: color .2s var(--ease);
 }
@@ -134,123 +176,53 @@
 .hero-scroll-cue svg{ width:18px; height:18px; animation: cue-bob 1.8s var(--ease) infinite; }
 @keyframes cue-bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(5px); } }
 
-/* ---- Home stage: hero + circular 3D gallery on ONE pinned screen ----------------------------
-   React island — source in /gallery, built to assets/circular-gallery.*.
-
-   Without JS the stage is just two normal sections (hero, then plain fallback cards).
-   With JS the bundle adds `.is-enhanced` to the stage and `.home-immersive` to <html>:
-   the page stops scrolling and the wheel / touch / keys drive an endless animation instead.
-   The script writes these variables onto the stage while you scroll:
-     --m         0→1  overall morph progress (hero → gallery)
-     --hero-out  0→1  hero text leaving
-     --cue-out   0→1  "scroll to explore" cue leaving
-     --gal-in    0→1  gallery glow arriving
-     --head-in   0→1  gallery heading arriving
-   and toggles `.at-hero` (nothing scrolled yet) and `.is-live` (gallery interactive). */
-.home-stage{ position: relative; }
-
-html.home-immersive,
-html.home-immersive body{ height: 100%; overflow: hidden; overscroll-behavior: none; }
-html.home-immersive .main{
-  position: relative; padding: 0; overflow: hidden;
-  height: 100vh; height: 100dvh;
-}
-@media (max-width: 900px){
-  html.home-immersive .main{
-    height: calc(100vh - var(--header-h));
-    height: calc(100dvh - var(--header-h));
-    padding: 0;
-  }
-}
-
-.home-stage.is-enhanced{
-  position: absolute; inset: 0;   /* (not height:100% — that collapses inside the mobile flex column) */
-  overflow: hidden;
-  touch-action: none;            /* touch drives the animation, not the browser's own scroll */
-  -webkit-user-select: none; user-select: none;
-}
-
-/* hero layer fills the stage; the logo stays behind as a dimmed backdrop */
-.home-stage.is-enhanced .hero{ position: absolute; inset: 0; min-height: 0; }
-.home-stage.is-enhanced .hero-inner{
-  opacity: calc(1 - var(--hero-out, 0));
-  transform: translateY(calc(var(--hero-out, 0) * -56px)) scale(calc(1 + var(--hero-out, 0) * 0.08));
-  filter: blur(calc(var(--hero-out, 0) * 10px));
-  will-change: transform, opacity, filter;
-}
-.home-stage.is-enhanced .hero-scroll-cue{ opacity: calc(1 - var(--cue-out, 0)); }
-.home-stage.is-enhanced.is-live .hero-scroll-cue{ pointer-events: none; }
-.home-stage.is-enhanced .logo-stage{
-  transform: scale(calc(1 - var(--m, 0) * 0.4));
-  opacity: calc(1 - var(--m, 0) * 0.75);
-}
-
-/* gallery layer sits on top of the hero, invisible until you start scrolling */
-.home-gallery{ position: relative; scroll-margin-top: 0; }
-.home-stage.is-enhanced .home-gallery{ position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-.home-stage.is-enhanced.is-live .home-gallery{ pointer-events: auto; }
-.home-stage.is-enhanced.at-hero .home-gallery{ visibility: hidden; }
-
+/* ---- Circular 3D gallery (vanilla-JS island, see assets/circular-gallery.js) ---- */
 .gallery-stage{
   display:flex; flex-direction:column; align-items:center;
   padding: 40px 0 10px;
 }
-.home-stage.is-enhanced .gallery-stage{ height: 100%; padding: 28px 0 0; overflow: hidden; }
+.scrollstage.is-enhanced .gallery-stage{
+  height: 100%;
+  padding: 28px 0 0;
+  overflow: hidden;
+}
 
 .gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; }
 .gallery-heading .eyebrow{ display:block; margin-bottom: 8px; }
-.gallery-heading .section-heading{ margin-bottom: 6px; }
-.home-stage.is-enhanced .gallery-heading{
-  opacity: var(--head-in, 0);
-  transform: translateY(calc((1 - var(--head-in, 0)) * -14px));
-}
+.gallery-heading .section-heading{ margin-bottom: 6px; font-family: var(--font-heavy); font-weight: 800; text-transform: uppercase; letter-spacing: -0.005em; }
 .gallery-hint{ display:none; margin: 0; font-size: 13px; color: var(--text-muted); }
-.home-stage.is-enhanced .gallery-hint{ display:block; }
+.scrollstage.is-enhanced .gallery-hint{ display:block; }
 
-/* Mount point: fills the rest of the stage; the ring is centred inside it */
 #circular-gallery-root{ display:none; width:100%; position:relative; }
-.home-stage.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
-.home-stage.is-enhanced .gallery-fallback{ display:none; }
+.scrollstage.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
+.scrollstage.is-enhanced .gallery-fallback{ display:none; }
 
-/* Soft cobalt glow behind the ring so the cards lift off the dark page */
-.home-stage.is-enhanced #circular-gallery-root::before{
+/* Warm rose glow behind the ring so the cards lift off the dark page */
+.scrollstage.is-enhanced #circular-gallery-root::before{
   content:""; position:absolute; left:50%; top:50%;
   width: min(80%, 900px); aspect-ratio: 1; transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(59,107,246,0.16), transparent 66%);
-  opacity: var(--gal-in, 0);
+  background: radial-gradient(circle, rgba(162,51,71,0.20), transparent 66%);
   pointer-events:none;
 }
 
-/* The page no longer scrolls, so the footer credit floats quietly along the bottom edge */
-html.home-immersive footer.site-footer{
-  position: absolute; left: 0; right: 0; bottom: 10px; z-index: 5;
-  margin: 0; padding: 0 16px; border-top: 0;
-  justify-content: center; align-items: center; gap: 2px 22px;
-  font-size: 11.5px; opacity: .8; pointer-events: none;
-}
-html.home-immersive .footer-built{ display:flex; gap: 5px; }
-html.home-immersive .footer-built span{ display:inline; }
-@media (max-width: 640px){
-  html.home-immersive footer.site-footer{ flex-direction: column; font-size: 11px; }
-  html.home-immersive .footer-built{ flex-direction: column; gap: 0; }
-}
-
-/* Live Projects status row inside its gallery card (mirrors the old home badge) */
+/* Live Projects status row inside its gallery card */
 .gallery-live-badge{
   display:inline-flex; align-items:center; gap:8px;
-  letter-spacing:.04em; text-transform:uppercase;
+  font-family: var(--font-heavy);
+  letter-spacing:.06em; text-transform:uppercase;
   color: var(--live-red);
 }
 .gallery-live-dot{
   width:7px; height:7px; border-radius:50%; background: var(--live-red);
-  box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
+  box-shadow: 0 0 0 0 rgba(255,92,114,0.6);
   animation: pulse-dot-1 1.8s infinite;
 }
-.gallery-live-badge.is-closed{ color: #99A2BE; }
-.gallery-live-badge.is-closed .gallery-live-dot{ background: #4b5163; animation:none; box-shadow:none; }
+.gallery-live-badge.is-closed{ color: var(--text-secondary); }
+.gallery-live-badge.is-closed .gallery-live-dot{ background: #6b5850; animation:none; box-shadow:none; }
 
+/* Mobile: the sticky mobile top bar takes the top of the viewport */
 @media (max-width: 900px){
-  .home-stage.is-enhanced .gallery-stage{ padding-top: 18px; }
+  .scrollstage.is-enhanced .gallery-stage{ padding-top: 18px; }
   .gallery-heading .section-heading{ font-size: 1.35rem; }
 }
 
