@@ -323,20 +323,26 @@ above as a future step, not missing functionality.
 
 The six cards on the home page — Live Projects, Course Repository, Case
 Competitions, Case Studies, IIMR Student Resources and GitHub Repositories —
-are rendered by a small React component as a 3D ring that rotates with page
-scroll (and drifts slowly on its own). Everything else on the site stays plain
-HTML/CSS/JS.
+are rendered by a small React component as a 3D ring. The home page is a single
+pinned screen: the hero (logo + tagline) **morphs into the ring** as you start
+scrolling, and after that the ring keeps spinning for as long as you keep
+scrolling — there is no end and no footer to hit. The page itself never scrolls;
+the mouse wheel / trackpad, touch swipes and keyboard (↑ ↓ ← → PageUp PageDown
+Space) drive the animation instead. `Home` jumps back to the hero, and scrolling
+back up rewinds the morph. Everything else on the site stays plain HTML/CSS/JS.
 
 ```
 /gallery
   package.json  tsconfig.json  tailwind.config.ts  components.json  build.mjs
   /src
-    main.tsx                         mounts the gallery into #circular-gallery-root
+    main.tsx                         mounts the experience into #circular-gallery-root
     index.css                        Tailwind + scoped shadcn design tokens
     demo.tsx                         the original animal-gallery demo (reference only, not shipped)
     /components
+      home-experience.tsx            glues the scroll hook to the gallery (hero → ring morph + endless spin)
       home-gallery.tsx               the six portal cards, images, live-status badge, responsive fit
       /ui/circular-gallery.tsx       the CircularGallery component (shadcn path: @/components/ui)
+    /lib/immersive-scroll.ts         the endless-scroll engine (wheel / touch / keys → morph + rotation)
     /lib/utils.ts                    shadcn `cn()` helper (for components added later)
 ```
 
@@ -353,7 +359,22 @@ npm install
 npm run build        # writes ../assets/circular-gallery.js and .css
 ```
 
+Tuning the feel — all in `gallery/src/lib/immersive-scroll.ts` (options of
+`useImmersiveScroll`, defaults in the function signature):
+- `degPerPx` (0.18) — how fast the ring turns per px of scroll (higher = faster).
+- `introSpin` (150) — how much extra the ring spins while it morphs in.
+- `driftDegPerSec` (3) — the slow idle drift once you stop scrolling (0 = none).
+- `getMorphDist()` — how much scrolling the hero → gallery morph takes (≈ 85% of
+  the screen height, clamped to 520–900px).
+The look of the morph itself (what fades / scales / blurs when) lives in
+`css/home.css` under "Home stage", driven by the `--m`, `--hero-out`, `--gal-in`…
+variables the script writes onto `.home-stage`.
+
 Notes:
+- The hero and the gallery both live inside `<div class="home-stage">` in
+  `index.html`. If the script doesn't load, that stage is simply two normal
+  sections and the page scrolls as usual.
+- Users with `prefers-reduced-motion` get no idle drift and no intro spin.
 - Tailwind is **scoped** to `#circular-gallery-root` and its global reset is
   turned off, so it can't affect any other part of the site.
 - Card photos are hot-linked from Unsplash (`images.unsplash.com`). If a photo

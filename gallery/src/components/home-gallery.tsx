@@ -165,7 +165,7 @@ function useLiveProjectsOpen(): boolean {
   return open;
 }
 
-function usePrefersReducedMotion(): boolean {
+export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   );
@@ -200,7 +200,7 @@ function useFitScale(ref: RefObject<HTMLDivElement | null>): number {
 /* ------------------------------------------------------------------
    Home page gallery
    ------------------------------------------------------------------ */
-export function HomeGallery() {
+export function HomeGallery({ rotation, intro }: { rotation?: number; intro?: number } = {}) {
   const stageRef = useRef<HTMLDivElement>(null);
   const scale = useFitScale(stageRef);
   const reducedMotion = usePrefersReducedMotion();
@@ -215,7 +215,13 @@ export function HomeGallery() {
         className="w-full h-full"
         style={{ transform: `scale(${scale})`, transformOrigin: '50% 50%' }}
       >
-        <CircularGallery items={items} radius={radius} autoRotateSpeed={reducedMotion ? 0 : 0.05} />
+        <CircularGallery
+          items={items}
+          radius={radius}
+          autoRotateSpeed={reducedMotion ? 0 : 0.05}
+          rotation={rotation}
+          intro={intro}
+        />
       </div>
     </div>
   );
