@@ -64,42 +64,43 @@
 
   <main class="main" id="main-content">
 
-    <!-- One pinned screen: the hero morphs into the circular gallery as you scroll
-         (see assets/circular-gallery.js). Scrolling forward keeps spinning the ring
-         forever in either direction; there's no separate "release" step — use the
-         sidebar to jump to another page whenever you like. -->
-    <div class="home-stage" id="home-stage">
+    <!-- Hero + gallery share one scroll-jacked "stage" (see assets/circular-gallery.js):
+         while locked, scrolling doesn't move the page — it slowly morphs the hero into
+         the gallery, then spins the gallery with no limit. Scrolling down a little
+         further once the gallery is settled releases the lock on its own, so the
+         visitor can keep going to the footer with the same gesture the whole time
+         (or just use the sidebar to jump to another page). -->
+    <section class="scrollstage" id="explore" aria-labelledby="gallery-heading">
 
-    <section class="hero">
-      <div class="logo-stage" aria-hidden="true">
-        <div class="logo-orbit">
-          <img src="assets/logo.png" alt="">
+      <div class="hero stage-layer" data-stage-hero>
+        <div class="logo-stage" aria-hidden="true">
+          <div class="logo-orbit">
+            <img src="assets/logo.png" alt="">
+          </div>
         </div>
+
+        <div class="hero-inner">
+          <div class="hero-eyebrow">Integrity. Collaboration. Passion.</div>
+          <h1 class="hero-tagline">IPM<br>INTERNSHIP<br>COMMITTEE</h1>
+          <p class="hero-sub">Courses, case studies, competitions and live industry projects — everything the IC puts together for IPM students, in one place.</p>
+        </div>
+
+        <a class="hero-scroll-cue" href="#explore" data-hero-nudge>
+          <span>Scroll to explore</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
       </div>
 
-      <div class="hero-inner">
-        <div class="hero-eyebrow">Integrity. Collaboration. Passion.</div>
-        <h1 class="hero-tagline">IPM<br>INTERNSHIP<br>COMMITTEE</h1>
-        <p class="hero-sub">Courses, case studies, competitions and live industry projects — everything the IC puts together for IPM students, in one place.</p>
-      </div>
-
-      <a class="hero-scroll-cue" href="#explore">
-        <span>Scroll to explore</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </a>
-    </section>
-
-    <section class="home-gallery" id="explore" aria-labelledby="gallery-heading">
-      <div class="gallery-stage">
+      <div class="gallery-stage stage-layer" data-stage-gallery>
         <div class="gallery-heading">
           <span class="eyebrow">Explore the portal</span>
           <h2 class="section-heading" id="gallery-heading">Everything the IC puts together</h2>
-          <p class="gallery-hint">Keep scrolling to spin the gallery &middot; click a card to open it</p>
+          <p class="gallery-hint">Scroll to rotate &middot; click a card to open it &middot; keep scrolling down to continue</p>
         </div>
         <!-- Vanilla-JS mounts the 3D circular gallery here (assets/circular-gallery.js — no build step needed). -->
         <div id="circular-gallery-root"></div>
 
-        <!-- No-JavaScript / reduced-motion fallback: plain cards, hidden as soon as the gallery mounts. -->
+        <!-- No-JavaScript fallback: plain cards, hidden as soon as the gallery mounts. -->
         <div class="hero-cards gallery-fallback">
           <a class="glass-card home-card" href="live-projects.html">
             <div>
@@ -164,8 +165,6 @@
         </div>
       </div>
     </section>
-
-    </div><!-- /.home-stage -->
 
     <footer class="site-footer">
       <span>&copy; Internship Committee, IIM Rohtak</span>

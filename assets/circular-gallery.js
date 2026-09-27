@@ -2,38 +2,32 @@
    IC Portal — Circular 3D gallery + hero scroll-jack
    ------------------------------------------------------------
    Hand-written vanilla JS (no React/build step — works straight
-   from file://, GitHub Pages, anywhere). Ported from an earlier
-   React "CircularGallery" component + "useImmersiveScroll" hook:
-
-     - endless, eased wheel / touch / keyboard scroll: the first
-       stretch morphs the hero into the ring — which assembles out
-       of the centre (radius, tilt and card scale all ease in
-       together) rather than just crossfading — then every extra
-       bit of scroll just keeps spinning the ring, forever, in
-       either direction.
-     - inertia on touch (a flick keeps the ring spinning after you
-       lift your finger), a gentle idle drift once it settles and
-       you stop scrolling, and Home / PageUp / PageDown / Arrow /
-       Space keyboard support.
-     - the whole thing is driven by writing a handful of CSS custom
-       properties onto the stage element every frame (see
-       css/home.css) instead of fighting the DOM directly, so it
-       eases smoothly regardless of the display's frame rate.
-
+   from file://, GitHub Pages, anywhere). Ported from the original
+   React "CircularGallery" component, plus:
+     - hero → gallery morph: scrolling doesn't move the page,
+       it smoothly crossfades the hero into the gallery instead.
+     - unlimited rotation: once in the gallery, wheel/touch input
+       just keeps spinning the ring (no min/max, never runs out).
+     - "Continue exploring the site" releases the scroll-jack so
+       the visitor can reach the footer normally.
    Depends on (loaded earlier in index.html): IC_CONFIG, ICData.
    ============================================================ */
 (function () {
   "use strict";
 
-  var stage = document.getElementById("home-stage");
+  var stage = document.querySelector(".scrollstage");
   var root = document.getElementById("circular-gallery-root");
   if (!stage || !root) return; // this island only lives on the homepage
 
+  var heroLayer = stage.querySelector("[data-stage-hero]");
+  var galleryLayer = stage.querySelector("[data-stage-gallery]");
+  var nudgeLink = stage.querySelector("[data-hero-nudge]");
+  var fallback = stage.querySelector(".gallery-fallback");
+
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reducedMotion) return; // keep the plain, static fallback cards + normal page scroll
 
   /* ---------------------------------------------------------
-     Card content — same six sections as before
+     Card content — mirrors the original React buildItems()
      --------------------------------------------------------- */
   function unsplash(id) {
     return "https://images.unsplash.com/photo-" + id + "?auto=format&fit=crop&w=800&q=80";
@@ -181,15 +175,22 @@
 
     card.appendChild(inner);
     ringEl.appendChild(card);
-    cardEls.push(card);
+    cardEls.push({ el: card, ctaSlot: item.liveCta ? inner : null });
   });
 
   var anglePerItem = 360 / items.length;
 
+  function layoutCards(radius) {
+    cardEls.forEach(function (c, i) {
+      var angle = i * anglePerItem;
+      c.el.style.transform = "rotateY(" + angle + "deg) translateZ(" + radius + "px)";
+    });
+  }
+
   /* ---------------------------------------------------------
      Fit-to-container scaling (cards are a fixed 300×400)
      --------------------------------------------------------- */
-  var baseRadius = 340;
+  var radius = 340;
   function computeScale() {
     var rect = root.getBoundingClientRect();
     if (!rect.width || !rect.height) return 1;
@@ -199,7 +200,8 @@
     var scale = computeScale();
     fitEl.style.transform = "scale(" + scale + ")";
     fitEl.style.transformOrigin = "50% 50%";
-    baseRadius = Math.round(340 + 90 * ((scale - 0.6) / 0.4));
+    radius = Math.round(340 + 90 * ((scale - 0.6) / 0.4));
+    layoutCards(radius);
   }
   applyFit();
   if (typeof ResizeObserver !== "undefined") {
@@ -209,31 +211,43 @@
   }
 
   /* ---------------------------------------------------------
-     Paint the ring for a given rotation (deg) + intro (0→1).
-     Ported from the original React CircularGallery's render math:
-     the ring "assembles" out of the centre — radius, tilt and
-     card scale all ease in together with intro — rather than the
-     cards just crossfading in place.
+     Rotation — auto-rotates gently, spins freely on input,
+     never bounded (this is the "unlimited scroll" bit).
      --------------------------------------------------------- */
-  function paintRing(rotation, intro) {
-    var t = intro < 0 ? 0 : intro > 1 ? 1 : intro;
-    var ringRadius = baseRadius * (0.3 + 0.7 * t);
-    var ringTilt = (1 - t) * 14;
-    var cardScale = 0.75 + 0.25 * t;
-    var introFade = Math.min(1, t * 1.6);
+  var rotation = 0;
+  var isInteracting = false;
+  var interactionTimer = null;
+  var autoRotateSpeed = reducedMotion ? 0 : 0.05;
 
-    ringEl.style.transform = "rotateX(" + ringTilt + "deg) rotateY(" + rotation + "deg)";
+  window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", function (e) {
+    autoRotateSpeed = e.matches ? 0 : 0.05;
+  });
 
+  function applyRotation() {
+    ringEl.style.transform = "rotateY(" + rotation + "deg)";
     var total = ((rotation % 360) + 360) % 360;
-    cardEls.forEach(function (el, i) {
+    cardEls.forEach(function (c, i) {
       var itemAngle = i * anglePerItem;
       var relative = (itemAngle + total) % 360;
       var normalized = relative > 180 ? 360 - relative : relative;
-      var opacity = Math.max(0.3, 1 - normalized / 180) * introFade;
-      el.style.transform =
-        "rotateY(" + itemAngle + "deg) translateZ(" + ringRadius + "px) scale(" + cardScale + ")";
-      el.style.opacity = String(opacity);
+      c.el.style.opacity = String(Math.max(0.3, 1 - normalized / 180));
     });
+  }
+
+  function tick() {
+    if (!isInteracting) rotation += autoRotateSpeed;
+    applyRotation();
+    stepMorph();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function spin(deltaY) {
+    isInteracting = true;
+    rotation += deltaY * 0.15;
+    applyRotation();
+    clearTimeout(interactionTimer);
+    interactionTimer = setTimeout(function () { isInteracting = false; }, 200);
   }
 
   /* ---------------------------------------------------------
@@ -247,250 +261,150 @@
         .then(function (projects) {
           if (projects && projects.length) return;
           var liveCard = cardEls[0];
-          if (!liveCard) return;
-          var body = liveCard.querySelector(".gallery-card-body");
-          var old = body && body.querySelector(".gallery-live-badge");
-          if (old) old.outerHTML = liveBadgeCta(false);
+          if (liveCard && liveCard.ctaSlot) {
+            var body = liveCard.ctaSlot.querySelector(".gallery-card-body");
+            var old = body.querySelector(".gallery-live-badge");
+            if (old) old.outerHTML = liveBadgeCta(false);
+          }
         })
         .catch(function () { /* keep the "open" default on error */ });
     } catch (err) { /* keep the "open" default */ }
   })();
 
   /* ---------------------------------------------------------
-     Endless, page-pinning scroll for the home page.
+     Hero ⇄ gallery morph + scroll-jack
      ------------------------------------------------------------
-     The page itself never scrolls. Instead this listens to the
-     wheel / touch / keyboard, accumulates the input into one
-     "virtual scroll" distance and eases towards it:
-
-       0 ─────────── morphDist ───────────────────────────────▶ ∞
-       hero  ──morph──▶  gallery ring …keeps spinning as long as
-                          you keep scrolling
-
-      - First `morphDist` px: the hero fades out while the ring
-        assembles around the centre (CSS variables on the stage).
-      - After that: every extra px just rotates the ring — there
-        is no end.
-      - Scrolling back up rewinds the morph, so the hero returns.
+     Input sets a TARGET progress instantly; the visible progress
+     eases toward that target a little every frame (see stepMorph,
+     called from tick()). That easing — rather than snapping the
+     DOM straight to whatever the wheel/touch event says — is what
+     makes the hero fold into the gallery as one continuous move
+     instead of a hard cut. Depth (scale) + a soft blur travel
+     together with opacity so the two layers read as one shape
+     dissolving into the other, not "old thing gone, new thing on".
      --------------------------------------------------------- */
-  var clamp01 = function (n) { return n < 0 ? 0 : n > 1 ? 1 : n; };
-  var smooth = function (n) { var x = clamp01(n); return x * x * (3 - 2 * x); }; // smoothstep
-  var easeInOut = function (n) { return n < 0.5 ? 4 * n * n * n : 1 - Math.pow(-2 * n + 2, 3) / 2; };
+  var MORPH_RANGE = 1200;   // total wheel/touch delta needed to fully morph — bigger = slower, more deliberate
+  var MORPH_EASE = 0.09;    // how quickly the visible progress catches up to the target each frame — smaller = silkier
+  var progressTarget = 0;   // 0 = hero shown, 1 = gallery shown (set instantly by input)
+  var heroProgress = 0;     // eased value actually painted to the DOM
+  var locked = !reducedMotion;
 
-  var degPerPx = 0.18;      // ring turn per px of scroll — 0.18 → one full turn every 2000px
-  var introSpin = 150;      // extra spin (deg) the ring "unwinds" while it morphs in
-  var driftDegPerSec = 3;   // slow idle drift once settled and you've stopped scrolling
+  function paintMorph(p) {
+    // ease-in-out curve so the morph starts and settles gently rather than linearly
+    var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
 
-  function getMorphDist() {
-    return Math.min(900, Math.max(520, window.innerHeight * 0.85));
+    var heroOpacity = Math.max(0, 1 - e * 1.35);
+    var galleryOpacity = Math.min(1, Math.max(0, (e - 0.15) / 0.85));
+    var blur = Math.sin(e * Math.PI) * 5; // rises then falls back to 0 at both ends of the morph
+
+    heroLayer.style.opacity = String(heroOpacity);
+    heroLayer.style.filter = "blur(" + (blur * e).toFixed(2) + "px)";
+    heroLayer.style.transform = "scale(" + (1 + e * 0.12) + ") translateY(" + (e * -34) + "px)";
+    heroLayer.style.pointerEvents = e > 0.5 ? "none" : "auto";
+    heroLayer.setAttribute("aria-hidden", e > 0.5 ? "true" : "false");
+
+    galleryLayer.style.opacity = String(galleryOpacity);
+    galleryLayer.style.filter = "blur(" + (blur * (1 - e)).toFixed(2) + "px)";
+    galleryLayer.style.transform = "scale(" + (1.1 - e * 0.1) + ")";
+    galleryLayer.style.pointerEvents = e > 0.5 ? "auto" : "none";
+    galleryLayer.setAttribute("aria-hidden", e > 0.5 ? "false" : "true");
   }
-  var morphDist = getMorphDist();
 
-  var target = 0;    // where the input says we should be (px)
-  var current = 0;   // eased value actually shown (px)
-  var inertia = 0;   // touch fling velocity (px/ms)
-  var driftDeg = 0;
-  var lastInput = -Infinity;
-  var tween = null;  // { from, to, t0, dur }
+  function setHeroProgress(p) {
+    progressTarget = Math.min(1, Math.max(0, p));
+  }
 
-  var touching = false;
-  var dragDist = 0;
-  var tx = 0, ty = 0, tLast = 0;
-
-  var last = performance.now();
-  var raf = 0;
-  var prevRotation = Infinity, prevIntro = Infinity;
-  var cssCache = {};
-
-  function setVar(name, value) {
-    var v = value.toFixed(4);
-    if (cssCache[name] !== v) {
-      cssCache[name] = v;
-      stage.style.setProperty(name, v);
+  function stepMorph() {
+    var diff = progressTarget - heroProgress;
+    if (Math.abs(diff) < 0.0006) {
+      if (heroProgress !== progressTarget) { heroProgress = progressTarget; paintMorph(heroProgress); }
+      return;
     }
+    heroProgress += diff * MORPH_EASE;
+    paintMorph(heroProgress);
   }
 
-  function push(d) {
-    tween = null;
-    target = Math.max(0, target + d);
-    lastInput = performance.now();
+  function lockStage() {
+    locked = true;
+    document.body.classList.add("stage-locked");
+    stage.classList.add("is-locked");
+  }
+  function unlockStage() {
+    if (!locked) return;
+    locked = false;
+    document.body.classList.remove("stage-locked");
+    stage.classList.remove("is-locked");
+    stage.classList.add("is-released");
   }
 
-  function animateTo(to, dur) {
-    tween = { from: target, to: to, t0: performance.now(), dur: dur };
+  function isOverSidebarChrome(target) {
+    return !!(target && target.closest && target.closest(".sidebar, .mobile-topbar, .sidebar-scrim"));
   }
 
-  // Jump back to the hero. Whole ring-turns of accumulated spin are dropped
-  // invisibly first (a full turn looks identical), so the rewind is never
-  // longer than one turn.
-  function goHome() {
-    var wrapPx = 360 / degPerPx;
-    var excess = Math.floor(Math.max(0, current - morphDist) / wrapPx) * wrapPx;
-    current -= excess;
-    target = Math.max(0, target - excess);
-    animateTo(0, 1100);
+  // Once the gallery has fully settled in, scrolling down a bit further
+  // (rather than clicking a button) releases the scroll-jack on its own —
+  // the same downward gesture just keeps carrying the visitor forward.
+  var RELEASE_THRESHOLD = 780;
+  var releaseAccum = 0;
+
+  function handleDelta(dy) {
+    if (progressTarget < 1 || heroProgress < 0.985) {
+      setHeroProgress(progressTarget + dy / MORPH_RANGE);
+      releaseAccum = 0;
+      return;
+    }
+    // Fully in the gallery: rotate freely, either direction, with no limit,
+    // while also counting sustained downward scrolling toward release.
+    spin(dy);
+    releaseAccum = Math.max(0, Math.min(RELEASE_THRESHOLD, releaseAccum + dy));
+    if (releaseAccum >= RELEASE_THRESHOLD) unlockStage();
   }
 
-  /* ----------------------------- input ----------------------------- */
-  function inSidebar(el) {
-    return !!(el && el.closest && el.closest(".sidebar, .mobile-topbar, .sidebar-scrim"));
-  }
-
-  function onWheel(e) {
-    if (e.ctrlKey || inSidebar(e.target)) return; // pinch-zoom / sidebar's own scrolling
+  document.addEventListener("wheel", function (e) {
+    if (!locked || isOverSidebarChrome(e.target)) return;
     e.preventDefault();
-    var unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
-    // Vertical scroll spins the ring forwards; a sideways trackpad swipe spins it with your fingers.
-    var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? -e.deltaX : e.deltaY;
-    push(Math.max(-400, Math.min(400, d * unit)));
-  }
+    handleDelta(e.deltaY);
+  }, { passive: false });
 
-  function onTouchStart(e) {
-    if (e.touches.length !== 1) return;
-    touching = true;
-    dragDist = 0;
-    inertia = 0;
-    tx = e.touches[0].clientX;
-    ty = e.touches[0].clientY;
-    tLast = e.timeStamp;
-  }
-  function onTouchMove(e) {
-    if (!touching || e.touches.length !== 1) return;
+  var touchY = null;
+  document.addEventListener("touchstart", function (e) {
+    if (!locked || isOverSidebarChrome(e.target)) return;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener("touchmove", function (e) {
+    if (!locked || touchY === null || isOverSidebarChrome(e.target)) return;
     e.preventDefault();
-    var x = e.touches[0].clientX;
     var y = e.touches[0].clientY;
-    var dx = x - tx;
-    var dy = y - ty;
-    tx = x; ty = y;
-    // finger up = scroll down; finger sideways drags the ring with it
-    var d = (Math.abs(dx) > Math.abs(dy) ? dx : -dy) * 1.5;
-    dragDist += Math.abs(dx) + Math.abs(dy);
-    var dt = Math.max(1, e.timeStamp - tLast);
-    tLast = e.timeStamp;
-    inertia = d / dt;
-    push(d);
-  }
-  function onTouchEnd() {
-    touching = false;
-    inertia = Math.max(-2.5, Math.min(2.5, inertia)); // px/ms, keeps flings sane
-  }
-  // A drag that started on a card must not count as a click on it
-  function onClickCapture(e) {
-    if (dragDist > 10) {
+    handleDelta((touchY - y) * 1.6);
+    touchY = y;
+  }, { passive: false });
+
+  document.addEventListener("touchend", function () { touchY = null; });
+
+  if (nudgeLink) {
+    nudgeLink.addEventListener("click", function (e) {
       e.preventDefault();
-      e.stopPropagation();
-    }
-    dragDist = 0;
-  }
-
-  function onKey(e) {
-    if (e.altKey || e.ctrlKey || e.metaKey) return;
-    var t = e.target;
-    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-    if (inSidebar(t)) return;
-    var page = window.innerHeight * 0.8;
-    switch (e.key) {
-      case "ArrowDown":
-      case "ArrowRight":
-        push(140);
-        break;
-      case "ArrowUp":
-      case "ArrowLeft":
-        push(-140);
-        break;
-      case "PageDown":
-        push(page);
-        break;
-      case "PageUp":
-        push(-page);
-        break;
-      case " ":
-        if (t && /^(A|BUTTON)$/.test(t.tagName)) return; // let Space activate focused controls
-        push(e.shiftKey ? -page : page);
-        break;
-      case "Home":
-        goHome();
-        break;
-      default:
-        return;
-    }
-    e.preventDefault();
-  }
-
-  var cue = stage.querySelector(".hero-scroll-cue");
-  function onCue(e) {
-    e.preventDefault();
-    animateTo(morphDist, 1300);
-  }
-  function onResize() {
-    morphDist = getMorphDist();
-  }
-
-  window.addEventListener("wheel", onWheel, { passive: false });
-  window.addEventListener("keydown", onKey);
-  window.addEventListener("resize", onResize);
-  stage.addEventListener("touchstart", onTouchStart, { passive: true });
-  stage.addEventListener("touchmove", onTouchMove, { passive: false });
-  stage.addEventListener("touchend", onTouchEnd);
-  stage.addEventListener("touchcancel", onTouchEnd);
-  stage.addEventListener("click", onClickCapture, true);
-  if (cue) cue.addEventListener("click", onCue);
-
-  /* ------------------------------ loop ----------------------------- */
-  function tick(now) {
-    var dt = Math.min(64, now - last);
-    last = now;
-
-    if (tween) {
-      var k = clamp01((now - tween.t0) / tween.dur);
-      target = tween.from + (tween.to - tween.from) * easeInOut(k);
-      lastInput = now;
-      if (k >= 1) tween = null;
-    }
-    if (!touching && Math.abs(inertia) > 0.004) {
-      target = Math.max(0, target + inertia * dt);
-      inertia *= Math.exp(-dt / 320);
-      lastInput = now;
-    }
-
-    // ease the shown position towards the target (frame-rate independent)
-    current += (target - current) * (1 - Math.exp(-dt / 110));
-    if (Math.abs(target - current) < 0.05) current = target;
-
-    var m = clamp01(current / morphDist);
-    var intro = smooth(m);
-
-    // slow idle drift once the ring is fully out and the user has stopped scrolling
-    if (m > 0.85 && now - lastInput > 200) {
-      driftDeg += ((driftDegPerSec * dt) / 1000) * smooth((m - 0.85) / 0.15);
-    }
-
-    var spin = Math.max(0, current - morphDist) * degPerPx; // endless part
-    var rotation = spin - (1 - intro) * introSpin + driftDeg;
-
-    // hero layer + heading, driven from CSS
-    setVar("--m", m);
-    setVar("--hero-out", smooth(m / 0.55));
-    setVar("--cue-out", smooth(m / 0.18));
-    setVar("--gal-in", smooth((m - 0.12) / 0.88));
-    setVar("--head-in", smooth((m - 0.55) / 0.45));
-    stage.classList.toggle("at-hero", current < 0.5);
-    stage.classList.toggle("is-live", m > 0.55);
-
-    if (Math.abs(rotation - prevRotation) > 0.004 || Math.abs(intro - prevIntro) > 0.0005) {
-      prevRotation = rotation;
-      prevIntro = intro;
-      paintRing(rotation, intro);
-    }
-
-    raf = requestAnimationFrame(tick);
+      if (locked) setHeroProgress(progressTarget + 0.4);
+    });
   }
 
   /* ---------------------------------------------------------
      Go live
      --------------------------------------------------------- */
-  paintRing(-introSpin, 0);
-  stage.classList.add("is-enhanced", "at-hero");
-  document.documentElement.classList.add("home-immersive");
-  raf = requestAnimationFrame(tick);
+  stage.classList.add("is-enhanced");
+  if (fallback) fallback.setAttribute("aria-hidden", "true");
+
+  if (reducedMotion) {
+    // Skip the scroll-jack for folks who asked for less motion: show the
+    // gallery in place of the hero immediately, page scrolls normally.
+    heroProgress = 1;
+    progressTarget = 1;
+    paintMorph(1);
+  } else {
+    heroProgress = 0;
+    progressTarget = 0;
+    paintMorph(0);
+    lockStage();
+  }
 })();
