@@ -26,8 +26,8 @@ const IC_CONFIG = {
   // Committee contact links — replace placeholders with real values.
   // Until real links are supplied, these stay as clearly marked placeholders.
   committee: {
-    email: "internshipcommittee@iimrohtak.ac.in", // TODO: confirm official IC email
-    emailIsPlaceholder: true,
+    email: "ipminternship@iimrohtak.ac.in",
+    emailIsPlaceholder: false,
     linkedin: "https://www.linkedin.com/company/ipm-internship-committee-iim-rohtak/",
     linkedinIsPlaceholder: false
   },
@@ -55,10 +55,10 @@ const IC_CONFIG = {
   // (works with zero setup, perfect for previewing before the sheet is ready).
   // Flip to false per-source once that source's tab is set up correctly.
   useLocalData: {
-    courses: false,
-    caseStudies: false,
+    courses: true,
+    caseStudies: true,
     githubRepos: true,
-    resources: false,
+    resources: true,
     competitions: false,
     liveProjects: false
   },

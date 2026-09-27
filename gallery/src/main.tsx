@@ -1,19 +1,17 @@
 import { createRoot } from 'react-dom/client';
-import { HomeExperience } from '@/components/home-experience';
+import { HomeGallery } from '@/components/home-gallery';
 import './index.css';
 
 /**
- * Mounts the home-page experience (hero → circular gallery morph, endless scroll).
- *
- * The page ships with plain HTML for both the hero and a six-card fallback. When this
- * script runs it adds `is-enhanced` to `.home-stage` (pins hero + gallery into one
- * viewport, see css/home.css) and `home-immersive` to <html> (the page stops scrolling —
- * the wheel / touch / keys drive the animation instead, see lib/immersive-scroll.ts).
+ * Mounts the circular gallery into the home page stage.
+ * Until this runs, the page shows a plain-HTML fallback (six normal cards).
+ * `is-enhanced` switches the stage to the full-screen, no-native-scroll layout
+ * (see css/home.css); the scroll-driven morph itself lives in hooks/use-virtual-scroll.ts.
  */
 const mount = document.getElementById('circular-gallery-root');
-const stage = document.querySelector<HTMLElement>('.home-stage');
+const stage = document.getElementById('home-stage');
 if (mount && stage) {
-  createRoot(mount).render(<HomeExperience stage={stage} />);
-  stage.classList.add('is-enhanced', 'at-hero');
-  document.documentElement.classList.add('home-immersive');
+  stage.classList.add('is-enhanced');
+  document.documentElement.classList.add('ic-home-locked');
+  createRoot(mount).render(<HomeGallery stage={stage} />);
 }

@@ -9,7 +9,11 @@
   text-align:center;
   padding: 60px 20px 30px;
   overflow: hidden;
+  margin: -56px -56px 0;
+  background: radial-gradient(120% 90% at 50% 0%, var(--ic-navy) 0%, var(--ic-midnight) 70%);
+  color: var(--ic-white);
 }
+@media (max-width: 900px){ .hero{ margin: -34px -20px 0; } }
 
 /* ---- 3D revolving logo stage (signature element) ---- */
 .logo-stage{
@@ -33,13 +37,13 @@
   width:100%; height:100%;
   object-fit: contain;
   /* render supplied logo artwork in white for the dark background */
-  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(59,107,246,0.35));
+  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(152,184,224,0.35));
 }
 .logo-orbit::after{
   content:"";
   position:absolute; inset: -8%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,107,246,0.22), transparent 68%);
+  background: radial-gradient(circle, rgba(152,184,224,0.20), transparent 68%);
   transform: translateZ(-40px);
 }
 
@@ -60,32 +64,29 @@
 }
 
 .hero-eyebrow{
-  font-size: 12.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
-  color: var(--text-muted);
+  font-size: 12.5px; font-weight:700; font-style: italic; letter-spacing:.22em; text-transform:uppercase;
+  color: var(--ic-sky);
   margin-bottom: 22px;
 }
 
 .hero-tagline{
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(2.3rem, 6vw, 4.4rem);
   line-height: 1.12;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
   margin: 0 0 20px;
-  background: linear-gradient(100deg, #ffffff 10%, #cfe0ff 45%, #9fb8ff 65%, #ffffff 92%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ic-white);
+  text-transform: uppercase;
 }
 .hero-tagline em{
   font-style: italic;
-  color: var(--accent-2);
-  -webkit-text-fill-color: var(--accent-2);
+  color: var(--ic-sky);
 }
 
 .hero-sub{
   font-size: 16px;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.72);
   max-width: 52ch;
   margin: 0 auto;
 }
@@ -127,112 +128,56 @@
   z-index: 2;
   display:inline-flex; flex-direction:column; align-items:center; gap:6px;
   font-size: 12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.55);
   transition: color .2s var(--ease);
 }
-.hero-scroll-cue:hover{ color: var(--accent-2); }
+.hero-scroll-cue:hover{ color: var(--ic-sky); }
 .hero-scroll-cue svg{ width:18px; height:18px; animation: cue-bob 1.8s var(--ease) infinite; }
 @keyframes cue-bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(5px); } }
 
-/* ---- Home stage: hero + circular 3D gallery on ONE pinned screen ----------------------------
-   React island — source in /gallery, built to assets/circular-gallery.*.
-
-   Without JS the stage is just two normal sections (hero, then plain fallback cards).
-   With JS the bundle adds `.is-enhanced` to the stage and `.home-immersive` to <html>:
-   the page stops scrolling and the wheel / touch / keys drive an endless animation instead.
-   The script writes these variables onto the stage while you scroll:
-     --m         0→1  overall morph progress (hero → gallery)
-     --hero-out  0→1  hero text leaving
-     --cue-out   0→1  "scroll to explore" cue leaving
-     --gal-in    0→1  gallery glow arriving
-     --head-in   0→1  gallery heading arriving
-   and toggles `.at-hero` (nothing scrolled yet) and `.is-live` (gallery interactive). */
-.home-stage{ position: relative; }
-
-html.home-immersive,
-html.home-immersive body{ height: 100%; overflow: hidden; overscroll-behavior: none; }
-html.home-immersive .main{
-  position: relative; padding: 0; overflow: hidden;
-  height: 100vh; height: 100dvh;
+/* ---- Circular 3D gallery (React island — source in /gallery, built to assets/circular-gallery.*) ----
+   The wrapper is tall so there is scroll distance to drive the rotation; the stage inside it
+   stays pinned (sticky) while the ring turns. Without JS the wrapper is a normal section
+   showing the plain fallback cards. */
+.home-gallery{
+  position: relative;
+  scroll-margin-top: 0;
+  margin: 0 -56px;
+  padding: 0 56px;
+  background: linear-gradient(180deg, var(--ic-navy) 0%, var(--ic-midnight) 40%);
+  color: var(--ic-white);
 }
-@media (max-width: 900px){
-  html.home-immersive .main{
-    height: calc(100vh - var(--header-h));
-    height: calc(100dvh - var(--header-h));
-    padding: 0;
-  }
-}
-
-.home-stage.is-enhanced{
-  position: absolute; inset: 0;   /* (not height:100% — that collapses inside the mobile flex column) */
-  overflow: hidden;
-  touch-action: none;            /* touch drives the animation, not the browser's own scroll */
-  -webkit-user-select: none; user-select: none;
-}
-
-/* hero layer fills the stage; the logo stays behind as a dimmed backdrop */
-.home-stage.is-enhanced .hero{ position: absolute; inset: 0; min-height: 0; }
-.home-stage.is-enhanced .hero-inner{
-  opacity: calc(1 - var(--hero-out, 0));
-  transform: translateY(calc(var(--hero-out, 0) * -56px)) scale(calc(1 + var(--hero-out, 0) * 0.08));
-  filter: blur(calc(var(--hero-out, 0) * 10px));
-  will-change: transform, opacity, filter;
-}
-.home-stage.is-enhanced .hero-scroll-cue{ opacity: calc(1 - var(--cue-out, 0)); }
-.home-stage.is-enhanced.is-live .hero-scroll-cue{ pointer-events: none; }
-.home-stage.is-enhanced .logo-stage{
-  transform: scale(calc(1 - var(--m, 0) * 0.4));
-  opacity: calc(1 - var(--m, 0) * 0.75);
-}
-
-/* gallery layer sits on top of the hero, invisible until you start scrolling */
-.home-gallery{ position: relative; scroll-margin-top: 0; }
-.home-stage.is-enhanced .home-gallery{ position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-.home-stage.is-enhanced.is-live .home-gallery{ pointer-events: auto; }
-.home-stage.is-enhanced.at-hero .home-gallery{ visibility: hidden; }
+@media (max-width: 900px){ .home-gallery{ margin: 0 -20px; padding: 0 20px; } }
+.home-gallery.is-enhanced{ height: 420vh; }
 
 .gallery-stage{
   display:flex; flex-direction:column; align-items:center;
   padding: 40px 0 10px;
 }
-.home-stage.is-enhanced .gallery-stage{ height: 100%; padding: 28px 0 0; overflow: hidden; }
+.home-gallery.is-enhanced .gallery-stage{
+  position: sticky; top: 0;
+  height: 100vh;
+  padding: 28px 0 0;
+  overflow: hidden;
+}
 
 .gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; }
-.gallery-heading .eyebrow{ display:block; margin-bottom: 8px; }
-.gallery-heading .section-heading{ margin-bottom: 6px; }
-.home-stage.is-enhanced .gallery-heading{
-  opacity: var(--head-in, 0);
-  transform: translateY(calc((1 - var(--head-in, 0)) * -14px));
-}
-.gallery-hint{ display:none; margin: 0; font-size: 13px; color: var(--text-muted); }
-.home-stage.is-enhanced .gallery-hint{ display:block; }
+.gallery-heading .eyebrow{ display:block; margin-bottom: 8px; color: var(--ic-sky); }
+.gallery-heading .section-heading{ margin-bottom: 6px; color: var(--ic-white); }
+.gallery-hint{ display:none; margin: 0; font-size: 13px; color: rgba(255,255,255,0.6); }
+.home-gallery.is-enhanced .gallery-hint{ display:block; }
 
 /* Mount point: fills the rest of the stage; the ring is centred inside it */
 #circular-gallery-root{ display:none; width:100%; position:relative; }
-.home-stage.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
-.home-stage.is-enhanced .gallery-fallback{ display:none; }
+.home-gallery.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
+.home-gallery.is-enhanced .gallery-fallback{ display:none; }
 
-/* Soft cobalt glow behind the ring so the cards lift off the dark page */
-.home-stage.is-enhanced #circular-gallery-root::before{
+/* Soft sky-blue glow behind the ring so the cards lift off the dark page */
+.home-gallery.is-enhanced #circular-gallery-root::before{
   content:""; position:absolute; left:50%; top:50%;
   width: min(80%, 900px); aspect-ratio: 1; transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(59,107,246,0.16), transparent 66%);
-  opacity: var(--gal-in, 0);
+  background: radial-gradient(circle, rgba(152,184,224,0.16), transparent 66%);
   pointer-events:none;
-}
-
-/* The page no longer scrolls, so the footer credit floats quietly along the bottom edge */
-html.home-immersive footer.site-footer{
-  position: absolute; left: 0; right: 0; bottom: 10px; z-index: 5;
-  margin: 0; padding: 0 16px; border-top: 0;
-  justify-content: center; align-items: center; gap: 2px 22px;
-  font-size: 11.5px; opacity: .8; pointer-events: none;
-}
-html.home-immersive .footer-built{ display:flex; gap: 5px; }
-html.home-immersive .footer-built span{ display:inline; }
-@media (max-width: 640px){
-  html.home-immersive footer.site-footer{ flex-direction: column; font-size: 11px; }
-  html.home-immersive .footer-built{ flex-direction: column; gap: 0; }
 }
 
 /* Live Projects status row inside its gallery card (mirrors the old home badge) */
@@ -249,8 +194,14 @@ html.home-immersive .footer-built span{ display:inline; }
 .gallery-live-badge.is-closed{ color: #99A2BE; }
 .gallery-live-badge.is-closed .gallery-live-dot{ background: #4b5163; animation:none; box-shadow:none; }
 
+/* Mobile: the sticky mobile top bar takes the top of the viewport */
 @media (max-width: 900px){
-  .home-stage.is-enhanced .gallery-stage{ padding-top: 18px; }
+  .home-gallery.is-enhanced .gallery-stage{
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    height: calc(100dvh - var(--header-h));
+    padding-top: 18px;
+  }
   .gallery-heading .section-heading{ font-size: 1.35rem; }
 }
 

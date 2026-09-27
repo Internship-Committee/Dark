@@ -323,26 +323,20 @@ above as a future step, not missing functionality.
 
 The six cards on the home page — Live Projects, Course Repository, Case
 Competitions, Case Studies, IIMR Student Resources and GitHub Repositories —
-are rendered by a small React component as a 3D ring. The home page is a single
-pinned screen: the hero (logo + tagline) **morphs into the ring** as you start
-scrolling, and after that the ring keeps spinning for as long as you keep
-scrolling — there is no end and no footer to hit. The page itself never scrolls;
-the mouse wheel / trackpad, touch swipes and keyboard (↑ ↓ ← → PageUp PageDown
-Space) drive the animation instead. `Home` jumps back to the hero, and scrolling
-back up rewinds the morph. Everything else on the site stays plain HTML/CSS/JS.
+are rendered by a small React component as a 3D ring that rotates with page
+scroll (and drifts slowly on its own). Everything else on the site stays plain
+HTML/CSS/JS.
 
 ```
 /gallery
   package.json  tsconfig.json  tailwind.config.ts  components.json  build.mjs
   /src
-    main.tsx                         mounts the experience into #circular-gallery-root
+    main.tsx                         mounts the gallery into #circular-gallery-root
     index.css                        Tailwind + scoped shadcn design tokens
     demo.tsx                         the original animal-gallery demo (reference only, not shipped)
     /components
-      home-experience.tsx            glues the scroll hook to the gallery (hero → ring morph + endless spin)
       home-gallery.tsx               the six portal cards, images, live-status badge, responsive fit
       /ui/circular-gallery.tsx       the CircularGallery component (shadcn path: @/components/ui)
-    /lib/immersive-scroll.ts         the endless-scroll engine (wheel / touch / keys → morph + rotation)
     /lib/utils.ts                    shadcn `cn()` helper (for components added later)
 ```
 
@@ -359,22 +353,7 @@ npm install
 npm run build        # writes ../assets/circular-gallery.js and .css
 ```
 
-Tuning the feel — all in `gallery/src/lib/immersive-scroll.ts` (options of
-`useImmersiveScroll`, defaults in the function signature):
-- `degPerPx` (0.18) — how fast the ring turns per px of scroll (higher = faster).
-- `introSpin` (150) — how much extra the ring spins while it morphs in.
-- `driftDegPerSec` (3) — the slow idle drift once you stop scrolling (0 = none).
-- `getMorphDist()` — how much scrolling the hero → gallery morph takes (≈ 85% of
-  the screen height, clamped to 520–900px).
-The look of the morph itself (what fades / scales / blurs when) lives in
-`css/home.css` under "Home stage", driven by the `--m`, `--hero-out`, `--gal-in`…
-variables the script writes onto `.home-stage`.
-
 Notes:
-- The hero and the gallery both live inside `<div class="home-stage">` in
-  `index.html`. If the script doesn't load, that stage is simply two normal
-  sections and the page scrolls as usual.
-- Users with `prefers-reduced-motion` get no idle drift and no intro spin.
 - Tailwind is **scoped** to `#circular-gallery-root` and its global reset is
   turned off, so it can't affect any other part of the site.
 - Card photos are hot-linked from Unsplash (`images.unsplash.com`). If a photo
@@ -385,3 +364,43 @@ Notes:
   `ICData.getLiveProjects()`, exactly like the old home-page badge.
 - `knowledge-repository.html` still exists (the sub-pages' "← Knowledge
   Repository" breadcrumbs link to it) but the home page no longer points to it.
+
+---
+
+## 9. Brand theme (navy / cream / Georgia)
+
+The site follows the committee's brand guidelines: deep navy on white/cream,
+light blue as a supporting tint, Georgia serif everywhere, IIM Rohtak red and
+green used only as small accents. Reference files are kept in `/brand`:
+
+```
+/brand
+  IPM_Internship_Committee_Brand_Guidelines.pdf   full guidelines
+  brand-tokens.css                                the source token sheet
+```
+
+All of it is implemented as CSS custom properties in `css/base.css` — every
+other stylesheet (`layout.css`, `components.css`, `home.css`, `lp-detail.css`)
+reads colors and fonts from those variables rather than hardcoding hex values,
+so the whole site can be retinted by editing `:root` in `base.css` alone.
+
+**Dark vs light sections.** Per the brand's "alternate white → cream →
+dark-navy sections" pattern, three areas are intentionally dark (midnight/navy
+gradient, white text) while everything else is light (cream/white, navy
+text):
+- the sidebar / mobile top bar (the nav bar, matching the guide's "IC seal in
+  the nav bar" placement),
+- the home page hero,
+- the home page's circular-gallery section (`.home-gallery`) — kept dark so
+  the 3D gallery's glass cards (still their original cobalt-glass look, see
+  section 8) sit on the background they were designed for.
+
+Everything else — page headers, cards, badges, footers — is light-themed
+using the brand's ice/cream palette. The gallery island's own files
+(`gallery/` and the built `assets/circular-gallery.*`) were deliberately left
+alone in this pass; only the hero/heading text around it was re-themed.
+
+**Fonts.** Georgia (system font, no network request) is used for everything —
+headings, body copy, buttons, nav — per the guide's "Georgia alone is
+on-brand" recommendation. The old Google-Fonts import (Fraunces/Manrope) was
+removed.

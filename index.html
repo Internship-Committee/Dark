@@ -64,9 +64,6 @@
 
   <main class="main" id="main-content">
 
-    <!-- One pinned screen: the hero morphs into the circular gallery as you scroll (see gallery/src/lib/immersive-scroll.ts) -->
-    <div class="home-stage" id="home-stage">
-
     <section class="hero">
       <div class="logo-stage" aria-hidden="true">
         <div class="logo-orbit">
@@ -91,7 +88,7 @@
         <div class="gallery-heading">
           <span class="eyebrow">Explore the portal</span>
           <h2 class="section-heading" id="gallery-heading">Everything the IC puts together</h2>
-          <p class="gallery-hint">Keep scrolling to spin the gallery &middot; click a card to open it</p>
+          <p class="gallery-hint">Scroll to rotate the gallery &middot; click a card to open it</p>
         </div>
         <!-- React mounts the 3D circular gallery here (source: gallery/, built to assets/circular-gallery.js). -->
         <div id="circular-gallery-root" class="dark"></div>
@@ -161,8 +158,6 @@
         </div>
       </div>
     </section>
-
-    </div><!-- /.home-stage -->
 
     <footer class="site-footer">
       <span>&copy; Internship Committee, IIM Rohtak</span>
