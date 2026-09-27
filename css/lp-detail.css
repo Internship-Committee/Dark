@@ -1,0 +1,198 @@
+/* ============================================================
+   IC Portal — Live Project detail page
+   ============================================================ */
+
+.lp-header{
+  position: relative;
+  padding: 34px 34px 30px;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--surface-border);
+  background:
+    radial-gradient(700px 300px at 90% -20%, var(--ic-ice-soft), transparent 60%),
+    var(--surface);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 34px;
+  display:flex; justify-content:space-between; align-items:flex-start; gap: 24px; flex-wrap:wrap;
+}
+.lp-header .live-flag{
+  display:inline-flex; align-items:center; gap:7px;
+  font-size: 11px; font-weight:800; letter-spacing:.1em;
+  margin-bottom: 14px;
+}
+.lp-header .live-flag .pulse-dot{
+  width:7px; height:7px; border-radius:50%;
+}
+.lp-header h1{
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  margin: 0 0 8px;
+}
+.lp-header .lp-tagline{ color: var(--text-secondary); font-size: 15px; max-width: 56ch; margin:0; overflow-wrap: anywhere; }
+
+.lp-header-cta{
+  display:flex; flex-direction:column; align-items:flex-end; gap: 10px;
+}
+.lp-header-cta .deadline-note{
+  font-size: 12.5px; font-weight:700; color: var(--ic-teal-ink);
+  display:flex; align-items:center; gap:6px;
+}
+.lp-header-cta .deadline-note svg{ width:13px; height:13px; }
+
+.lp-body{
+  display:grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+  align-items:start;
+}
+@media (max-width: 940px){
+  .lp-body{ grid-template-columns: 1fr; }
+}
+
+.lp-section{
+  padding: 28px 30px;
+  margin-bottom: 22px;
+}
+.lp-section h2{
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+}
+.lp-section p{ font-size: 14.5px; overflow-wrap: anywhere; }
+.lp-section ul.bullet-list{ display:flex; flex-direction:column; gap:9px; margin-top: 10px; }
+.lp-section ul.bullet-list li{
+  position:relative; padding-left: 20px; font-size:14.3px; color: var(--text-secondary);
+}
+.lp-section ul.bullet-list li::before{
+  content:""; position:absolute; left:0; top:8px;
+  width:7px; height:7px; border-radius:2px;
+  background: var(--ic-navy-mid);
+  transform: rotate(45deg);
+}
+
+.role-block{
+  padding: 20px 22px;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--surface-border);
+  background: var(--ic-ice-soft);
+  margin-bottom: 16px;
+}
+.role-block:last-child{ margin-bottom:0; }
+.role-block h3{ font-size: 1.02rem; margin-bottom: 10px; color: var(--ic-navy-mid); font-family: var(--font-body); font-weight:800; text-transform:uppercase; letter-spacing:.02em; font-size: 12.5px;}
+.role-block .takeaway{
+  margin-top: 12px;
+  font-size: 13.3px;
+  font-weight:700;
+  color: var(--ic-teal-ink);
+}
+
+.lp-sidebar{ position: sticky; top: 30px; display:flex; flex-direction:column; gap:18px; }
+.lp-sidebar .glass-card{ padding: 24px; }
+.lp-sidebar .apply-card .btn{ width:100%; margin-top: 14px; }
+.lp-sidebar .apply-card .deadline-big{
+  font-size: 20px; font-weight:800; color: var(--text-primary); margin-top: 4px;
+}
+.lp-sidebar .apply-card .deadline-label{ font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color: var(--text-muted); font-weight:700;}
+
+.info-row{
+  display:flex; align-items:flex-start; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--surface-border);
+}
+.info-row:last-child{ border-bottom:none; padding-bottom:0; }
+.info-row svg{ width:16px; height:16px; color: var(--ic-navy-mid); flex-shrink:0; margin-top:2px; }
+.info-row .info-label{ font-size: 11px; text-transform:uppercase; letter-spacing:.06em; color: var(--text-muted); font-weight:700; }
+.info-row .info-value{ font-size: 13.8px; color: var(--text-primary); font-weight:600; overflow-wrap: anywhere; }
+
+.btn.is-disabled{
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---------------- Stage bar (road + pins) ----------------
+   Sits between the header and the "About the Company" block.
+   A horizontal road with a pin at each stage; the traveled
+   section of the road lights up in that stage's color, and the
+   current stage's pin is enlarged with a solid fill + label. */
+.lp-stage-bar{
+  padding: 34px 34px 26px;
+  margin-bottom: 34px;
+}
+.stage-road{
+  position: relative;
+  height: 74px;
+}
+.stage-road-track{
+  position: absolute;
+  top: 20px; left: 2%; right: 2%;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--surface-border);
+}
+.stage-road-fill{
+  position: absolute;
+  top: 20px; left: 2%;
+  height: 4px;
+  border-radius: 4px;
+  transition: width .4s var(--ease);
+}
+.stage-road-fill.stage-1{ background: var(--stage-1); }
+.stage-road-fill.stage-2{ background: linear-gradient(90deg, var(--stage-1), var(--stage-2)); }
+.stage-road-fill.stage-3{ background: linear-gradient(90deg, var(--stage-1), var(--stage-2), var(--stage-3)); }
+
+.stage-pins{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2%;
+}
+.stage-pin{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 33%;
+  text-align: center;
+}
+.stage-pin-icon{
+  display: flex; align-items:center; justify-content:center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--ic-white);
+  border: 2px solid var(--surface-border);
+  color: var(--text-muted);
+  transition: all .3s var(--ease);
+}
+.stage-pin-icon svg{ width: 16px; height: 16px; }
+.stage-pin-label{
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 8px;
+  max-width: 120px;
+  line-height: 1.25;
+}
+.stage-pin--done .stage-pin-icon{
+  background: var(--stage-1);
+  border-color: var(--stage-1);
+  color: #fff;
+}
+.stage-pin--done .stage-pin-label{ color: var(--text-secondary); }
+
+.stage-pin--current .stage-pin-icon{
+  width: 42px; height: 42px;
+  border-color: transparent;
+  color: #fff;
+}
+.stage-pin--current .stage-pin-label{ color: var(--text-primary); font-weight: 700; }
+
+/* nth-child position matches stage order (1=Applications Open,
+   2=Selection Ongoing, 3=Ongoing Project), so this colors the
+   "current" pin with that stage's color without needing extra markup. */
+.stage-pins .stage-pin--current:nth-child(1) .stage-pin-icon{ background: var(--stage-1); box-shadow: 0 0 0 5px rgba(var(--stage-1-rgb),0.18); }
+.stage-pins .stage-pin--current:nth-child(2) .stage-pin-icon{ background: var(--stage-2); box-shadow: 0 0 0 5px rgba(var(--stage-2-rgb),0.18); }
+.stage-pins .stage-pin--current:nth-child(3) .stage-pin-icon{ background: var(--stage-3); box-shadow: 0 0 0 5px rgba(var(--stage-3-rgb),0.18); }
+
+.stage-pin--upcoming .stage-pin-icon{ opacity: .55; }
+
+@media (max-width: 640px){
+  .stage-pin-label{ display:none; }
+  .lp-stage-bar{ padding: 24px 20px 20px; }
+}

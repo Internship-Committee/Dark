@@ -1,0 +1,74 @@
+[
+  {
+    "Course Name": "Financial Modelling & Valuation",
+    "Domain": "Finance",
+    "Price": "₹2,499",
+    "Rating": "4.6",
+    "Duration": "6 weeks",
+    "Course Link": "https://example.com/course/financial-modelling"
+  },
+  {
+    "Course Name": "Digital Marketing Fundamentals",
+    "Domain": "Marketing",
+    "Price": "Free",
+    "Rating": "4.4",
+    "Duration": "3 weeks",
+    "Course Link": "https://example.com/course/digital-marketing"
+  },
+  {
+    "Course Name": "People Analytics for Leaders",
+    "Domain": "Leadership",
+    "Price": "₹1,199",
+    "Rating": "4.5",
+    "Duration": "4 weeks",
+    "Course Link": "https://example.com/course/people-analytics"
+  },
+  {
+    "Course Name": "Case Interview Prep Bootcamp",
+    "Domain": "Consulting",
+    "Price": "₹3,999",
+    "Rating": "4.8",
+    "Duration": "8 weeks",
+    "Course Link": "https://example.com/course/case-interview"
+  },
+  {
+    "Course Name": "Lean Six Sigma Fundamentals",
+    "Domain": "Operations Management",
+    "Price": "₹999",
+    "Rating": "4.3",
+    "Duration": "5 weeks",
+    "Course Link": "https://example.com/course/lean-six-sigma"
+  },
+  {
+    "Course Name": "Startup Growth Playbook",
+    "Domain": "Entrepreneurship",
+    "Price": "₹1,499",
+    "Rating": "4.6",
+    "Duration": "4 weeks",
+    "Course Link": "https://example.com/course/startup-growth"
+  },
+  {
+    "Course Name": "SQL & Data Visualization for Analysts",
+    "Domain": "Data Analytics",
+    "Price": "₹1,799",
+    "Rating": "4.7",
+    "Duration": "6 weeks",
+    "Course Link": "https://example.com/course/sql-data-viz"
+  },
+  {
+    "Course Name": "Business Analytics with Excel & Power BI",
+    "Domain": "Business Analytics",
+    "Price": "₹2,199",
+    "Rating": "4.5",
+    "Duration": "7 weeks",
+    "Course Link": "https://example.com/course/business-analytics"
+  },
+  {
+    "Course Name": "Equity Research Masterclass",
+    "Domain": "Finance",
+    "Price": "₹4,499",
+    "Rating": "4.7",
+    "Duration": "10 weeks",
+    "Course Link": "https://example.com/course/equity-research"
+  }
+]

@@ -1,0 +1,210 @@
+/* ============================================================
+   IC Portal — Homepage: hero, 3D revolving logo signature
+   ============================================================ */
+
+.hero{
+  position: relative;
+  min-height: 78vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding: 60px 20px 30px;
+  overflow: hidden;
+  margin: -56px -56px 0;
+  background: radial-gradient(120% 90% at 50% 0%, var(--ic-navy) 0%, var(--ic-midnight) 70%);
+  color: var(--ic-white);
+}
+@media (max-width: 900px){ .hero{ margin: -34px -20px 0; } }
+
+/* ---- 3D revolving logo stage (signature element) ---- */
+.logo-stage{
+  position:absolute;
+  inset: 0;
+  display:flex; align-items:center; justify-content:center;
+  perspective: 1600px;
+  z-index: 0;
+  pointer-events:none;
+}
+.logo-orbit{
+  width: min(58vw, 620px);
+  height: min(58vw, 620px);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: revolve 22s linear infinite;
+  opacity: 0.5;
+}
+.logo-orbit img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit: contain;
+  /* render supplied logo artwork in white for the dark background */
+  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(152,184,224,0.35));
+}
+.logo-orbit::after{
+  content:"";
+  position:absolute; inset: -8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(152,184,224,0.20), transparent 68%);
+  transform: translateZ(-40px);
+}
+
+@keyframes revolve{
+  from{ transform: rotateY(0deg); }
+  to{ transform: rotateY(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .logo-orbit{ animation: none; transform: rotateY(28deg); }
+}
+
+.hero-inner{
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin-bottom: 56px;
+}
+
+.hero-eyebrow{
+  font-size: 12.5px; font-weight:700; font-style: italic; letter-spacing:.22em; text-transform:uppercase;
+  color: var(--ic-sky);
+  margin-bottom: 22px;
+}
+
+.hero-tagline{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 6vw, 4.4rem);
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+  margin: 0 0 20px;
+  color: var(--ic-white);
+  text-transform: uppercase;
+}
+.hero-tagline em{
+  font-style: italic;
+  color: var(--ic-sky);
+}
+
+.hero-sub{
+  font-size: 16px;
+  color: rgba(255,255,255,0.72);
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+.hero-cards{
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1080px;
+  box-sizing: border-box;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+@media (max-width: 980px){
+  .hero-cards{ grid-template-columns: 1fr; max-width: 460px; }
+  .logo-orbit{ width: 78vw; height: 78vw; }
+}
+@media (max-width: 520px){
+  .hero{ padding-left: 16px; padding-right: 16px; }
+  .hero-cards{ max-width: 100%; }
+}
+
+.home-section{
+  max-width: 1080px;
+  margin: 90px auto 0;
+  padding: 0 4px;
+}
+.home-section .section-intro{
+  display:flex; align-items:flex-end; justify-content:space-between; gap: 20px;
+  margin-bottom: 26px; flex-wrap:wrap;
+}
+.home-section .section-intro p{ margin:0; max-width: 46ch; font-size: 14px; }
+
+
+/* ---- Hero: scroll cue (replaces the old row of three cards) ---- */
+.hero-scroll-cue{
+  position: relative;
+  z-index: 2;
+  display:inline-flex; flex-direction:column; align-items:center; gap:6px;
+  font-size: 12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  color: rgba(255,255,255,0.55);
+  transition: color .2s var(--ease);
+}
+.hero-scroll-cue:hover{ color: var(--ic-sky); }
+.hero-scroll-cue svg{ width:18px; height:18px; animation: cue-bob 1.8s var(--ease) infinite; }
+@keyframes cue-bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(5px); } }
+
+/* ---- Circular 3D gallery (React island — source in /gallery, built to assets/circular-gallery.*) ----
+   The wrapper is tall so there is scroll distance to drive the rotation; the stage inside it
+   stays pinned (sticky) while the ring turns. Without JS the wrapper is a normal section
+   showing the plain fallback cards. */
+.home-gallery{
+  position: relative;
+  scroll-margin-top: 0;
+  margin: 0 -56px;
+  padding: 0 56px;
+  background: linear-gradient(180deg, var(--ic-navy) 0%, var(--ic-midnight) 40%);
+  color: var(--ic-white);
+}
+@media (max-width: 900px){ .home-gallery{ margin: 0 -20px; padding: 0 20px; } }
+.home-gallery.is-enhanced{ height: 420vh; }
+
+.gallery-stage{
+  display:flex; flex-direction:column; align-items:center;
+  padding: 40px 0 10px;
+}
+.home-gallery.is-enhanced .gallery-stage{
+  position: sticky; top: 0;
+  height: 100vh;
+  padding: 28px 0 0;
+  overflow: hidden;
+}
+
+.gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; }
+.gallery-heading .eyebrow{ display:block; margin-bottom: 8px; color: var(--ic-sky); }
+.gallery-heading .section-heading{ margin-bottom: 6px; color: var(--ic-white); }
+.gallery-hint{ display:none; margin: 0; font-size: 13px; color: rgba(255,255,255,0.6); }
+.home-gallery.is-enhanced .gallery-hint{ display:block; }
+
+/* Mount point: fills the rest of the stage; the ring is centred inside it */
+#circular-gallery-root{ display:none; width:100%; position:relative; }
+.home-gallery.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
+.home-gallery.is-enhanced .gallery-fallback{ display:none; }
+
+/* Soft sky-blue glow behind the ring so the cards lift off the dark page */
+.home-gallery.is-enhanced #circular-gallery-root::before{
+  content:""; position:absolute; left:50%; top:50%;
+  width: min(80%, 900px); aspect-ratio: 1; transform: translate(-50%,-50%);
+  background: radial-gradient(circle, rgba(152,184,224,0.16), transparent 66%);
+  pointer-events:none;
+}
+
+/* Live Projects status row inside its gallery card (mirrors the old home badge) */
+.gallery-live-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  letter-spacing:.04em; text-transform:uppercase;
+  color: var(--live-red);
+}
+.gallery-live-dot{
+  width:7px; height:7px; border-radius:50%; background: var(--live-red);
+  box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
+  animation: pulse-dot-1 1.8s infinite;
+}
+.gallery-live-badge.is-closed{ color: #99A2BE; }
+.gallery-live-badge.is-closed .gallery-live-dot{ background: #4b5163; animation:none; box-shadow:none; }
+
+/* Mobile: the sticky mobile top bar takes the top of the viewport */
+@media (max-width: 900px){
+  .home-gallery.is-enhanced .gallery-stage{
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    height: calc(100dvh - var(--header-h));
+    padding-top: 18px;
+  }
+  .gallery-heading .section-heading{ font-size: 1.35rem; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-scroll-cue svg{ animation: none; }
+}

@@ -1,0 +1,366 @@
+/* ============================================================
+   IC Portal — Layout: sidebar, topbar, page shell
+   ============================================================ */
+
+.app-shell{
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---------------- Sidebar ---------------- */
+.sidebar{
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: linear-gradient(185deg, var(--ic-navy) 0%, var(--ic-midnight) 130%);
+  color: var(--ic-white);
+  border-right: 1px solid var(--sidebar-border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+  transition: width .28s var(--ease);
+}
+
+/* ---------------- Collapse / pin toggle ("<<") ---------------- */
+.sidebar-pin-btn{
+  position: absolute;
+  top: 24px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  padding: 6px 7px;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: background .18s var(--ease), color .18s var(--ease);
+}
+.sidebar-pin-btn:hover{ background: rgba(255,255,255,0.12); color: #fff; }
+
+/* ---------------- Sidebar text truncation (prevents label/email wrapping) ---------------- */
+.sidebar-brand .brand-text{ display:flex; flex-direction:column; line-height:1.2; min-width:0; overflow:hidden; flex: 1; padding-right: 26px; }
+.sidebar-brand .brand-text strong,
+.sidebar-brand .brand-text span{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-brand .brand-text strong{
+  font-family: var(--font-display); font-size: 15px; font-weight:600; letter-spacing:.01em;
+}
+.sidebar-brand .brand-text span{ font-size: 11px; color: var(--ic-sky); letter-spacing:.06em; text-transform:uppercase; }
+
+.sidebar-brand{
+  position: relative;
+  display:flex; align-items:center; gap:12px;
+  padding: 26px 24px 20px;
+  border-bottom: 1px solid var(--sidebar-border);
+  min-width: 0;
+}
+.sidebar-brand img{
+  width:38px; height:38px; object-fit:contain; flex-shrink:0;
+  /* render the logo in white for the dark sidebar background, per brief */
+  filter: brightness(0) invert(1);
+}
+
+.sidebar-nav{
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px 14px;
+}
+
+.nav-link{
+  display:flex; align-items:center; gap:12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-s);
+  color: rgba(255,255,255,0.68);
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: background .18s var(--ease), color .18s var(--ease), padding .28s var(--ease);
+  margin-bottom: 2px;
+  min-width: 0;
+}
+.nav-link:hover{ background: rgba(255,255,255,0.08); color: #fff; }
+.nav-link.is-active{
+  background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--ic-sky);
+}
+.nav-icon{
+  width:18px; height:18px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.nav-icon svg{ width:18px; height:18px; }
+.nav-label{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.nav-group{ margin-bottom: 2px; }
+.nav-group-trigger{
+  width: 100%;
+  display:flex; align-items:center; gap:12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-s);
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.68);
+  font-size: 14.5px; font-weight: 600;
+  cursor: pointer;
+  transition: background .18s var(--ease), color .18s var(--ease), padding .28s var(--ease);
+  min-width: 0;
+}
+.nav-group-trigger .nav-label{ flex:1; text-align:left; }
+.nav-group-trigger:hover{ background: rgba(255,255,255,0.08); color: #fff; }
+.nav-group-trigger .chevron{
+  width:14px; height:14px; flex-shrink:0;
+  transition: transform .25s var(--ease), opacity .2s var(--ease);
+}
+.nav-group.is-open .nav-group-trigger .chevron{ transform: rotate(90deg); }
+.nav-group.is-open .nav-group-trigger{ color: #fff; }
+
+.nav-submenu{
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .28s var(--ease);
+}
+.nav-group.is-open .nav-submenu{ grid-template-rows: 1fr; }
+.nav-submenu-inner{ overflow: hidden; }
+.nav-submenu .nav-link{
+  padding-left: 34px;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.sidebar-footer{
+  padding: 18px 20px 24px;
+  border-top: 1px solid var(--sidebar-border);
+  display:flex; flex-direction:column; gap: 10px;
+}
+.sidebar-footer a{
+  display:flex; align-items:flex-start; gap:10px;
+  font-size: 12.5px; line-height:1.45; color: rgba(255,255,255,0.6);
+  transition: color .18s var(--ease);
+  min-width: 0;
+}
+.sidebar-footer a:hover{ color: var(--ic-sky); }
+.sidebar-footer a span{
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.sidebar-footer a span wbr{ line-height: 0; }
+.sidebar-footer svg{ width:16px; height:16px; flex-shrink:0; margin-top: 2px; }
+
+/* Mobile topbar + drawer */
+.mobile-topbar{
+  display:none;
+  position: sticky; top:0; z-index: 70;
+  align-items:center; justify-content:space-between;
+  height: var(--header-h);
+  padding: 0 18px;
+  background: linear-gradient(185deg, var(--ic-navy) 0%, var(--ic-midnight) 130%);
+  color: #fff;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+.mobile-topbar .brand-text strong{ font-family: var(--font-display); font-size: 15px; color: #fff; }
+.mobile-topbar img{ filter: brightness(0) invert(1); }
+.menu-btn{
+  width: 42px; height: 42px;
+  border-radius: var(--radius-s);
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.menu-btn svg{ width:20px; height:20px; }
+
+.sidebar-scrim{
+  display:none;
+  position: fixed; inset:0;
+  background: rgba(8,16,48,0.55);
+  backdrop-filter: blur(2px);
+  z-index: 55;
+}
+
+/* ---------------- Collapsed sidebar (desktop only — see media query below) ----------------
+   Collapsing to an icon-only rail is a *pinned* state (persisted, click-driven).
+   While collapsed, hovering anywhere on the sidebar adds `.sidebar-preview` via JS,
+   which temporarily reveals the full sidebar again without changing the pinned
+   state — it reverts the instant the pointer leaves. Every "hide this while
+   collapsed" rule below is gated with :not(.sidebar-preview) so the preview
+   looks identical to the normal expanded sidebar. There is no separate expand
+   affordance/arrow shown on the collapsed rail — hovering it is the only cue. */
+@media (min-width: 901px){
+  .app-shell.sidebar-collapsed .sidebar{ width: var(--sidebar-w-collapsed); }
+  .app-shell.sidebar-collapsed.sidebar-preview .sidebar{ width: var(--sidebar-w); }
+
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-brand{
+    padding: 26px 0 20px;
+    justify-content: center;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-brand .brand-text,
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-pin-btn{
+    display: none;
+  }
+
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-nav{ padding: 18px 10px; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-link,
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-group-trigger{
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-submenu .nav-link{ padding-left: 10px; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-label,
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .nav-group-trigger .chevron{
+    display: none;
+  }
+
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer{
+    padding: 18px 10px 24px;
+    align-items: center;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer a{
+    justify-content: center;
+    width: 100%;
+  }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer a span{ display: none; }
+  .app-shell.sidebar-collapsed:not(.sidebar-preview) .sidebar-footer svg{ margin-top: 0; }
+}
+
+@media (max-width: 900px){
+  .mobile-topbar{ display:flex; }
+  .sidebar-pin-btn{ display: none; }
+  .sidebar{
+    position: fixed; left:0; top:0; height: 100dvh;
+    transform: translateX(-104%);
+    transition: transform .32s var(--ease);
+    box-shadow: 24px 0 60px rgba(0,0,0,.5);
+  }
+  .app-shell.nav-open .sidebar{ transform: translateX(0); }
+  .app-shell.nav-open .sidebar-scrim{ display:block; }
+  .app-shell{ flex-direction: column; }
+}
+
+/* ---------------- Main content ---------------- */
+.main{
+  flex: 1;
+  min-width: 0;
+  padding: 56px 56px 90px;
+}
+@media (max-width: 900px){
+  .main{ padding: 34px 20px 70px; }
+}
+
+.page-header{
+  margin-bottom: 40px;
+  max-width: 760px;
+}
+.page-header .eyebrow{ display:block; margin-bottom: 10px; }
+.page-header p{ font-size: 15.5px; max-width: 60ch; }
+
+.page-header-row{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.page-header-row .page-header{ margin-bottom: 0; }
+
+.showcase-card{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: var(--radius-m, 16px);
+  background: var(--ic-ice-soft);
+  border: 1px solid var(--surface-border);
+  max-width: 340px;
+  flex-shrink: 0;
+}
+.showcase-card p{
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+.showcase-card a.showcase-link{
+  color: var(--accent-2);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,48,64,0.35);
+}
+.showcase-card a.showcase-link:hover{ border-bottom-color: var(--accent-2); }
+.showcase-card .showcase-btn{
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  transition: transform .2s var(--ease), background .2s var(--ease);
+}
+.showcase-card .showcase-btn:hover{ background: var(--accent-soft); transform: scale(1.06); }
+.showcase-card .showcase-btn svg{ width: 20px; height: 20px; }
+@media (max-width: 700px){
+  .showcase-card{ max-width: 100%; }
+}
+
+.crumb-back{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size: 13.5px; font-weight:700; color: var(--text-secondary);
+  margin-bottom: 22px;
+  transition: color .18s var(--ease), gap .18s var(--ease);
+}
+.crumb-back:hover{ color: var(--accent-soft); gap: 11px; }
+.crumb-back svg{ width:15px; height:15px; }
+
+/* ---------------- Grids ---------------- */
+.card-grid{
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 1180px){ .card-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px){ .card-grid{ grid-template-columns: 1fr; } }
+
+.card-grid.two-col{ grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 780px){ .card-grid.two-col{ grid-template-columns: 1fr; } }
+
+.state-msg{
+  padding: 30px 26px;
+  border-radius: var(--radius-m);
+  border: 1px dashed var(--surface-border);
+  color: var(--text-secondary);
+  font-size: 14.5px;
+}
+.state-msg.is-error{ border-color: rgba(192,56,48,0.35); color: #8f2e27; }
+
+footer.site-footer{
+  margin-top: 70px;
+  padding-top: 26px;
+  border-top: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  font-size: 12.5px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+.footer-built{
+  display: inline-block;
+  text-align: center;
+  line-height: 1.5;
+}
+.footer-built span{ display: block; }
