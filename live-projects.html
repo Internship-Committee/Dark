@@ -8,8 +8,21 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/access-gate.css">
 </head>
 <body data-page="live-projects">
+
+<div id="ic-gate">
+  <div class="ic-gate-card">
+    <img src="assets/logo.png" alt="">
+    <h2>Live Projects — Members Only</h2>
+    <p>This section is restricted to Internship Committee members and IPM students with an <strong>@iimrohtak.ac.in</strong> account.</p>
+    <button class="ic-gate-btn" id="ic-gate-signin" type="button">Sign in with Google</button>
+    <div class="ic-gate-status" id="ic-gate-status"></div>
+    <a class="ic-gate-back" href="index.html">&larr; Back to Home</a>
+  </div>
+</div>
+
 <a class="skip-link" href="#main-content">Skip to content</a>
 
 <div class="app-shell">
@@ -80,5 +93,9 @@
 <script src="js/data-adapter.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/render-live-projects.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="js/access-gate.js"></script>
 </body>
 </html>
