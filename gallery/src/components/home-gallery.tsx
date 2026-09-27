@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { CircularGallery, type GalleryItem } from '@/components/ui/circular-gallery';
-import { useVirtualScroll } from '@/hooks/use-virtual-scroll';
 
 /* ------------------------------------------------------------------
    Icons — the same Lucide glyphs the sidebar already uses, kept inline so
@@ -201,24 +200,22 @@ function useFitScale(ref: RefObject<HTMLDivElement | null>): number {
 /* ------------------------------------------------------------------
    Home page gallery
    ------------------------------------------------------------------ */
-export function HomeGallery({ stage }: { stage: HTMLElement }) {
-  const boxRef = useRef<HTMLDivElement>(null);
-  const fit = useFitScale(boxRef);
+export function HomeGallery() {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const scale = useFitScale(stageRef);
   const reducedMotion = usePrefersReducedMotion();
   const liveOpen = useLiveProjectsOpen();
-  const { rotation, morph } = useVirtualScroll(stage, reducedMotion);
   const items = buildItems(liveOpen);
-
   // Tighter ring on narrow screens so the neighbouring cards still peek in at the sides
-  const baseRadius = 340 + 90 * ((fit - 0.6) / 0.4);
-  // The morph: the ring starts small and stacked in the middle, then opens out to full size
-  const radius = Math.round(baseRadius * (0.2 + 0.8 * morph));
-  const scale = fit * (0.7 + 0.3 * morph);
+  const radius = Math.round(340 + 90 * ((scale - 0.6) / 0.4));
 
   return (
-    <div ref={boxRef} className="w-full h-full">
-      <div className="w-full h-full" style={{ transform: `scale(${scale})`, transformOrigin: '50% 50%' }}>
-        <CircularGallery items={items} radius={radius} rotation={rotation} />
+    <div ref={stageRef} className="w-full h-full">
+      <div
+        className="w-full h-full"
+        style={{ transform: `scale(${scale})`, transformOrigin: '50% 50%' }}
+      >
+        <CircularGallery items={items} radius={radius} autoRotateSpeed={reducedMotion ? 0 : 0.05} />
       </div>
     </div>
   );

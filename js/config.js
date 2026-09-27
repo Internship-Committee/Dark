@@ -26,8 +26,8 @@ const IC_CONFIG = {
   // Committee contact links — replace placeholders with real values.
   // Until real links are supplied, these stay as clearly marked placeholders.
   committee: {
-    email: "ipminternship@iimrohtak.ac.in",
-    emailIsPlaceholder: false,
+    email: "internshipcommittee@iimrohtak.ac.in", // TODO: confirm official IC email
+    emailIsPlaceholder: true,
     linkedin: "https://www.linkedin.com/company/ipm-internship-committee-iim-rohtak/",
     linkedinIsPlaceholder: false
   },

@@ -9,11 +9,7 @@
   text-align:center;
   padding: 60px 20px 30px;
   overflow: hidden;
-  margin: -56px -56px 0;
-  background: radial-gradient(120% 90% at 50% 0%, var(--ic-navy) 0%, var(--ic-midnight) 70%);
-  color: var(--ic-white);
 }
-@media (max-width: 900px){ .hero{ margin: -34px -20px 0; } }
 
 /* ---- 3D revolving logo stage (signature element) ---- */
 .logo-stage{
@@ -37,13 +33,13 @@
   width:100%; height:100%;
   object-fit: contain;
   /* render supplied logo artwork in white for the dark background */
-  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(152,184,224,0.35));
+  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(59,107,246,0.35));
 }
 .logo-orbit::after{
   content:"";
   position:absolute; inset: -8%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(152,184,224,0.20), transparent 68%);
+  background: radial-gradient(circle, rgba(59,107,246,0.22), transparent 68%);
   transform: translateZ(-40px);
 }
 
@@ -64,29 +60,32 @@
 }
 
 .hero-eyebrow{
-  font-size: 12.5px; font-weight:700; font-style: italic; letter-spacing:.22em; text-transform:uppercase;
-  color: var(--ic-sky);
+  font-size: 12.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  color: var(--text-muted);
   margin-bottom: 22px;
 }
 
 .hero-tagline{
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(2.3rem, 6vw, 4.4rem);
   line-height: 1.12;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   margin: 0 0 20px;
-  color: var(--ic-white);
-  text-transform: uppercase;
+  background: linear-gradient(100deg, #ffffff 10%, #cfe0ff 45%, #9fb8ff 65%, #ffffff 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .hero-tagline em{
   font-style: italic;
-  color: var(--ic-sky);
+  color: var(--accent-2);
+  -webkit-text-fill-color: var(--accent-2);
 }
 
 .hero-sub{
   font-size: 16px;
-  color: rgba(255,255,255,0.72);
+  color: var(--text-secondary);
   max-width: 52ch;
   margin: 0 auto;
 }
@@ -128,10 +127,10 @@
   z-index: 2;
   display:inline-flex; flex-direction:column; align-items:center; gap:6px;
   font-size: 12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
-  color: rgba(255,255,255,0.55);
+  color: var(--text-muted);
   transition: color .2s var(--ease);
 }
-.hero-scroll-cue:hover{ color: var(--ic-sky); }
+.hero-scroll-cue:hover{ color: var(--accent-2); }
 .hero-scroll-cue svg{ width:18px; height:18px; animation: cue-bob 1.8s var(--ease) infinite; }
 @keyframes cue-bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(5px); } }
 
@@ -139,15 +138,7 @@
    The wrapper is tall so there is scroll distance to drive the rotation; the stage inside it
    stays pinned (sticky) while the ring turns. Without JS the wrapper is a normal section
    showing the plain fallback cards. */
-.home-gallery{
-  position: relative;
-  scroll-margin-top: 0;
-  margin: 0 -56px;
-  padding: 0 56px;
-  background: linear-gradient(180deg, var(--ic-navy) 0%, var(--ic-midnight) 40%);
-  color: var(--ic-white);
-}
-@media (max-width: 900px){ .home-gallery{ margin: 0 -20px; padding: 0 20px; } }
+.home-gallery{ position: relative; scroll-margin-top: 0; }
 .home-gallery.is-enhanced{ height: 420vh; }
 
 .gallery-stage{
@@ -162,9 +153,9 @@
 }
 
 .gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; }
-.gallery-heading .eyebrow{ display:block; margin-bottom: 8px; color: var(--ic-sky); }
-.gallery-heading .section-heading{ margin-bottom: 6px; color: var(--ic-white); }
-.gallery-hint{ display:none; margin: 0; font-size: 13px; color: rgba(255,255,255,0.6); }
+.gallery-heading .eyebrow{ display:block; margin-bottom: 8px; }
+.gallery-heading .section-heading{ margin-bottom: 6px; }
+.gallery-hint{ display:none; margin: 0; font-size: 13px; color: var(--text-muted); }
 .home-gallery.is-enhanced .gallery-hint{ display:block; }
 
 /* Mount point: fills the rest of the stage; the ring is centred inside it */
@@ -172,11 +163,11 @@
 .home-gallery.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
 .home-gallery.is-enhanced .gallery-fallback{ display:none; }
 
-/* Soft sky-blue glow behind the ring so the cards lift off the dark page */
+/* Soft cobalt glow behind the ring so the cards lift off the dark page */
 .home-gallery.is-enhanced #circular-gallery-root::before{
   content:""; position:absolute; left:50%; top:50%;
   width: min(80%, 900px); aspect-ratio: 1; transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(152,184,224,0.16), transparent 66%);
+  background: radial-gradient(circle, rgba(59,107,246,0.16), transparent 66%);
   pointer-events:none;
 }
 
