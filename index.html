@@ -11,21 +11,6 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="assets/circular-gallery.css">
-<style>
-  /* Retheme the pre-built 3D gallery (compiled Tailwind, HSL tokens) to the
-     burgundy/cream palette without touching /gallery source or rebuilding. */
-  #circular-gallery-root{
-    --background: 351 40% 3%;
-    --foreground: 32 46% 89%;
-    --card: 351 46% 16%;
-    --card-foreground: 32 46% 89%;
-    --muted: 351 38% 11%;
-    --muted-foreground: 21 20% 68%;
-    --border: 351 24% 26%;
-    --primary: 344 51% 45%;
-    --primary-foreground: 0 0% 100%;
-  }
-</style>
 </head>
 <body data-page="home">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -79,34 +64,39 @@
 
   <main class="main" id="main-content">
 
-    <section class="hero">
-      <div class="logo-stage" aria-hidden="true">
-        <div class="logo-orbit">
-          <img src="assets/logo.png" alt="">
+    <!-- Hero + gallery share one scroll-jacked "stage" (see assets/circular-gallery.js):
+         while locked, scrolling doesn't move the page — it morphs the hero into the
+         gallery, then spins the gallery with no limit, until "Continue exploring" is
+         clicked (or the visitor just uses the sidebar to jump to another page). -->
+    <section class="scrollstage" id="explore" aria-labelledby="gallery-heading">
+
+      <div class="hero stage-layer" data-stage-hero>
+        <div class="logo-stage" aria-hidden="true">
+          <div class="logo-orbit">
+            <img src="assets/logo.png" alt="">
+          </div>
         </div>
+
+        <div class="hero-inner">
+          <div class="hero-eyebrow">Integrity. Collaboration. Passion.</div>
+          <h1 class="hero-tagline">IPM<br>INTERNSHIP<br>COMMITTEE</h1>
+          <p class="hero-sub">Courses, case studies, competitions and live industry projects — everything the IC puts together for IPM students, in one place.</p>
+        </div>
+
+        <a class="hero-scroll-cue" href="#explore" data-hero-nudge>
+          <span>Scroll to explore</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
       </div>
 
-      <div class="hero-inner">
-        <div class="hero-eyebrow">Integrity. Collaboration. Passion.</div>
-        <h1 class="hero-tagline">IPM<br>INTERNSHIP<br>COMMITTEE</h1>
-        <p class="hero-sub">Courses, case studies, competitions and live industry projects — everything the IC puts together for IPM students, in one place.</p>
-      </div>
-
-      <a class="hero-scroll-cue" href="#explore">
-        <span>Scroll to explore</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </a>
-    </section>
-
-    <section class="home-gallery" id="explore" aria-labelledby="gallery-heading">
-      <div class="gallery-stage">
+      <div class="gallery-stage stage-layer" data-stage-gallery>
         <div class="gallery-heading">
           <span class="eyebrow">Explore the portal</span>
           <h2 class="section-heading" id="gallery-heading">Everything the IC puts together</h2>
-          <p class="gallery-hint">Scroll to rotate the gallery &middot; click a card to open it</p>
+          <p class="gallery-hint">Scroll to keep rotating the gallery &middot; click a card to open it</p>
         </div>
-        <!-- React mounts the 3D circular gallery here (source: gallery/, built to assets/circular-gallery.js). -->
-        <div id="circular-gallery-root" class="dark"></div>
+        <!-- Vanilla-JS mounts the 3D circular gallery here (assets/circular-gallery.js — no build step needed). -->
+        <div id="circular-gallery-root"></div>
 
         <!-- No-JavaScript fallback: plain cards, hidden as soon as the gallery mounts. -->
         <div class="hero-cards gallery-fallback">
@@ -172,6 +162,11 @@
           </a>
         </div>
       </div>
+
+      <button type="button" class="scroll-continue" data-scroll-continue aria-label="Continue to the rest of the site">
+        <span>Continue exploring the site</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
     </section>
 
     <footer class="site-footer">
