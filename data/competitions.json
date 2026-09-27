@@ -1,0 +1,20 @@
+[
+  {
+    "Competition Name": "L'Oreal Brandstorm 2027",
+    "Institute": "L'Oreal",
+    "Deadline": "2026-10-12",
+    "Link": "https://example.com/competitions/brandstorm-2027"
+  },
+  {
+    "Competition Name": "IIM Ahmedabad Case Carnival",
+    "Institute": "IIM Ahmedabad",
+    "Deadline": "2026-09-30",
+    "Link": "https://example.com/competitions/case-carnival"
+  },
+  {
+    "Competition Name": "Unilever Future Leaders League",
+    "Institute": "Hindustan Unilever",
+    "Deadline": "2026-11-05",
+    "Link": "https://example.com/competitions/ull-2026"
+  }
+]
