@@ -13,15 +13,15 @@ export interface GalleryItem {
     url: string; 
     text: string;
     pos?: string;
-    /** Photographer credit — optional here; the "Photo by" line is only shown when set. */
+    /** Photographer credit. Optional — the "Photo by" line is only rendered when set. */
     by?: string;
   };
-  /* --- Optional additions (the original API still works unchanged) --- */
-  /** Makes the whole card a link. */
+  /* --- Optional additions (all backward-compatible with the original API) --- */
+  /** When set, the whole card becomes a link to this URL. */
   href?: string;
-  /** Small call-to-action / status row at the bottom of the card. */
+  /** Small call-to-action / status row rendered at the bottom of the card. */
   cta?: React.ReactNode;
-  /** Small icon in the card's top-left corner. */
+  /** Small icon rendered in the card's top-left corner. */
   icon?: React.ReactNode;
 }
 
@@ -32,36 +32,39 @@ interface CircularGalleryProps extends HTMLAttributes<HTMLDivElement> {
   radius?: number;
   /** Controls the speed of auto-rotation when not scrolling. */
   autoRotateSpeed?: number;
-  /**
-   * Optional "controlled" mode. When a rotation (in degrees) is passed, the parent
-   * drives the ring and the built-in window-scroll + auto-rotate logic is switched off.
-   */
-  rotation?: number;
 }
 
 const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
-  ({ items, className, radius = 600, autoRotateSpeed = 0.02, rotation: controlledRotation, ...props }, ref) => {
-    const [internalRotation, setRotation] = useState(0);
+  ({ items, className, radius = 600, autoRotateSpeed = 0.02, ...props }, ref) => {
+    const [rotation, setRotation] = useState(0);
     const [isScrolling, setIsScrolling] = useState(false);
+    // (browser-safe timer type — avoids needing @types/node)
     const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const animationFrameRef = useRef<number | null>(null);
-
-    const isControlled = controlledRotation !== undefined;
-    const rotation = controlledRotation ?? internalRotation;
+    const lastProgressRef = useRef<number | null>(null);
 
     // Effect to handle scroll-based rotation
     useEffect(() => {
-      if (isControlled) return;
+      const getProgress = () => {
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+        return scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+      };
+      lastProgressRef.current = getProgress();
+
       const handleScroll = () => {
         setIsScrolling(true);
         if (scrollTimeoutRef.current) {
           clearTimeout(scrollTimeoutRef.current);
         }
 
-        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
-        const scrollRotation = scrollProgress * 360;
-        setRotation(scrollRotation);
+        // Scrolling adds the *change* in scroll progress (a full page = 360°) to
+        // the current rotation, rather than overwriting it. Same total travel as
+        // before, but the ring no longer snaps back when auto-rotation has
+        // drifted away from the scroll position.
+        const progress = getProgress();
+        const delta = progress - (lastProgressRef.current ?? progress);
+        lastProgressRef.current = progress;
+        setRotation(prev => prev + delta * 360);
 
         scrollTimeoutRef.current = setTimeout(() => {
           setIsScrolling(false);
@@ -75,11 +78,10 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           clearTimeout(scrollTimeoutRef.current);
         }
       };
-    }, [isControlled]);
+    }, []);
 
     // Effect for auto-rotation when not scrolling
     useEffect(() => {
-      if (isControlled) return;
       const autoRotate = () => {
         if (!isScrolling) {
           setRotation(prev => prev + autoRotateSpeed);
@@ -94,7 +96,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           cancelAnimationFrame(animationFrameRef.current);
         }
       };
-    }, [isControlled, isScrolling, autoRotateSpeed]);
+    }, [isScrolling, autoRotateSpeed]);
 
     const anglePerItem = 360 / items.length;
     
@@ -128,9 +130,9 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   src={item.photo.url}
                   alt={item.photo.text}
                   draggable={false}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   style={{ objectPosition: item.photo.pos || 'center' }}
-                  // If a remote photo fails to load, fall back to the card's own background
+                  // If a remote photo ever fails to load, fall back to the card's own background
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 {item.icon && (
@@ -139,7 +141,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   </span>
                 )}
                 {/* Replaced text-primary-foreground with text-white for consistent color */}
-                <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
+                <div className="absolute bottom-0 left-0 w-full p-4 pt-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent text-white">
                   <h2 className="text-xl font-bold">{item.common}</h2>
                   <em className="text-sm italic opacity-80">{item.binomial}</em>
                   {item.photo.by && (
@@ -165,7 +167,10 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   marginLeft: '-150px',
                   marginTop: '-200px',
                   opacity: opacity,
-                  transition: 'opacity 0.3s linear'
+                  transition: 'opacity 0.3s linear',
+                  // Cards facing away from the viewer are hidden instead of showing a mirrored back,
+                  // so the text on real (non-photo) content stays legible.
+                  backfaceVisibility: 'hidden',
                 }}
               >
                 {item.href ? (

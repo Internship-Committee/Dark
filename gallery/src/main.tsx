@@ -3,15 +3,13 @@ import { HomeGallery } from '@/components/home-gallery';
 import './index.css';
 
 /**
- * Mounts the circular gallery into the home page stage.
- * Until this runs, the page shows a plain-HTML fallback (six normal cards).
- * `is-enhanced` switches the stage to the full-screen, no-native-scroll layout
- * (see css/home.css); the scroll-driven morph itself lives in hooks/use-virtual-scroll.ts.
+ * Mounts the circular gallery into the home page.
+ * The mount point ships with a plain HTML fallback (six normal cards); React
+ * replaces it on first render, and the `is-enhanced` class switches on the
+ * tall scroll-driven layout (see css/home.css).
  */
 const mount = document.getElementById('circular-gallery-root');
-const stage = document.getElementById('home-stage');
-if (mount && stage) {
-  stage.classList.add('is-enhanced');
-  document.documentElement.classList.add('ic-home-locked');
-  createRoot(mount).render(<HomeGallery stage={stage} />);
+if (mount) {
+  createRoot(mount).render(<HomeGallery />);
+  mount.closest('.home-gallery')?.classList.add('is-enhanced');
 }

@@ -1,75 +1,46 @@
 /* ============================================================
    IC Portal — Base styles, tokens, typography
-   Brand: IPM Internship Committee, IIM Rohtak — see
-   IPM_Internship_Committee_Brand_Guidelines.pdf / brand-tokens.css
    ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
 :root{
-  /* --- Brand palette (from brand-tokens.css) --- */
-  --ic-midnight:   #081030;
-  --ic-navy:       #0B1F4A;
-  --ic-navy-mid:   #183868;
-  --ic-teal-ink:   #003040;
-  --ic-sky:        #98B8E0;
-  --ic-ice:        #C8E0F0;
-  --ic-ice-soft:   #EAF3FA;
-  --ic-cream:      #FBF3EE;
-  --ic-white:      #FFFFFF;
-  --ic-grey-100:   #F0F0F0;
-  --ic-grey-300:   #C9CED6;
-  --ic-grey-500:   #6B7280;
-  --ic-charcoal:   #101010;
-  --iimr-red:      #C03830;
-  --iimr-green:    #409040;
+  /* --- Color tokens --- */
+  --bg:               #010006;
+  --bg-radial-1:      #070a17;
+  --bg-radial-2:      #01000a;
+  --sidebar-bg:       #05060fee;
+  --sidebar-border:   rgba(140,160,255,0.10);
 
-  /* --- Semantic tokens (kept under the same names the rest of the
-     site's CSS already uses, so layout/components/home files below
-     don't need a line-by-line rewrite — only the values change) --- */
-  --bg:               var(--ic-cream);
-  --bg-radial-1:      var(--ic-ice-soft);
-  --bg-radial-2:      var(--ic-white);
-  --sidebar-bg:       var(--ic-navy);
-  --sidebar-border:   rgba(255,255,255,0.12);
+  --surface:          rgba(16, 22, 46, 0.50);
+  --surface-strong:   rgba(18, 26, 54, 0.72);
+  --surface-border:   rgba(150, 170, 255, 0.14);
+  --surface-border-hover: rgba(150, 180, 255, 0.32);
 
-  --surface:              var(--ic-white);
-  --surface-strong:       var(--ic-ice-soft);
-  --surface-border:       var(--ic-ice);
-  --surface-border-hover: var(--ic-navy-mid);
+  --accent:           #3B6BF6;   /* cobalt / electric blue */
+  --accent-soft:      #5C86FF;
+  --accent-2:         #38C6D9;   /* cyan-indigo secondary */
+  --accent-2-soft:    #6C7CFF;
 
-  --accent:           var(--ic-navy);      /* primary buttons, links on light */
-  --accent-soft:      var(--ic-navy-mid);
-  --accent-2:         var(--ic-teal-ink);  /* secondary accent: tags, ribbons */
-  --accent-2-soft:    var(--ic-navy-mid);
+  --text-primary:     #F3F1EA;
+  --text-secondary:   #99A2BE;
+  --text-muted:       #656E8C;
 
-  --text-primary:     var(--ic-navy);
-  --text-secondary:   #48587c;
-  --text-muted:       var(--ic-grey-500);
+  --live-red:         #FF4457;
 
-  --live-red:         var(--iimr-red);
+  --stage-1:          #FF4457;  /* Applications Open   — red */
+  --stage-1-rgb:       255,68,87;
+  --stage-2:          #FFC53D;  /* Selection Ongoing   — yellow */
+  --stage-2-rgb:       255,197,61;
+  --stage-3:          #33D17A;  /* Ongoing Project     — green */
+  --stage-3-rgb:       51,209,122;
 
-  --stage-1:          var(--iimr-red);     /* Applications Open */
-  --stage-1-rgb:       192,56,48;
-  --stage-2:          var(--ic-navy-mid);  /* Selection Ongoing */
-  --stage-2-rgb:       24,56,104;
-  --stage-3:          var(--iimr-green);   /* Ongoing Project */
-  --stage-3-rgb:       64,144,64;
+  --radius-s:  10px;
+  --radius-m:  16px;
+  --radius-l:  22px;
 
-  --radius-s:  6px;
-  --radius-m:  12px;
-  --radius-l:  20px;
-  --radius-pill: 999px;
-
-  /* Georgia is the committee's own document/email typeface — ships on every
-     platform, so nothing is loaded from the network for it. */
-  --font-display: Georgia, "Times New Roman", Times, serif;
-  --font-body:    Georgia, "Times New Roman", Times, serif;
-
-  --ls-caps: 0.08em;
-  --ls-wide: 0.3em;
-
-  --shadow-card: 0 6px 20px rgba(8, 16, 48, .12);
-  --shadow-lift: 0 16px 36px rgba(8, 16, 48, .20);
-  --focus-ring:  var(--ic-sky);
+  --font-display: 'Fraunces', 'Georgia', serif;
+  --font-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --sidebar-w: 272px;
   --sidebar-w-collapsed: 84px;
@@ -86,7 +57,8 @@ body{
   margin:0;
   min-height:100vh;
   background:
-    radial-gradient(1200px 620px at 84% -10%, var(--bg-radial-1) 0%, transparent 60%),
+    radial-gradient(1100px 700px at 82% -8%, var(--bg-radial-1) 0%, transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, #060a1c 0%, transparent 55%),
     var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -97,10 +69,10 @@ body{
 
 h1,h2,h3,h4{
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
   margin: 0 0 .5em;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
 }
 
 p{ margin: 0 0 1em; color: var(--text-secondary); }
@@ -117,7 +89,7 @@ button{ font-family: inherit; }
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible{
-  outline: 2px solid var(--focus-ring);
+  outline: 2px solid var(--accent-2);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -125,8 +97,8 @@ button:focus-visible,
 /* --- Scrollbar (subtle) --- */
 ::-webkit-scrollbar{ width: 10px; height: 10px; }
 ::-webkit-scrollbar-track{ background: transparent; }
-::-webkit-scrollbar-thumb{ background: rgba(11,31,74,0.20); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover{ background: rgba(11,31,74,0.34); }
+::-webkit-scrollbar-thumb{ background: rgba(120,140,220,0.25); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover{ background: rgba(120,140,220,0.4); }
 
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce){
@@ -142,9 +114,8 @@ button:focus-visible,
 .eyebrow{
   font-family: var(--font-body);
   font-weight: 700;
-  font-style: italic;
   font-size: 12px;
-  letter-spacing: var(--ls-wide);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-2);
 }
@@ -159,7 +130,7 @@ button:focus-visible,
   border-bottom: 1px solid transparent;
   transition: color .2s var(--ease), border-color .2s var(--ease);
 }
-.muted-link:hover{ color: var(--accent-soft); border-color: var(--surface-border-hover); }
+.muted-link:hover{ color: var(--text-primary); border-color: var(--surface-border-hover); }
 
 .visually-hidden{
   position:absolute; width:1px; height:1px; padding:0; margin:-1px;
@@ -170,33 +141,6 @@ button:focus-visible,
   position:absolute; left:12px; top:-60px;
   background: var(--accent); color:#fff; padding: 10px 16px;
   border-radius: var(--radius-s); z-index: 999; transition: top .2s var(--ease);
-  font-weight:700; font-size: 14px;
+  font-weight:600; font-size: 14px;
 }
 .skip-link:focus{ top:12px; }
-
-/* ---------------- Shared brand components (see brand-tokens.css) ---------------- */
-
-/* Angled section ribbon — dark-teal, white uppercase text, top-left of a panel */
-.ribbon{
-  display: inline-block;
-  padding: .6rem 3rem .6rem 1.75rem;
-  background: var(--ic-teal-ink);
-  color: var(--ic-white);
-  font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--ls-caps);
-  clip-path: polygon(0 0, 100% 0, calc(100% - 1.5rem) 100%, 0 100%);
-}
-
-/* Ice-blue pill tag */
-.tag{
-  display: inline-block;
-  padding: .25rem .9rem;
-  background: var(--ic-ice-soft);
-  color: var(--ic-navy);
-  border: 1px solid var(--ic-ice);
-  border-radius: var(--radius-pill);
-  font-size: 12.5px;
-  font-weight: 700;
-}
