@@ -1,0 +1,93 @@
+/* ============================================================
+   IC Portal — Live Projects access gate
+   ------------------------------------------------------------
+   Added on top of the site's existing tokens (css/base.css).
+   Restricts this page to signed-in @iimrohtak.ac.in accounts.
+   Does not affect any other page.
+   ============================================================ */
+
+#ic-gate{
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(1100px 700px at 82% -8%, var(--bg-radial-1, #070a17) 0%, transparent 60%),
+    var(--bg, #010006);
+  font-family: var(--font-body, 'Manrope', sans-serif);
+}
+
+#ic-gate.is-hidden{ display: none; }
+
+body:has(#ic-gate:not(.is-hidden)){ overflow: hidden; }
+
+.ic-gate-card{
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface-strong, rgba(18,26,54,0.85));
+  border: 1px solid var(--surface-border, rgba(150,170,255,0.14));
+  border-radius: var(--radius-l, 22px);
+  padding: 36px 32px;
+  text-align: center;
+  backdrop-filter: blur(20px);
+}
+
+.ic-gate-card img{
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+}
+
+.ic-gate-card h2{
+  font-family: var(--font-display, 'Fraunces', serif);
+  color: var(--text-primary, #F3F1EA);
+  font-size: 1.3rem;
+  margin: 0 0 8px;
+}
+
+.ic-gate-card p{
+  color: var(--text-secondary, #99A2BE);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0 0 22px;
+}
+
+.ic-gate-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 18px;
+  border-radius: var(--radius-s, 10px);
+  border: none;
+  background: var(--accent, #3B6BF6);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s var(--ease, ease);
+}
+
+.ic-gate-btn:hover{ background: var(--accent-soft, #5C86FF); }
+
+.ic-gate-status{
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted, #656E8C);
+  min-height: 1.2em;
+}
+
+.ic-gate-status.is-denied{ color: var(--live-red, #FF4457); font-weight: 600; }
+
+.ic-gate-back{
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.82rem;
+  color: var(--text-muted, #656E8C);
+  text-decoration: underline;
+}
