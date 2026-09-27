@@ -263,35 +263,20 @@
   .main{ padding: 34px 20px 70px; }
 }
 
-.courses-hero{
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-l, 16px);
-  border: 1px solid var(--surface-border);
-  background: var(--surface); /* shown until the WebGL canvas paints, and if WebGL is unavailable */
-  margin-bottom: 40px;
-  padding: 44px 36px 40px;
-}
-.courses-hero-canvas{
-  position: absolute;
+.site-shader-bg{
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* behind the whole app-shell; sidebar's own background sits on top of it */
   display: block;
-}
-.courses-hero .page-header{
-  position: relative;
-  z-index: 1;
-  margin-bottom: 0;
-  text-shadow: 0 2px 18px rgba(12, 5, 7, 0.55);
-}
-@media (max-width: 640px){
-  .courses-hero{ padding: 32px 22px 30px; }
+  pointer-events: none; /* purely decorative; page interaction passes through to content */
 }
 
 .page-header{
   margin-bottom: 40px;
   max-width: 760px;
+  text-shadow: 0 2px 18px rgba(12, 5, 7, 0.55); /* keep the heading legible over the moving background */
 }
 .page-header .eyebrow{ display:block; margin-bottom: 10px; }
 .page-header p{ font-size: 15.5px; max-width: 60ch; }
