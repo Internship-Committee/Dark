@@ -31,16 +31,6 @@ const IC_GATE_ALLOWED_DOMAIN = "iimrohtak.ac.in";
     status.classList.toggle("is-denied", !!isDenied);
   }
 
-  // Runs once on a successful sign-in: the gate opens at a moderate pace
-  // (card lifts + dissolves, backdrop clears) instead of snapping away.
-  // The 700ms delay must match the CSS transition duration in access-gate.css.
-  function openGate() {
-    gate.classList.add("is-opening");
-    setTimeout(() => {
-      gate.classList.add("is-hidden");
-    }, 700);
-  }
-
   btn.addEventListener("click", () => {
     setStatus("Opening Google sign-in…", false);
     auth.signInWithPopup(provider).catch((err) => {
@@ -57,7 +47,7 @@ const IC_GATE_ALLOWED_DOMAIN = "iimrohtak.ac.in";
     const domain = email.split("@")[1];
 
     if (domain === IC_GATE_ALLOWED_DOMAIN) {
-      openGate();
+      gate.classList.add("is-hidden");
     } else {
       auth.signOut();
       setStatus(
