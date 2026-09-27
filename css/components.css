@@ -19,7 +19,7 @@
   color: #fff;
   box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset;
 }
-.btn-primary:hover{ transform: translateY(-2px); background: #2C55D8; }
+.btn-primary:hover{ transform: translateY(-2px); background: #8A2A3C; }
 .btn-primary:hover svg{ transform: translateX(3px); }
 .btn-ghost{
   background: var(--surface);
@@ -33,17 +33,17 @@
   position: relative;
   background: var(--surface);
   border: 1px solid var(--surface-border);
-  border-radius: var(--radius-l);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -24px rgba(0,0,0,0.6);
+  border-radius: var(--radius-m);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 20px 40px -24px rgba(0,0,0,0.7);
   transition: transform .28s var(--ease), box-shadow .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
 }
 .glass-card:hover{
   transform: translateY(-4px);
-  border-color: var(--surface-border-hover);
+  border-color: var(--accent-soft);
   background: var(--surface-strong);
-  box-shadow: 0 18px 34px -20px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
+  box-shadow: 0 18px 34px -20px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05) inset;
 }
 
 /* ---------------- Home nav cards ---------------- */
@@ -61,13 +61,13 @@
   width: 44px; height:44px;
   flex-shrink: 0;
   border-radius: 12px;
-  background: rgba(59,107,246,0.14);
-  border: 1px solid rgba(92,134,255,0.28);
+  background: rgba(162,51,71,0.16);
+  border: 1px solid rgba(217,168,108,0.30);
   display:flex; align-items:center; justify-content:center;
   color: var(--accent-2);
 }
 .home-card .card-icon svg{ width:21px; height:21px; }
-.home-card h3{ font-size: 1.55rem; font-weight: 700; margin: 0; }
+.home-card h3{ font-family: var(--font-heavy); text-transform:uppercase; letter-spacing:.01em; font-size: 1.3rem; font-weight: 800; margin: 0; }
 .home-card p{ font-size: 14px; margin: 0 auto; max-width: 32ch; }
 
 /* Shared bottom CTA slot — same size/weight/alignment across all three cards */
@@ -110,12 +110,12 @@
 .course-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .price-chip{
   font-weight:800; font-size: 14px; color: var(--text-primary);
-  background: rgba(56,198,217,0.12); border:1px solid rgba(56,198,217,0.28);
+  background: rgba(217,168,108,0.14); border:1px solid rgba(217,168,108,0.32);
   padding: 5px 12px; border-radius: 999px;
 }
 .rating{
   display:flex; align-items:center; gap:6px;
-  font-size: 13.5px; font-weight:700; color: #FFC857;
+  font-size: 13.5px; font-weight:700; color: #E3B15C;
 }
 .rating svg{ width:15px; height:15px; }
 .domain-tag{
@@ -124,8 +124,8 @@
   color: var(--accent-2);
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(56,198,217,0.3);
-  background: rgba(56,198,217,0.08);
+  border: 1px solid rgba(217,168,108,0.32);
+  background: rgba(217,168,108,0.08);
 }
 .duration-chip{
   display:inline-flex; align-items:center; gap:6px;
@@ -160,13 +160,13 @@
   align-self:flex-start;
   font-size: 10.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
   padding: 5px 11px; border-radius: 999px;
-  color:#CFE0FF; background: rgba(120,150,255,0.12); border:1px solid rgba(120,150,255,0.3);
+  color:#E9C696; background: rgba(217,168,108,0.12); border:1px solid rgba(217,168,108,0.3);
 }
 .resource-type-badge.type-e-database{
-  color:#8CF0B0; background: rgba(60,220,140,0.1); border:1px solid rgba(60,220,140,0.28);
+  color:#A9D9B8; background: rgba(111,190,139,0.1); border:1px solid rgba(111,190,139,0.28);
 }
 .resource-type-badge.type-online-journals{
-  color:#FFD98A; background: rgba(255,200,80,0.1); border:1px solid rgba(255,200,80,0.3);
+  color:#F0C68A; background: rgba(227,177,92,0.12); border:1px solid rgba(227,177,92,0.3);
 }
 
 /* ---------------- Competition card ---------------- */
@@ -181,7 +181,7 @@
   display:inline-flex; align-items:center; gap:7px;
   font-size: 12.5px; font-weight:800;
   padding: 6px 13px; border-radius:999px;
-  color: #FFD98A; background: rgba(255,200,80,0.1); border: 1px solid rgba(255,200,80,0.3);
+  color: #F0C68A; background: rgba(227,177,92,0.12); border: 1px solid rgba(227,177,92,0.3);
 }
 .deadline-pill svg{ width:13px; height:13px; }
 .competition-card .card-link{
@@ -237,7 +237,7 @@
 .meta-chip svg{ width:12px; height:12px; }
 .lp-card .lp-deadline{
   margin-top:6px;
-  font-size: 12.5px; font-weight:700; color: #FFD98A;
+  font-size: 12.5px; font-weight:700; color: #F0C68A;
 }
 .lp-card .card-link{
   margin-top:6px;
@@ -253,7 +253,7 @@
 }
 .subtile .card-icon{
   width: 42px; height:42px; border-radius:11px;
-  background: rgba(59,107,246,0.14); border: 1px solid rgba(92,134,255,0.28);
+  background: rgba(162,51,71,0.16); border: 1px solid rgba(217,168,108,0.30);
   display:flex; align-items:center; justify-content:center; color: var(--accent-2);
   margin-bottom: 6px;
 }
@@ -310,4 +310,57 @@
   line-height: 1.5;
   color: var(--text-muted);
   font-style: italic;
+}
+
+/* ---------------- Bold editorial accents (redesign) ---------------- */
+
+/* Card titles in list/course/competition/lp cards read as small, heavy, uppercase
+   labels rather than soft serif — matches the bold grotesk inspo. */
+.course-card h3,
+.list-card h3,
+.competition-card h3,
+.lp-card h3,
+.subtile h3{
+  font-family: var(--font-heavy);
+  font-weight: 800;
+  letter-spacing: -0.005em;
+}
+
+/* Numbered index badge — small "01 / 02 / 03" style marker, echoes the
+   "SELECTED PROJECTS 01 / 02 / 03" and "CHOOSE YOUR EDITION" inspo. Add
+   .indexed to a .card-grid to auto-number its direct children. */
+.card-grid.indexed{ counter-reset: card-index; }
+.card-grid.indexed > *{ position: relative; counter-increment: card-index; }
+.card-grid.indexed > *::before{
+  content: counter(card-index, decimal-leading-zero);
+  position: absolute;
+  top: 18px; right: 20px;
+  font-family: var(--font-heavy);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+
+/* Bold underline-style link CTA (replaces the soft arrow-only feel on hover) */
+.course-card .card-link,
+.list-card .card-link,
+.competition-card .card-link,
+.lp-card .card-link,
+.subtile .card-cta{
+  font-family: var(--font-heavy);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-size: 12px;
+}
+
+/* Section dividers — thin rule + tiny caps label, used above grids for a
+   confident editorial rhythm (opt-in via .section-rule) */
+.section-rule{
+  display:flex; align-items:center; gap:14px;
+  margin: 0 0 26px;
+}
+.section-rule::after{
+  content:""; flex:1; height:1px; background: var(--sidebar-border);
 }

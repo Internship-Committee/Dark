@@ -1,17 +1,17 @@
 /* ============================================================
-   IC Portal — Homepage: hero, 3D revolving logo signature
+   IC Portal — Homepage: bold oversized hero + 3D revolving logo
    ============================================================ */
 
 .hero{
   position: relative;
-  min-height: 78vh;
+  min-height: 86vh;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center;
   padding: 60px 20px 30px;
   overflow: hidden;
 }
 
-/* ---- 3D revolving logo stage (signature element) ---- */
+/* ---- 3D revolving logo stage (sits BEHIND the oversized wordmark) ---- */
 .logo-stage{
   position:absolute;
   inset: 0;
@@ -21,25 +21,24 @@
   pointer-events:none;
 }
 .logo-orbit{
-  width: min(58vw, 620px);
-  height: min(58vw, 620px);
+  width: min(46vw, 480px);
+  height: min(46vw, 480px);
   position: relative;
   transform-style: preserve-3d;
   animation: revolve 22s linear infinite;
-  opacity: 0.5;
+  opacity: 0.22;
 }
 .logo-orbit img{
   position:absolute; inset:0;
   width:100%; height:100%;
   object-fit: contain;
-  /* render supplied logo artwork in white for the dark background */
-  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(59,107,246,0.35));
+  filter: brightness(0) invert(1) sepia(0.4) saturate(3) hue-rotate(300deg) drop-shadow(0 0 70px rgba(162,51,71,0.45));
 }
 .logo-orbit::after{
   content:"";
   position:absolute; inset: -8%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,107,246,0.22), transparent 68%);
+  background: radial-gradient(circle, rgba(162,51,71,0.24), transparent 68%);
   transform: translateZ(-40px);
 }
 
@@ -55,32 +54,35 @@
 .hero-inner{
   position: relative;
   z-index: 2;
-  max-width: 760px;
-  margin-bottom: 56px;
+  max-width: 900px;
+  margin-bottom: 52px;
 }
 
 .hero-eyebrow{
-  font-size: 12.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
-  color: var(--text-muted);
+  font-family: var(--font-heavy);
+  font-size: 12px; font-weight:800; letter-spacing:.26em; text-transform:uppercase;
+  color: var(--accent-2);
   margin-bottom: 22px;
 }
 
+/* Oversized, tightly-tracked, uppercase grotesk wordmark. */
 .hero-tagline{
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2.3rem, 6vw, 4.4rem);
-  line-height: 1.12;
-  letter-spacing: -0.01em;
-  margin: 0 0 20px;
-  background: linear-gradient(100deg, #ffffff 10%, #cfe0ff 45%, #9fb8ff 65%, #ffffff 92%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  font-family: var(--font-heavy);
+  font-weight: 900;
+  font-size: clamp(2.8rem, 10vw, 7.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+  color: var(--text-primary);
 }
 .hero-tagline em{
   font-style: italic;
-  color: var(--accent-2);
-  -webkit-text-fill-color: var(--accent-2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-transform: none;
+  color: var(--accent-soft);
+  letter-spacing: -0.01em;
 }
 
 .hero-sub{
@@ -121,12 +123,13 @@
 .home-section .section-intro p{ margin:0; max-width: 46ch; font-size: 14px; }
 
 
-/* ---- Hero: scroll cue (replaces the old row of three cards) ---- */
+/* ---- Hero: scroll cue ---- */
 .hero-scroll-cue{
   position: relative;
   z-index: 2;
   display:inline-flex; flex-direction:column; align-items:center; gap:6px;
-  font-size: 12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  font-family: var(--font-heavy);
+  font-size: 11.5px; font-weight:800; letter-spacing:.2em; text-transform:uppercase;
   color: var(--text-muted);
   transition: color .2s var(--ease);
 }
@@ -134,10 +137,7 @@
 .hero-scroll-cue svg{ width:18px; height:18px; animation: cue-bob 1.8s var(--ease) infinite; }
 @keyframes cue-bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(5px); } }
 
-/* ---- Circular 3D gallery (React island — source in /gallery, built to assets/circular-gallery.*) ----
-   The wrapper is tall so there is scroll distance to drive the rotation; the stage inside it
-   stays pinned (sticky) while the ring turns. Without JS the wrapper is a normal section
-   showing the plain fallback cards. */
+/* ---- Circular 3D gallery (React island) ---- */
 .home-gallery{ position: relative; scroll-margin-top: 0; }
 .home-gallery.is-enhanced{ height: 420vh; }
 
@@ -154,36 +154,36 @@
 
 .gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; }
 .gallery-heading .eyebrow{ display:block; margin-bottom: 8px; }
-.gallery-heading .section-heading{ margin-bottom: 6px; }
+.gallery-heading .section-heading{ margin-bottom: 6px; font-family: var(--font-heavy); font-weight: 800; text-transform: uppercase; letter-spacing: -0.005em; }
 .gallery-hint{ display:none; margin: 0; font-size: 13px; color: var(--text-muted); }
 .home-gallery.is-enhanced .gallery-hint{ display:block; }
 
-/* Mount point: fills the rest of the stage; the ring is centred inside it */
 #circular-gallery-root{ display:none; width:100%; position:relative; }
 .home-gallery.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
 .home-gallery.is-enhanced .gallery-fallback{ display:none; }
 
-/* Soft cobalt glow behind the ring so the cards lift off the dark page */
+/* Warm rose glow behind the ring so the cards lift off the dark page */
 .home-gallery.is-enhanced #circular-gallery-root::before{
   content:""; position:absolute; left:50%; top:50%;
   width: min(80%, 900px); aspect-ratio: 1; transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(59,107,246,0.16), transparent 66%);
+  background: radial-gradient(circle, rgba(162,51,71,0.20), transparent 66%);
   pointer-events:none;
 }
 
-/* Live Projects status row inside its gallery card (mirrors the old home badge) */
+/* Live Projects status row inside its gallery card */
 .gallery-live-badge{
   display:inline-flex; align-items:center; gap:8px;
-  letter-spacing:.04em; text-transform:uppercase;
+  font-family: var(--font-heavy);
+  letter-spacing:.06em; text-transform:uppercase;
   color: var(--live-red);
 }
 .gallery-live-dot{
   width:7px; height:7px; border-radius:50%; background: var(--live-red);
-  box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
+  box-shadow: 0 0 0 0 rgba(255,92,114,0.6);
   animation: pulse-dot-1 1.8s infinite;
 }
-.gallery-live-badge.is-closed{ color: #99A2BE; }
-.gallery-live-badge.is-closed .gallery-live-dot{ background: #4b5163; animation:none; box-shadow:none; }
+.gallery-live-badge.is-closed{ color: var(--text-secondary); }
+.gallery-live-badge.is-closed .gallery-live-dot{ background: #6b5850; animation:none; box-shadow:none; }
 
 /* Mobile: the sticky mobile top bar takes the top of the viewport */
 @media (max-width: 900px){

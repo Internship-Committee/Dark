@@ -11,6 +11,21 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="assets/circular-gallery.css">
+<style>
+  /* Retheme the pre-built 3D gallery (compiled Tailwind, HSL tokens) to the
+     burgundy/cream palette without touching /gallery source or rebuilding. */
+  #circular-gallery-root{
+    --background: 351 40% 3%;
+    --foreground: 32 46% 89%;
+    --card: 351 46% 16%;
+    --card-foreground: 32 46% 89%;
+    --muted: 351 38% 11%;
+    --muted-foreground: 21 20% 68%;
+    --border: 351 24% 26%;
+    --primary: 344 51% 45%;
+    --primary-foreground: 0 0% 100%;
+  }
+</style>
 </head>
 <body data-page="home">
 <a class="skip-link" href="#main-content">Skip to content</a>
