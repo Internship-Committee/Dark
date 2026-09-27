@@ -1,61 +1,108 @@
 /* ============================================================
-   IC Portal — Homepage: bold oversized hero + 3D revolving logo
+   IC Portal — Homepage: hero, 3D revolving logo signature,
+   and the scroll-driven hero → gallery experience
    ============================================================ */
 
-/* ---- Scroll-jacked stage: hero + gallery share one screen ----
-   Until the visitor either fully morphs into the gallery + clicks
-   "Continue exploring", the page itself does not scroll — the wheel/
-   touch input instead drives the hero→gallery morph and then the
-   gallery's (unlimited) rotation. See assets/circular-gallery.js. */
-body.stage-locked{ overflow: hidden; height: 100vh; }
+/* ---------------------------------------------------------------
+   Home experience shell
+   ------------------------------------------------------------------
+   Hosts the hero and the circular gallery as two cross-fading,
+   full-height layers. js/home-experience.js adds ".is-locked" once
+   it has taken over scrolling on this section: while locked, the
+   page itself does not move — scrolling instead morphs the hero
+   into the gallery, then spins the gallery ring with no limit.
+   ".at-hero" / ".at-gallery" mark the two settled ends of that
+   morph (added/removed by JS); mid-morph neither is present.
 
-.scrollstage{ position: relative; }
-.scrollstage.is-enhanced{
-  height: 86vh;
-  min-height: 560px;
+   Without JS (or with reduced motion requested) ".is-locked" is
+   never added, so this is a normal, scrollable, two-section page
+   and the plain fallback cards inside .home-gallery are shown.
+   --------------------------------------------------------------- */
+html.ic-scroll-lock,
+html.ic-scroll-lock body{
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+.home-experience{
+  position: relative;
+  --engage: 0;
+}
+.home-experience.is-locked{
+  height: 100vh;
   overflow: hidden;
 }
-.scrollstage.is-enhanced .stage-layer{
-  position: absolute; inset: 0;
-  transition: opacity .55s var(--ease), transform .55s var(--ease), visibility 0s linear .55s;
-  will-change: opacity, transform;
-}
-/* Fully-faded layer stops accepting keyboard focus once its transition ends */
-.scrollstage.is-enhanced .stage-layer[aria-hidden="true"]{ visibility: hidden; }
 
-.scroll-continue{
-  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
-  z-index: 4;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 20px; border-radius: 999px;
-  border: 1px solid var(--surface-border);
-  background: var(--surface-strong);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  color: var(--text-secondary);
-  font-family: var(--font-heavy); font-size: 11.5px; font-weight: 800;
-  letter-spacing: .16em; text-transform: uppercase;
-  cursor: pointer;
-  opacity: 0; pointer-events: none;
-  transition: opacity .35s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+.home-experience.is-locked .hero,
+.home-experience.is-locked .home-gallery{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
 }
-.scroll-continue.is-visible{ opacity: 1; pointer-events: auto; }
-.scroll-continue:hover{ color: var(--accent-2); border-color: var(--surface-border-hover); }
-.scroll-continue svg{ width: 15px; height: 15px; animation: cue-bob 1.8s var(--ease) infinite; }
+.home-experience.is-locked .hero{
+  opacity: calc(1 - var(--engage));
+  transform: scale(calc(1 - 0.05 * var(--engage))) translateY(calc(var(--engage) * -16px));
+}
+.home-experience.is-locked .home-gallery{
+  opacity: var(--engage);
+  transform: scale(calc(0.95 + 0.05 * var(--engage)));
+}
+.home-experience.is-locked.at-hero .home-gallery{ pointer-events: none; }
+.home-experience.is-locked:not(.at-hero) .hero{ pointer-events: none; }
+.home-experience.is-locked:not(.at-gallery) .home-gallery{ pointer-events: none; }
+.home-experience.is-locked.at-gallery .home-gallery{ pointer-events: auto; }
 
 @media (max-width: 900px){
-  .scrollstage.is-enhanced{ height: calc(100vh - var(--header-h)); min-height: 460px; }
+  .home-experience.is-locked{ height: 100dvh; }
+}
+
+/* Small floating controls — the only way to move on from the pinned
+   experience once JS has taken over. Hidden until the visitor has
+   engaged at least a little, so the very first view of the hero
+   stays clean. */
+.experience-controls{
+  position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%);
+  z-index: 6; display:flex; gap:10px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s var(--ease);
+}
+.home-experience.is-locked:not(.at-hero) .experience-controls{ opacity: 1; pointer-events: auto; }
+.experience-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  border: 1px solid var(--surface-border);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease);
+}
+.experience-btn:hover{ color: var(--text-primary); border-color: var(--surface-border-hover); transform: translateY(-2px); }
+.experience-btn svg{ width:14px; height:14px; flex-shrink:0; }
+.experience-btn--back{ display:none; }
+.home-experience.is-locked:not(.at-hero) .experience-btn--back{ display:inline-flex; }
+
+@media (max-width: 520px){
+  .experience-btn span{ display:none; }
+  .experience-btn{ padding: 12px; }
 }
 
 .hero{
   position: relative;
-  min-height: 86vh;
+  min-height: 78vh;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center;
   padding: 60px 20px 30px;
   overflow: hidden;
 }
 
-/* ---- 3D revolving logo stage (sits BEHIND the oversized wordmark) ---- */
+/* ---- 3D revolving logo stage (signature element) ---- */
 .logo-stage{
   position:absolute;
   inset: 0;
@@ -65,24 +112,25 @@ body.stage-locked{ overflow: hidden; height: 100vh; }
   pointer-events:none;
 }
 .logo-orbit{
-  width: min(46vw, 480px);
-  height: min(46vw, 480px);
+  width: min(58vw, 620px);
+  height: min(58vw, 620px);
   position: relative;
   transform-style: preserve-3d;
   animation: revolve 22s linear infinite;
-  opacity: 0.22;
+  opacity: 0.5;
 }
 .logo-orbit img{
   position:absolute; inset:0;
   width:100%; height:100%;
   object-fit: contain;
-  filter: brightness(0) invert(1) sepia(0.4) saturate(3) hue-rotate(300deg) drop-shadow(0 0 70px rgba(162,51,71,0.45));
+  /* render supplied logo artwork in white for the dark background */
+  filter: brightness(0) invert(1) drop-shadow(0 0 70px rgba(59,107,246,0.35));
 }
 .logo-orbit::after{
   content:"";
   position:absolute; inset: -8%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(162,51,71,0.24), transparent 68%);
+  background: radial-gradient(circle, rgba(59,107,246,0.22), transparent 68%);
   transform: translateZ(-40px);
 }
 
@@ -98,35 +146,32 @@ body.stage-locked{ overflow: hidden; height: 100vh; }
 .hero-inner{
   position: relative;
   z-index: 2;
-  max-width: 900px;
-  margin-bottom: 52px;
+  max-width: 760px;
+  margin-bottom: 56px;
 }
 
 .hero-eyebrow{
-  font-family: var(--font-heavy);
-  font-size: 12px; font-weight:800; letter-spacing:.26em; text-transform:uppercase;
-  color: var(--accent-2);
+  font-size: 12.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  color: var(--text-muted);
   margin-bottom: 22px;
 }
 
-/* Oversized, tightly-tracked, uppercase grotesk wordmark. */
 .hero-tagline{
-  font-family: var(--font-heavy);
-  font-weight: 900;
-  font-size: clamp(2.8rem, 10vw, 7.2rem);
-  line-height: 0.94;
-  letter-spacing: -0.015em;
-  text-transform: uppercase;
-  margin: 0 0 24px;
-  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.3rem, 6vw, 4.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
+  background: linear-gradient(100deg, #ffffff 10%, #cfe0ff 45%, #9fb8ff 65%, #ffffff 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .hero-tagline em{
   font-style: italic;
-  font-family: var(--font-display);
-  font-weight: 500;
-  text-transform: none;
-  color: var(--accent-soft);
-  letter-spacing: -0.01em;
+  color: var(--accent-2);
+  -webkit-text-fill-color: var(--accent-2);
 }
 
 .hero-sub{
@@ -172,63 +217,124 @@ body.stage-locked{ overflow: hidden; height: 100vh; }
   position: relative;
   z-index: 2;
   display:inline-flex; flex-direction:column; align-items:center; gap:6px;
-  font-family: var(--font-heavy);
-  font-size: 11.5px; font-weight:800; letter-spacing:.2em; text-transform:uppercase;
+  font-size: 12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
   color: var(--text-muted);
   transition: color .2s var(--ease);
+  background: none; border: 0; padding: 0; font-family: inherit; cursor: pointer;
 }
 .hero-scroll-cue:hover{ color: var(--accent-2); }
 .hero-scroll-cue svg{ width:18px; height:18px; animation: cue-bob 1.8s var(--ease) infinite; }
 @keyframes cue-bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(5px); } }
 
-/* ---- Circular 3D gallery (vanilla-JS island, see assets/circular-gallery.js) ---- */
+/* ---- Circular 3D gallery ----
+   Rendered by js/home-experience.js straight into #circular-gallery-root
+   (plain JS + CSS, no build step). Without JS the plain fallback cards
+   below are shown instead. */
 .gallery-stage{
   display:flex; flex-direction:column; align-items:center;
+  height: 100%;
   padding: 40px 0 10px;
 }
-.scrollstage.is-enhanced .gallery-stage{
-  height: 100%;
+.home-experience.is-locked .gallery-stage{
   padding: 28px 0 0;
   overflow: hidden;
 }
 
-.gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; }
+.gallery-heading{ position: relative; z-index: 3; text-align:center; max-width: 640px; margin: 0 auto 6px; flex-shrink: 0; }
 .gallery-heading .eyebrow{ display:block; margin-bottom: 8px; }
-.gallery-heading .section-heading{ margin-bottom: 6px; font-family: var(--font-heavy); font-weight: 800; text-transform: uppercase; letter-spacing: -0.005em; }
+.gallery-heading .section-heading{ margin-bottom: 6px; }
 .gallery-hint{ display:none; margin: 0; font-size: 13px; color: var(--text-muted); }
-.scrollstage.is-enhanced .gallery-hint{ display:block; }
+.home-experience.is-locked .gallery-hint{ display:block; }
 
+/* Mount point: fills the rest of the stage; the ring is centred inside it */
 #circular-gallery-root{ display:none; width:100%; position:relative; }
-.scrollstage.is-enhanced #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
-.scrollstage.is-enhanced .gallery-fallback{ display:none; }
+.home-experience.is-locked #circular-gallery-root{ display:block; flex: 1; min-height: 0; }
+.home-experience.is-locked .gallery-fallback{ display:none; }
 
-/* Warm rose glow behind the ring so the cards lift off the dark page */
-.scrollstage.is-enhanced #circular-gallery-root::before{
+/* Soft cobalt glow behind the ring so the cards lift off the dark page */
+.home-experience.is-locked #circular-gallery-root::before{
   content:""; position:absolute; left:50%; top:50%;
   width: min(80%, 900px); aspect-ratio: 1; transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(162,51,71,0.20), transparent 66%);
+  background: radial-gradient(circle, rgba(59,107,246,0.16), transparent 66%);
   pointer-events:none;
 }
 
-/* Live Projects status row inside its gallery card */
+/* ---- Vanilla circular gallery ring (mounted by js/home-experience.js) ---- */
+.vgallery-inner{ position:relative; width:100%; height:100%; }
+.vgallery-ringwrap{
+  position:relative; width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  perspective: 2000px;
+}
+.vgallery-ring{
+  position:relative; width:100%; height:100%;
+  transform-style: preserve-3d;
+}
+.vgallery-card{
+  position:absolute; left:50%; top:50%;
+  width:300px; height:400px;
+  margin-left:-150px; margin-top:-200px;
+  display:block; text-decoration:none; color:inherit;
+  border-radius: var(--radius-l);
+  overflow:hidden;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-strong);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,.45);
+  transition: opacity .3s linear, border-color .2s var(--ease);
+  backface-visibility: hidden;
+}
+.vgallery-card:hover{ border-color: var(--surface-border-hover); }
+.vgallery-card img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover;
+  transition: transform .5s var(--ease);
+}
+.vgallery-card:hover img{ transform: scale(1.05); }
+.vgallery-icon{
+  position:absolute; top:12px; left:12px;
+  width:40px; height:40px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.25);
+  background: rgba(0,0,0,.4);
+  color:#fff;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.vgallery-icon svg{ width:20px; height:20px; }
+.vgallery-overlay{
+  position:absolute; left:0; bottom:0; width:100%;
+  padding: 16px 16px 18px;
+  background: linear-gradient(to top, rgba(0,0,0,.92), rgba(0,0,0,.6) 55%, transparent);
+  color:#fff;
+}
+.vgallery-overlay h3{ font-size:1.2rem; font-weight:700; margin:0 0 4px; }
+.vgallery-overlay p{ font-size:13px; line-height:1.4; opacity:.8; margin:0; }
+.vgallery-cta{ margin-top:10px; display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color: var(--accent-2); }
+.vgallery-cta svg{ width:14px; height:14px; transition: transform .22s var(--ease); }
+.vgallery-card:hover .vgallery-cta svg{ transform: translateX(4px); }
+
+/* Live Projects status row inside its gallery card (mirrors the old home badge) */
 .gallery-live-badge{
   display:inline-flex; align-items:center; gap:8px;
-  font-family: var(--font-heavy);
-  letter-spacing:.06em; text-transform:uppercase;
+  letter-spacing:.04em; text-transform:uppercase;
   color: var(--live-red);
 }
 .gallery-live-dot{
   width:7px; height:7px; border-radius:50%; background: var(--live-red);
-  box-shadow: 0 0 0 0 rgba(255,92,114,0.6);
+  box-shadow: 0 0 0 0 rgba(255,68,87,0.6);
   animation: pulse-dot-1 1.8s infinite;
 }
-.gallery-live-badge.is-closed{ color: var(--text-secondary); }
-.gallery-live-badge.is-closed .gallery-live-dot{ background: #6b5850; animation:none; box-shadow:none; }
+.gallery-live-badge.is-closed{ color: #99A2BE; }
+.gallery-live-badge.is-closed .gallery-live-dot{ background: #4b5163; animation:none; box-shadow:none; }
 
 /* Mobile: the sticky mobile top bar takes the top of the viewport */
 @media (max-width: 900px){
-  .scrollstage.is-enhanced .gallery-stage{ padding-top: 18px; }
+  .home-experience.is-locked .gallery-stage{
+    padding-top: 18px;
+  }
   .gallery-heading .section-heading{ font-size: 1.35rem; }
+  .vgallery-card{ width: 240px; height: 320px; margin-left: -120px; margin-top: -160px; }
 }
 
 @media (prefers-reduced-motion: reduce){

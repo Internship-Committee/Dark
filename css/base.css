@@ -1,51 +1,45 @@
 /* ============================================================
    IC Portal — Base styles, tokens, typography
-   Theme: deep burgundy/near-black + cream & rose (editorial, bold)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Archivo:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root{
   /* --- Color tokens --- */
-  --bg:               #0c0507;
-  --bg-radial-1:      #3a121b;   /* warm burgundy glow, top-right */
-  --bg-radial-2:      #1c0a0d;   /* secondary glow, bottom-left */
+  --bg:               #010006;
+  --bg-radial-1:      #070a17;
+  --bg-radial-2:      #01000a;
+  --sidebar-bg:       #05060fee;
+  --sidebar-border:   rgba(140,160,255,0.10);
 
-  --sidebar-bg:       rgba(15, 7, 9, 0.94);
-  --sidebar-border:   rgba(232, 205, 178, 0.12);
+  --surface:          rgba(16, 22, 46, 0.50);
+  --surface-strong:   rgba(18, 26, 54, 0.72);
+  --surface-border:   rgba(150, 170, 255, 0.14);
+  --surface-border-hover: rgba(150, 180, 255, 0.32);
 
-  --surface:          rgba(58, 20, 27, 0.38);
-  --surface-strong:   rgba(66, 24, 31, 0.62);
-  --surface-border:   rgba(232, 205, 178, 0.16);
-  --surface-border-hover: rgba(232, 205, 178, 0.38);
+  --accent:           #3B6BF6;   /* cobalt / electric blue */
+  --accent-soft:      #5C86FF;
+  --accent-2:         #38C6D9;   /* cyan-indigo secondary */
+  --accent-2-soft:    #6C7CFF;
 
-  --accent:           #A23347;   /* rose-red — primary CTAs */
-  --accent-soft:      #C65468;
-  --accent-2:         #D9A86C;   /* warm gold/blush — secondary links & icons */
-  --accent-2-soft:    #E9C696;
+  --text-primary:     #F3F1EA;
+  --text-secondary:   #99A2BE;
+  --text-muted:       #656E8C;
 
-  --text-primary:     #F4E9DC;   /* warm cream */
-  --text-secondary:   #C9B4A8;   /* muted rose-taupe */
-  --text-muted:       #8C7269;
+  --live-red:         #FF4457;
 
-  --live-red:         #FF5C72;
+  --stage-1:          #FF4457;  /* Applications Open   — red */
+  --stage-1-rgb:       255,68,87;
+  --stage-2:          #FFC53D;  /* Selection Ongoing   — yellow */
+  --stage-2-rgb:       255,197,61;
+  --stage-3:          #33D17A;  /* Ongoing Project     — green */
+  --stage-3-rgb:       51,209,122;
 
-  --stage-1:          #FF5C72;  /* Applications Open   — rose red */
-  --stage-1-rgb:       255,92,114;
-  --stage-2:          #E3B15C;  /* Selection Ongoing   — amber/gold */
-  --stage-2-rgb:       227,177,92;
-  --stage-3:          #6FBE8B;  /* Ongoing Project     — muted green */
-  --stage-3-rgb:       111,190,139;
+  --radius-s:  10px;
+  --radius-m:  16px;
+  --radius-l:  22px;
 
-  --radius-s:  8px;
-  --radius-m:  12px;
-  --radius-l:  16px;
-
-  /* Fraunces: elegant serif for the wordmark/headings (matches the portfolio inspo).
-     Archivo: heavy grotesk for oversized bold display type (matches the streetwear inspo).
-     Manrope: workhorse body/UI sans. */
   --font-display: 'Fraunces', 'Georgia', serif;
-  --font-heavy:   'Archivo', 'Manrope', -apple-system, sans-serif;
   --font-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --sidebar-w: 272px;
@@ -63,8 +57,8 @@ body{
   margin:0;
   min-height:100vh;
   background:
-    radial-gradient(1200px 760px at 86% -10%, var(--bg-radial-1) 0%, transparent 58%),
-    radial-gradient(950px 640px at -12% 108%, var(--bg-radial-2) 0%, transparent 55%),
+    radial-gradient(1100px 700px at 82% -8%, var(--bg-radial-1) 0%, transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, #060a1c 0%, transparent 55%),
     var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -76,7 +70,7 @@ body{
 h1,h2,h3,h4{
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.12;
+  line-height: 1.15;
   margin: 0 0 .5em;
   letter-spacing: -0.01em;
 }
@@ -103,8 +97,8 @@ button:focus-visible,
 /* --- Scrollbar (subtle) --- */
 ::-webkit-scrollbar{ width: 10px; height: 10px; }
 ::-webkit-scrollbar-track{ background: transparent; }
-::-webkit-scrollbar-thumb{ background: rgba(210,160,150,0.25); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover{ background: rgba(210,160,150,0.4); }
+::-webkit-scrollbar-thumb{ background: rgba(120,140,220,0.25); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover{ background: rgba(120,140,220,0.4); }
 
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce){
@@ -118,25 +112,17 @@ button:focus-visible,
 
 /* --- Utility --- */
 .eyebrow{
-  font-family: var(--font-heavy);
-  font-weight: 800;
-  font-size: 11.5px;
-  letter-spacing: 0.18em;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-2);
 }
 
 .section-heading{
-  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  font-size: clamp(1.6rem, 2.4vw, 2.3rem);
   color: var(--text-primary);
-}
-
-/* Bold editorial accent — italic script-weight serif, used sparingly on a single word */
-.script-accent{
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  color: var(--accent-soft);
 }
 
 .muted-link{
@@ -155,6 +141,6 @@ button:focus-visible,
   position:absolute; left:12px; top:-60px;
   background: var(--accent); color:#fff; padding: 10px 16px;
   border-radius: var(--radius-s); z-index: 999; transition: top .2s var(--ease);
-  font-weight:700; font-size: 14px;
+  font-weight:600; font-size: 14px;
 }
 .skip-link:focus{ top:12px; }
