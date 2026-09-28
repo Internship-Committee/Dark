@@ -165,8 +165,10 @@
   font:inherit;
   transition:background .16s ease,box-shadow .16s ease;
 }
-.calendar-day.has-deadline{ cursor:pointer; }
-.calendar-day.has-deadline:hover{ background:#211116; }
+.calendar-day.has-deadline,
+.calendar-day.is-empty{ cursor:pointer; }
+.calendar-day.has-deadline:hover,
+.calendar-day.is-empty:hover{ background:#211116; }
 .calendar-day.is-selected{
   position:relative;
   z-index:1;
@@ -192,6 +194,11 @@
   line-height:1.3;
   text-overflow:ellipsis;
   white-space:nowrap;
+}
+.calendar-event-marker.is-top-pick{
+  border-left-color:var(--accent-2);
+  background:rgba(217,168,108,.18);
+  color:#F4E9DC;
 }
 .calendar-event-more{ color:var(--accent-2); font-size:9.5px; font-weight:700; }
 .calendar-hint{ margin:11px 2px 0; color:var(--text-muted); font-size:11.5px; }
@@ -246,6 +253,78 @@
 .agenda-empty{ margin:18px 0 0; color:var(--text-muted); font-size:13px; line-height:1.55; }
 .calendar-load-error{ grid-column:1/-1; }
 
+/* Committee picks stay visible beside the calendar, independent of its filters. */
+.top-picks-panel{ border-color:rgba(217,168,108,.36); background:linear-gradient(155deg,rgba(217,168,108,.08),rgba(20,12,14,.88) 42%); }
+.top-picks-panel .agenda-heading{ border-bottom-color:rgba(217,168,108,.2); }
+.top-picks-panel .agenda-heading h2{ color:var(--accent-2-soft); }
+.top-picks-list{ gap:0; }
+.top-picks-list .deadline-item{
+  position:relative;
+  margin-top:13px;
+  padding:13px 11px;
+  border:1px solid rgba(217,168,108,.23);
+  border-radius:8px;
+  background:rgba(217,168,108,.055);
+}
+.top-picks-list .deadline-item:last-child{ border-bottom:1px solid rgba(217,168,108,.23); }
+.top-picks-list .deadline-date-block,
+.deadline-date-block.is-top-pick{ border-left-color:var(--accent-2); background:rgba(217,168,108,.16); }
+.top-pick-label{
+  display:inline-block;
+  margin:0 0 5px;
+  color:var(--accent-2);
+  font:800 8px var(--font-heavy);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.top-pick-note{ margin:6px 0 0; color:var(--text-secondary); font-size:11.5px; line-height:1.45; }
+.top-picks-empty{ margin:18px 0 0; color:var(--text-muted); font-size:13px; line-height:1.55; }
+
+/* Selecting any day opens its filtered deadline list in a focused dialog. */
+.competition-day-dialog{
+  width:min(620px,calc(100vw - 32px));
+  max-width:none;
+  max-height:min(760px,calc(100dvh - 48px));
+  margin:auto;
+  padding:0;
+  overflow:hidden;
+  border:1px solid rgba(217,168,108,.32);
+  border-radius:14px;
+  background:#130b0e;
+  color:var(--text-primary);
+  box-shadow:0 28px 90px rgba(0,0,0,.58);
+}
+.competition-day-dialog::backdrop{ background:rgba(6,3,4,.74); backdrop-filter:blur(4px); }
+.day-dialog-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  padding:24px 26px 18px;
+  border-bottom:1px solid var(--sidebar-border);
+}
+.day-dialog-header h2{ margin:0; color:var(--text-primary); font:600 clamp(1.4rem,4vw,1.9rem)/1.15 var(--font-display); }
+.day-dialog-header .agenda-count{ margin-top:7px; }
+.day-dialog-close{
+  flex:0 0 auto;
+  width:36px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--surface-border);
+  border-radius:50%;
+  background:transparent;
+  color:var(--text-secondary);
+  cursor:pointer;
+}
+.day-dialog-close:hover{ border-color:var(--accent-2); color:var(--text-primary); }
+.day-dialog-close svg{ width:16px; height:16px; }
+.day-dialog-events{ max-height:min(580px,calc(100dvh - 180px)); overflow-y:auto; padding:4px 26px 18px; }
+.day-dialog-events .deadline-item{ grid-template-columns:48px minmax(0,1fr); }
+.day-dialog-events .deadline-date-block{ width:46px; }
+.day-dialog-empty{ margin:22px 0 26px; color:var(--text-secondary); font-size:14px; line-height:1.55; }
+
 @media (max-width:1100px){
   .competition-calendar-layout{ grid-template-columns:1fr; }
   .deadline-agenda{ display:grid; grid-template-columns:minmax(190px,.65fr) minmax(0,1.35fr); gap:22px; }
@@ -266,4 +345,15 @@
   .deadline-filter-fields{ grid-template-columns:1fr; gap:10px; }
   .calendar-toolbar{ align-items:flex-start; flex-direction:column; }
   .calendar-navigation{ align-self:flex-end; }
+}
+@media (max-width:600px){
+  .competition-day-dialog{
+    width:100%;
+    max-width:none;
+    max-height:88dvh;
+    margin:auto 0 0;
+    border-radius:16px 16px 0 0;
+  }
+  .day-dialog-header{ padding:21px 19px 16px; }
+  .day-dialog-events{ max-height:calc(88dvh - 116px); padding:0 19px 18px; }
 }

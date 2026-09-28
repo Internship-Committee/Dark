@@ -134,12 +134,21 @@ default badge colour until someone styles them specifically in
 
 **Case Competitions**
 ```
-Competition Name | Institute | Deadline | Link
+Competition Name | Institute | Deadline | Link | IC Top Pick | Pick Order | Pick Note
 ```
 `Deadline` can be any parseable date (e.g. `2026-10-12` or `12 Oct 2026`) —
-the page sorts and formats it automatically, and every deadline shown gets
-a trailing asterisk plus a small disclaimer noting deadlines can shift, since
-organizers change these outside the committee's control.
+the page sorts and formats it automatically, with a reminder that deadlines
+can shift because organizers may change them.
+
+`IC Top Pick` is an optional `Yes` / `No` column. Set it to `Yes` to feature
+that competition in the gold-accented **IC Top Picks** panel; blank values and
+`No` stay off the panel. `Pick Order` is an optional positive number that sets
+the order of featured competitions (for example, `1`, `2`, `3`); if it is
+blank, picks are ordered by deadline. `Pick Note` is optional short text shown
+under the institute name in the picks panel. These columns can be added to the
+existing Case Competitions tab; no new tab is needed. Selecting any calendar
+date opens a day view with all competition deadlines on that date, subject to
+the active institute and date-range filters.
 
 **Scraper-fed deadlines (optional):** if a tab's `Deadline` column instead
 gets a relative, human string from an automated scraper — like

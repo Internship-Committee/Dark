@@ -150,8 +150,16 @@ const ICData = (() => {
       name: pick(row, "Competition Name", "name"),
       institute: pick(row, "Institute", "organising institute", "institute"),
       deadline: resolveDeadline(pick(row, "Deadline", "deadline"), scrapedAt),
-      link: pick(row, "Link", "link", "url")
+      link: pick(row, "Link", "link", "url"),
+      isTopPick: parseBoolean(pick(row, "IC Top Pick", "Top Pick", "Featured")),
+      pickOrder: pick(row, "Pick Order", "Top Pick Order", "Featured Order"),
+      pickNote: pick(row, "Pick Note", "IC Note", "Featured Note")
     };
+  }
+
+  function parseBoolean(value){
+    const normalized = String(value == null ? "" : value).trim().toLowerCase();
+    return ["yes", "true", "1", "y"].includes(normalized);
   }
 
   // ---- Relative deadline resolution --------------------------------

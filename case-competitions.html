@@ -128,21 +128,35 @@
             <div class="calendar-weekdays" aria-hidden="true">
               <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
             </div>
-          <div class="calendar-grid" id="calendar-grid" aria-labelledby="calendar-month-label"><p class="agenda-empty calendar-load-error">Loading calendar…</p></div>
+            <div class="calendar-grid" id="calendar-grid" aria-labelledby="calendar-month-label"><p class="agenda-empty calendar-load-error">Loading calendar…</p></div>
           </div>
-          <p class="calendar-hint">Select a marked date to see what’s due.</p>
+          <p class="calendar-hint">Select any date to see that day’s deadlines.</p>
         </section>
 
-        <aside class="deadline-agenda" aria-label="Competition deadlines for the selected month">
+        <aside class="deadline-agenda top-picks-panel" aria-labelledby="top-picks-title">
           <div class="agenda-heading">
-            <p class="calendar-kicker" id="agenda-kicker">This month</p>
-            <h2 id="agenda-title"></h2>
-            <p class="agenda-count" id="agenda-count"></p>
+            <p class="calendar-kicker">Chosen by the committee</p>
+            <h2 id="top-picks-title">IC Top Picks</h2>
+            <p class="agenda-count" id="top-picks-count">Loading picks…</p>
           </div>
-          <div class="agenda-items" id="competition-agenda" aria-live="polite"></div>
+          <div class="agenda-items top-picks-list" id="ic-top-picks" aria-live="polite"></div>
         </aside>
       </div>
     </section>
+
+    <dialog class="competition-day-dialog" id="competition-day-dialog" aria-labelledby="competition-day-title" aria-describedby="competition-day-count">
+      <div class="day-dialog-header">
+        <div>
+          <p class="calendar-kicker">Case competition deadlines</p>
+          <h2 id="competition-day-title"></h2>
+          <p class="agenda-count" id="competition-day-count"></p>
+        </div>
+        <button class="day-dialog-close" id="close-day-dialog" type="button" aria-label="Close day details">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="day-dialog-events" id="competition-day-events" aria-live="polite"></div>
+    </dialog>
 
     <footer class="site-footer">
       <span>&copy; Internship Committee, IIM Rohtak</span>

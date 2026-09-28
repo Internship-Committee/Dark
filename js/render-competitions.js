@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const calendarGrid = document.getElementById("calendar-grid");
   const monthLabel = document.getElementById("calendar-month-label");
-  const agendaKicker = document.getElementById("agenda-kicker");
-  const agendaTitle = document.getElementById("agenda-title");
-  const agendaCount = document.getElementById("agenda-count");
-  const agenda = document.getElementById("competition-agenda");
+  const topPicks = document.getElementById("ic-top-picks");
+  const topPicksCount = document.getElementById("top-picks-count");
   const filterStatus = document.getElementById("competition-filter-status");
   const fromInput = document.getElementById("competition-date-from");
   const throughInput = document.getElementById("competition-date-through");
@@ -16,15 +14,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   const previousButton = document.getElementById("calendar-previous");
   const nextButton = document.getElementById("calendar-next");
   const todayButton = document.getElementById("calendar-today");
+  const dayDialog = document.getElementById("competition-day-dialog");
+  const dayDialogTitle = document.getElementById("competition-day-title");
+  const dayDialogCount = document.getElementById("competition-day-count");
+  const dayDialogEvents = document.getElementById("competition-day-events");
+  const closeDialogButton = document.getElementById("close-day-dialog");
 
   let competitions = [];
   let activeMonth = firstOfMonth(new Date());
+  let focusedDateKey = toDateKey(new Date());
   let selectedDateKey = "";
+
+  monthLabel.textContent = formatMonth(activeMonth);
+  topPicks.innerHTML = `<p class="agenda-empty">Loading committee picks…</p>`;
 
   previousButton.addEventListener("click", () => changeMonth(-1));
   nextButton.addEventListener("click", () => changeMonth(1));
   todayButton.addEventListener("click", () => {
-    activeMonth = firstOfMonth(new Date());
+    const today = new Date();
+    activeMonth = firstOfMonth(today);
+    focusedDateKey = toDateKey(today);
     selectedDateKey = "";
     render();
   });
@@ -41,27 +50,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     throughInput.min = "";
     instituteSelect.value = "";
     activeMonth = firstOfMonth(new Date());
+    focusedDateKey = toDateKey(new Date());
     selectedDateKey = "";
     render();
   });
   calendarGrid.addEventListener("click", event => {
     const dayButton = event.target.closest("[data-calendar-date]");
     if (!dayButton) return;
-    selectedDateKey = selectedDateKey === dayButton.dataset.calendarDate ? "" : dayButton.dataset.calendarDate;
+    focusedDateKey = dayButton.dataset.calendarDate;
+    selectedDateKey = focusedDateKey;
     render();
+    openDayDialog(selectedDateKey);
+  });
+  calendarGrid.addEventListener("keydown", handleCalendarKeydown);
+  closeDialogButton.addEventListener("click", () => dayDialog.close());
+  dayDialog.addEventListener("click", event => {
+    if (event.target === dayDialog) dayDialog.close();
+  });
+  dayDialog.addEventListener("close", () => {
+    const trigger = calendarGrid.querySelector(`[data-calendar-date="${selectedDateKey}"]`);
+    if (trigger) trigger.focus();
   });
 
   try{
     const rows = await ICData.getCompetitions();
-    competitions = rows.map((row, index) => {
+    competitions = rows.map(row => {
       const deadlineDate = parseDeadlineDate(row.deadline);
+      const pickOrderValue = Number.parseInt(row.pickOrder, 10);
       return {
         ...row,
         name: String(row.name || "Untitled competition").trim(),
         institute: String(row.institute || "").trim(),
+        pickNote: String(row.pickNote || "").trim(),
+        pickOrder: Number.isFinite(pickOrderValue) && pickOrderValue > 0 ? pickOrderValue : Number.MAX_SAFE_INTEGER,
         deadlineDate,
-        dateKey: deadlineDate ? toDateKey(deadlineDate) : "",
-        originalIndex: index
+        dateKey: deadlineDate ? toDateKey(deadlineDate) : ""
       };
     }).sort((a, b) => {
       if (a.dateKey && b.dateKey) return a.dateKey.localeCompare(b.dateKey);
@@ -72,13 +95,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     populateInstitutes();
     render();
+    renderTopPicks();
     showDisclaimer(board, "Deadlines can change. Confirm the exact date on the competition’s official page before applying.");
   }catch(err){
     filterStatus.textContent = "Competition deadlines could not be loaded.";
     calendarGrid.innerHTML = `<p class="agenda-empty calendar-load-error">${escapeHtml(err.message)}</p>`;
-    agendaTitle.textContent = "Unavailable";
-    agendaCount.textContent = "";
-    agenda.innerHTML = `<p class="agenda-empty">Try refreshing the page in a moment.</p>`;
+    topPicksCount.textContent = "";
+    topPicks.innerHTML = `<p class="agenda-empty">Try refreshing the page in a moment.</p>`;
   }
 
   function populateInstitutes(){
@@ -89,13 +112,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     ).join("")}`;
   }
 
+  function renderTopPicks(){
+    const picks = competitions.filter(item => item.isTopPick).sort((a, b) => {
+      if (a.pickOrder !== b.pickOrder) return a.pickOrder - b.pickOrder;
+      if (a.dateKey && b.dateKey) return a.dateKey.localeCompare(b.dateKey);
+      if (a.dateKey) return -1;
+      if (b.dateKey) return 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    topPicksCount.textContent = `${picks.length} ${picks.length === 1 ? "committee pick" : "committee picks"}`;
+    if (!picks.length){
+      topPicks.innerHTML = `<p class="top-picks-empty">The committee’s selected competitions will appear here.</p>`;
+      return;
+    }
+    topPicks.innerHTML = picks.map(item => renderCompetitionItem(item, true)).join("");
+  }
+
   function onDateRangeChange(){
     throughInput.min = fromInput.value;
     fromInput.max = throughInput.value;
     const anchor = fromInput.value || throughInput.value;
     if (anchor){
       const date = parseDeadlineDate(anchor);
-      if (date) activeMonth = firstOfMonth(date);
+      if (date){
+        activeMonth = firstOfMonth(date);
+        focusedDateKey = toDateKey(date);
+      }
     }
     selectedDateKey = "";
     render();
@@ -103,8 +146,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function changeMonth(offset){
     activeMonth = new Date(activeMonth.getFullYear(), activeMonth.getMonth() + offset, 1);
+    focusedDateKey = toDateKey(activeMonth);
     selectedDateKey = "";
     render();
+  }
+
+  function handleCalendarKeydown(event){
+    const dayButton = event.target.closest("[data-calendar-date]");
+    if (!dayButton) return;
+
+    const current = parseDeadlineDate(dayButton.dataset.calendarDate);
+    let nextDate = null;
+    if (event.key === "ArrowLeft") nextDate = shiftDate(current, -1);
+    if (event.key === "ArrowRight") nextDate = shiftDate(current, 1);
+    if (event.key === "ArrowUp") nextDate = shiftDate(current, -7);
+    if (event.key === "ArrowDown") nextDate = shiftDate(current, 7);
+    if (event.key === "Home") nextDate = new Date(current.getFullYear(), current.getMonth(), 1);
+    if (event.key === "End") nextDate = new Date(current.getFullYear(), current.getMonth() + 1, 0);
+    if (!nextDate) return;
+
+    event.preventDefault();
+    focusedDateKey = toDateKey(nextDate);
+    selectedDateKey = "";
+    if (nextDate.getMonth() !== activeMonth.getMonth() || nextDate.getFullYear() !== activeMonth.getFullYear()){
+      activeMonth = firstOfMonth(nextDate);
+    }
+    render();
+    calendarGrid.querySelector(`[data-calendar-date="${focusedDateKey}"]`)?.focus();
   }
 
   function render(){
@@ -132,7 +200,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     renderCalendar(filtered, monthKey);
-    renderAgenda(filtered, monthKey, invalidRange);
   }
 
   function renderCalendar(filtered, monthKey){
@@ -148,9 +215,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       itemsByDate.get(item.dateKey).push(item);
     });
 
-    if (!competitions.length){
-      calendarGrid.innerHTML = `<p class="agenda-empty calendar-load-error">No competition deadlines are listed yet.</p>`;
-      return;
+    const focusedDate = parseDeadlineDate(focusedDateKey);
+    if (!focusedDate || focusedDate.getFullYear() !== year || focusedDate.getMonth() !== month){
+      focusedDateKey = toDateKey(new Date(year, month, 1));
     }
 
     const cells = [];
@@ -164,88 +231,69 @@ document.addEventListener("DOMContentLoaded", async () => {
       const date = new Date(year, month, day);
       const key = toDateKey(date);
       const dayItems = itemsByDate.get(key) || [];
-      const hasDeadline = dayItems.length > 0;
       const today = key === toDateKey(new Date());
       const selected = key === selectedDateKey;
-      const classes = ["calendar-day", hasDeadline ? "has-deadline" : "is-empty", today ? "is-today" : "", selected ? "is-selected" : ""].filter(Boolean).join(" ");
+      const classes = ["calendar-day", dayItems.length ? "has-deadline" : "is-empty", today ? "is-today" : "", selected ? "is-selected" : ""].filter(Boolean).join(" ");
       const markers = dayItems.slice(0, 2).map(item =>
-        `<span class="calendar-event-marker" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>`
+        `<span class="calendar-event-marker${item.isTopPick ? " is-top-pick" : ""}" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>`
       ).join("");
       const more = dayItems.length > 2 ? `<span class="calendar-event-more">+${dayItems.length - 2} more</span>` : "";
-      const summary = dayItems.length ? `: ${dayItems.map(item => item.name).join(", ")}` : "";
+      const summary = dayItems.length ? `: ${dayItems.map(item => item.name).join(", ")}` : ": no competition deadlines";
       const label = `${formatLongDate(date)}${summary}`;
+      const current = today ? ` aria-current="date"` : "";
 
-      if (hasDeadline){
-        cells.push(`<button class="${classes}" type="button" data-calendar-date="${key}" aria-label="${escapeHtml(label)}" aria-pressed="${selected}">
-          <span class="calendar-day-number">${day}</span>
-          <span class="calendar-event-markers">${markers}${more}</span>
-        </button>`);
-      }else{
-        cells.push(`<div class="${classes}"><span class="calendar-day-number">${day}</span></div>`);
-      }
+      cells.push(`<button class="${classes}" type="button" data-calendar-date="${key}" tabindex="${key === focusedDateKey ? "0" : "-1"}" aria-label="${escapeHtml(label)}" aria-pressed="${selected}"${current}>
+        <span class="calendar-day-number">${day}</span>
+        <span class="calendar-event-markers">${markers}${more}</span>
+      </button>`);
     }
     calendarGrid.innerHTML = cells.join("");
   }
 
-  function renderAgenda(filtered, monthKey, invalidRange){
-    if (!competitions.length){
-      agendaKicker.textContent = "Coming up";
-      agendaTitle.textContent = "No competitions yet";
-      agendaCount.textContent = "";
-      agenda.innerHTML = `<p class="agenda-empty">New competitions will appear here when they’re added.</p>`;
-      return;
-    }
-
-    if (selectedDateKey){
-      const selectedDate = parseDeadlineDate(selectedDateKey);
-      const items = filtered.filter(item => item.dateKey === selectedDateKey);
-      agendaKicker.textContent = "Selected date";
-      agendaTitle.textContent = formatAgendaDate(selectedDate);
-      agendaCount.textContent = `${items.length} ${items.length === 1 ? "competition" : "competitions"} due`;
-      agenda.innerHTML = items.map(renderAgendaItem).join("");
-      return;
-    }
-
-    const monthItems = filtered.filter(item => item.dateKey.startsWith(monthKey));
-    const undatedItems = filtered.filter(item => !item.dateKey);
-    agendaKicker.textContent = "This month";
-    agendaTitle.textContent = formatMonth(activeMonth);
-    agendaCount.textContent = `${monthItems.length} ${monthItems.length === 1 ? "deadline" : "deadlines"}`;
-
-    if (invalidRange){
-      agenda.innerHTML = `<p class="agenda-empty">Adjust the date range to see matching competitions.</p>`;
-      return;
-    }
-    if (!monthItems.length && !undatedItems.length){
-      const message = filtered.length
-        ? "No matching deadlines this month. Use the arrows to browse other months."
-        : "No competitions match these filters.";
-      agenda.innerHTML = `<p class="agenda-empty">${message}</p>`;
-      return;
-    }
-
-    let content = monthItems.map(renderAgendaItem).join("");
-    if (undatedItems.length){
-      content += `<h3 class="agenda-subheading">Date not listed</h3>${undatedItems.map(renderAgendaItem).join("")}`;
-    }
-    agenda.innerHTML = content;
+  function openDayDialog(dateKey){
+    const date = parseDeadlineDate(dateKey);
+    const hasFilters = Boolean(fromInput.value || throughInput.value || instituteSelect.value);
+    const items = getFilteredCompetitions().filter(item => item.dateKey === dateKey);
+    dayDialogTitle.textContent = formatLongDate(date);
+    dayDialogCount.textContent = `${items.length} ${items.length === 1 ? "competition deadline" : "competition deadlines"}`;
+    dayDialogEvents.innerHTML = items.length
+      ? items.map(item => renderCompetitionItem(item, item.isTopPick)).join("")
+      : `<p class="day-dialog-empty">No competitions are listed for this date${hasFilters ? " with the current filters" : ""}.</p>`;
+    dayDialog.showModal();
+    closeDialogButton.focus();
   }
 
-  function renderAgendaItem(item){
+  function getFilteredCompetitions(){
+    const rangeStart = fromInput.value;
+    const rangeEnd = throughInput.value;
+    if (rangeStart && rangeEnd && rangeStart > rangeEnd) return [];
+    return competitions.filter(item => {
+      if (instituteSelect.value && item.institute !== instituteSelect.value) return false;
+      if (rangeStart && (!item.dateKey || item.dateKey < rangeStart)) return false;
+      if (rangeEnd && (!item.dateKey || item.dateKey > rangeEnd)) return false;
+      return true;
+    });
+  }
+
+  function renderCompetitionItem(item, isTopPick){
     const date = item.deadlineDate;
     const dateBlock = date
-      ? `<div class="deadline-date-block" aria-hidden="true"><strong>${date.getDate()}</strong><span>${date.toLocaleDateString("en-IN", { month:"short" })}</span></div>`
-      : `<div class="deadline-date-block is-undated" aria-hidden="true"><strong>—</strong><span>TBC</span></div>`;
+      ? `<div class="deadline-date-block${isTopPick ? " is-top-pick" : ""}" aria-hidden="true"><strong>${date.getDate()}</strong><span>${date.toLocaleDateString("en-IN", { month:"short" })}</span></div>`
+      : `<div class="deadline-date-block is-undated${isTopPick ? " is-top-pick" : ""}" aria-hidden="true"><strong>—</strong><span>TBC</span></div>`;
     const dateCopy = date ? `<p class="deadline-exact">Due ${formatShortDate(date)}</p>` : `<p class="deadline-exact">Deadline not announced</p>`;
     const details = item.link
       ? `<a class="deadline-details" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">Competition details ${ICIcons.externalLink}</a>`
       : "";
+    const note = isTopPick && item.pickNote ? `<p class="top-pick-note">${escapeHtml(item.pickNote)}</p>` : "";
+    const pickLabel = isTopPick ? `<span class="top-pick-label">IC pick</span>` : "";
 
-    return `<article class="deadline-item">
+    return `<article class="deadline-item${isTopPick ? " is-top-pick" : ""}">
       ${dateBlock}
       <div class="deadline-item-copy">
+        ${pickLabel}
         <h3>${escapeHtml(item.name)}</h3>
         <p class="deadline-institute">${escapeHtml(item.institute || "Institute not listed")}</p>
+        ${note}
         ${dateCopy}
         ${details}
       </div>
@@ -271,6 +319,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function firstOfMonth(date){ return new Date(date.getFullYear(), date.getMonth(), 1); }
+  function shiftDate(date, days){ return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days); }
 
   function toDateKey(date){
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -282,10 +331,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function formatLongDate(date){
     return date.toLocaleDateString("en-IN", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
-  }
-
-  function formatAgendaDate(date){
-    return date.toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" });
   }
 
   function formatShortDate(date){
