@@ -123,7 +123,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
             const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
             const opacity = Math.max(0.3, 1 - (normalizedAngle / 180));
 
-            const cardClasses = "relative block w-full h-full rounded-lg shadow-2xl overflow-hidden group border border-border bg-card/70 dark:bg-card/30 backdrop-blur-lg";
+            const cardClasses = "relative block w-full h-full rounded-[20px] overflow-hidden group border border-white/30 bg-[#1d1d1d]";
             const cardBody = (
               <>
                 <img
@@ -136,14 +136,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 {item.icon && (
-                  <span className="absolute top-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl border border-white/25 bg-black/40 text-white backdrop-blur-md">
+                  <span className="absolute top-3 left-3 flex h-10 w-10 items-center justify-center rounded-sm border border-white/40 bg-[#131313] text-[#3CFFD0]">
                     {item.icon}
                   </span>
                 )}
                 {/* Replaced text-primary-foreground with text-white for consistent color */}
-                <div className="absolute bottom-0 left-0 w-full p-4 pt-12 bg-gradient-to-t from-black/90 via-black/60 to-transparent text-white">
-                  <h2 className="text-xl font-bold">{item.common}</h2>
-                  <em className="text-sm italic opacity-80">{item.binomial}</em>
+                <div className="absolute bottom-0 left-0 w-full border-t border-white/25 bg-[#131313] p-4 text-white">
+                  <h2 className="text-xl font-bold uppercase">{item.common}</h2>
+                  <em className="text-sm not-italic opacity-80">{item.binomial}</em>
                   {item.photo.by && (
                     <p className="text-xs mt-2 opacity-70">Photo by: {item.photo.by}</p>
                   )}

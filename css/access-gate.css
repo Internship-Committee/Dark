@@ -91,3 +91,17 @@ body:has(#ic-gate:not(.is-hidden)){ overflow: hidden; }
   color: var(--text-muted, #656E8C);
   text-decoration: underline;
 }
+
+/* Access gate follows the same flat, high-contrast editorial system. */
+#ic-gate{ background:#131313; }
+.ic-gate-card{
+  border:1px solid rgba(255,255,255,.24);
+  border-left:4px solid var(--accent-2);
+  border-radius:var(--radius-s);
+  background:#1d1d1d;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+}
+.ic-gate-card h2{ font-family:var(--font-display); font-size:2rem; text-transform:uppercase; }
+.ic-gate-btn{ border-radius:999px; background:var(--accent); color:#000; }
+.ic-gate-btn:hover{ background:#fff; color:#000; }

@@ -196,3 +196,27 @@
   .stage-pin-label{ display:none; }
   .lp-stage-bar{ padding: 24px 20px 20px; }
 }
+
+/* Project detail pages continue the high-contrast editorial system. */
+.lp-header{
+  border:1px solid rgba(255,255,255,.22);
+  border-left:4px solid var(--accent);
+  border-radius:var(--radius-s);
+  background:#1b1b1b;
+  box-shadow:none;
+}
+.lp-header h1{ color:#fff; font-family:var(--font-display); font-weight:400; text-transform:uppercase; }
+.lp-header .lp-tagline{ color:#bdbdbd; }
+.lp-section h2{ color:var(--accent); font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase; }
+.lp-section p{ color:#c4c4c4; }
+.role-block{ border-radius:var(--radius-s); border-color:rgba(255,255,255,.2); background:#1d1d1d; }
+.role-block h3{ color:var(--accent); font-family:var(--font-mono); }
+.role-block .takeaway{ border-left-color:var(--accent-2); background:rgba(135,92,255,.12); }
+.lp-sidebar .apply-card .deadline-big{ color:var(--accent); font-family:var(--font-display); }
+.lp-sidebar .apply-card .deadline-label,.info-row .info-label{ font-family:var(--font-mono); }
+.info-row{ border-bottom-color:rgba(255,255,255,.18); }
+.info-row svg{ color:var(--accent); }
+.stage-road-track{ background:#444; }
+.stage-road-fill.stage-2,.stage-road-fill.stage-3{ background:var(--accent); }
+.stage-pin-icon{ border-color:#777; background:#202020; }
+.stage-pin--current .stage-pin-icon{ background:var(--accent); color:#000; }

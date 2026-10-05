@@ -1,84 +1,81 @@
 /* ============================================================
    IC Portal — Base styles, tokens, typography
-   Theme: deep burgundy/near-black + cream & rose (editorial, bold)
+   Theme: ink-black editorial system with mint and ultraviolet signals
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Archivo:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 :root{
-  /* --- Color tokens --- */
-  --bg:               #0c0507;
-  --bg-radial-1:      #3a121b;   /* warm burgundy glow, top-right */
-  --bg-radial-2:      #1c0a0d;   /* secondary glow, bottom-left */
+  /* The Verge-inspired editorial palette: ink canvas, signal mint, violet. */
+  --bg:               #131313;
+  --bg-radial-1:      #202020;
+  --bg-radial-2:      #191919;
 
-  --sidebar-bg:       rgba(15, 7, 9, 0.94);
-  --sidebar-border:   rgba(232, 205, 178, 0.12);
+  --sidebar-bg:       #131313;
+  --sidebar-border:   rgba(255, 255, 255, 0.18);
 
-  --surface:          rgba(58, 20, 27, 0.38);
-  --surface-strong:   rgba(66, 24, 31, 0.62);
-  --surface-border:   rgba(232, 205, 178, 0.16);
-  --surface-border-hover: rgba(232, 205, 178, 0.38);
+  --surface:          #1d1d1d;
+  --surface-strong:   #292929;
+  --surface-border:   rgba(255, 255, 255, 0.2);
+  --surface-border-hover: rgba(60, 255, 208, 0.8);
 
-  --accent:           #A23347;   /* rose-red — primary CTAs */
-  --accent-soft:      #C65468;
-  --accent-2:         #D9A86C;   /* warm gold/blush — secondary links & icons */
-  --accent-2-soft:    #E9C696;
+  --accent:           #3CFFD0;
+  --accent-soft:      #79FFE0;
+  --accent-2:         #875CFF;
+  --accent-2-soft:    #B69BFF;
 
-  --text-primary:     #F4E9DC;   /* warm cream */
-  --text-secondary:   #C9B4A8;   /* muted rose-taupe */
-  --text-muted:       #8C7269;
+  --text-primary:     #FFFFFF;
+  --text-secondary:   #D0D0D0;
+  --text-muted:       #999999;
 
-  --live-red:         #FF5C72;
+  --live-red:         #FF6B7A;
 
-  --stage-1:          #FF5C72;  /* Applications Open   — rose red */
-  --stage-1-rgb:       255,92,114;
-  --stage-2:          #E3B15C;  /* Selection Ongoing   — amber/gold */
-  --stage-2-rgb:       227,177,92;
-  --stage-3:          #6FBE8B;  /* Ongoing Project     — muted green */
-  --stage-3-rgb:       111,190,139;
+  --stage-1:          #FF6B7A;
+  --stage-1-rgb:       255,107,122;
+  --stage-2:          #FFD166;
+  --stage-2-rgb:       255,209,102;
+  --stage-3:          #54E39A;
+  --stage-3-rgb:       84,227,154;
 
-  --radius-s:  8px;
+  --radius-s:  3px;
   --radius-m:  12px;
-  --radius-l:  16px;
+  --radius-l:  20px;
 
-  /* Fraunces: elegant serif for the wordmark/headings (matches the portfolio inspo).
-     Archivo: heavy grotesk for oversized bold display type (matches the streetwear inspo).
-     Manrope: workhorse body/UI sans. */
-  --font-display: 'Fraunces', 'Georgia', serif;
-  --font-heavy:   'Archivo', 'Manrope', -apple-system, sans-serif;
+  /* Anton carries editorial headlines; Space Mono is reserved for labels. */
+  --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+  --font-heavy:   'Manrope', -apple-system, sans-serif;
   --font-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'Space Mono', 'Courier New', monospace;
 
   --sidebar-w: 272px;
   --sidebar-w-collapsed: 84px;
-  --header-h: 72px;
+  --header-h: 82px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
 
-html{ scroll-behavior: smooth; }
+html{ scroll-behavior: smooth; color-scheme: dark; }
 
 body{
   margin:0;
   min-height:100vh;
-  background:
-    radial-gradient(1200px 760px at 86% -10%, var(--bg-radial-1) 0%, transparent 58%),
-    radial-gradient(950px 640px at -12% 108%, var(--bg-radial-2) 0%, transparent 55%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-weight: 400;
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
 }
 
 h1,h2,h3,h4{
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.12;
+  font-weight: 400;
+  line-height: 0.98;
   margin: 0 0 .5em;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 p{ margin: 0 0 1em; color: var(--text-secondary); }
@@ -103,8 +100,8 @@ button:focus-visible,
 /* --- Scrollbar (subtle) --- */
 ::-webkit-scrollbar{ width: 10px; height: 10px; }
 ::-webkit-scrollbar-track{ background: transparent; }
-::-webkit-scrollbar-thumb{ background: rgba(210,160,150,0.25); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover{ background: rgba(210,160,150,0.4); }
+::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.24); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover{ background: rgba(60,255,208,0.7); }
 
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce){
@@ -118,25 +115,28 @@ button:focus-visible,
 
 /* --- Utility --- */
 .eyebrow{
-  font-family: var(--font-heavy);
-  font-weight: 800;
-  font-size: 11.5px;
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent-2);
 }
 
 .section-heading{
-  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  font-size: clamp(2.4rem, 5.4vw, 5.8rem);
   color: var(--text-primary);
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 /* Bold editorial accent — italic script-weight serif, used sparingly on a single word */
 .script-accent{
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  color: var(--accent-soft);
+  font-family: var(--font-heavy);
+  font-style: normal;
+  font-weight: 800;
+  color: var(--accent);
+  text-transform: uppercase;
 }
 
 .muted-link{
@@ -153,7 +153,7 @@ button:focus-visible,
 
 .skip-link{
   position:absolute; left:12px; top:-60px;
-  background: var(--accent); color:#fff; padding: 10px 16px;
+  background: var(--accent); color:#000; padding: 10px 16px;
   border-radius: var(--radius-s); z-index: 999; transition: top .2s var(--ease);
   font-weight:700; font-size: 14px;
 }

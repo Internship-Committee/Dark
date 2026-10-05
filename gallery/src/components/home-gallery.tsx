@@ -72,7 +72,7 @@ const unsplash = (id: string) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=80`;
 
 const Explore = ({ label = 'Explore' }: { label?: string }) => (
-  <span className="inline-flex items-center gap-2 text-sky-300">
+  <span className="gallery-explore">
     {label} <ArrowRight />
   </span>
 );

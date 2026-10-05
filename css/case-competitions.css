@@ -357,3 +357,96 @@
   .day-dialog-header{ padding:21px 19px 16px; }
   .day-dialog-events{ max-height:calc(88dvh - 116px); padding:0 19px 18px; }
 }
+
+/* Calendar editorial skin: sharp grid, bright deadline marks, violet committee picks. */
+.competition-filters{ border-color:rgba(255,255,255,.2); gap:16px; }
+.deadline-filter legend,.filter-field > span,.agenda-subheading{ font-family:var(--font-mono); letter-spacing:.04em; }
+.filter-field input,.filter-field select{
+  border-radius:var(--radius-s);
+  border-color:rgba(255,255,255,.26);
+  background:#1d1d1d;
+  color:#fff;
+}
+.filter-field input:focus-visible,.filter-field select:focus-visible{ outline-color:var(--accent); }
+.competition-filter-status{ color:#aaa; font:400 10px/1.5 var(--font-mono); }
+.competition-calendar-layout{ gap:16px; }
+.calendar-panel,.deadline-agenda{
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:var(--radius-s);
+  background:#191919;
+}
+.calendar-panel{ padding:20px; }
+.calendar-kicker{ color:var(--accent); font-family:var(--font-mono); letter-spacing:.07em; }
+.calendar-month-label,.agenda-heading h2{ font-family:var(--font-display); font-weight:400; line-height:.98; text-transform:uppercase; }
+.calendar-month-label{ font-size:clamp(2rem,3.6vw,3.4rem); }
+.calendar-navigation{ gap:4px; }
+.calendar-nav-button,.calendar-today-button{
+  border-radius:var(--radius-s);
+  border-color:rgba(255,255,255,.25);
+  color:#fff;
+}
+.calendar-nav-button:hover,.calendar-today-button:hover{ border-color:var(--accent); background:var(--accent); color:#000; }
+.calendar-weekdays{ border-color:rgba(255,255,255,.24); }
+.calendar-weekdays span{ color:#aaa; font-family:var(--font-mono); letter-spacing:.03em; }
+.calendar-grid{ gap:1px; background:#373737; border-color:#373737; }
+.calendar-blank,.calendar-day{ background:#171717; }
+.calendar-day{ min-height:100px; }
+.calendar-day.has-deadline:hover,.calendar-day.is-empty:hover{ background:#252525; }
+.calendar-day.is-selected{ background:rgba(60,255,208,.12); box-shadow:inset 0 0 0 2px var(--accent); }
+.calendar-day-number{ color:#e4e4e4; font-family:var(--font-mono); }
+.calendar-day.is-today .calendar-day-number{ color:var(--accent); }
+.calendar-event-marker{
+  border-left-color:var(--accent);
+  border-radius:0;
+  background:rgba(60,255,208,.1);
+  color:#fff;
+  font-size:9px;
+}
+.calendar-event-marker.is-top-pick{ border-left-color:#fff; background:var(--accent-2); color:#fff; }
+.calendar-event-more{ color:var(--accent); font-family:var(--font-mono); }
+.calendar-hint{ color:#aaa; font:400 9px/1.5 var(--font-mono); }
+.deadline-agenda{ padding:20px; }
+.agenda-heading{ border-color:rgba(255,255,255,.22); }
+.agenda-heading h2{ font-size:2rem; }
+.agenda-count{ color:#aaa; font:400 10px/1.5 var(--font-mono); }
+.deadline-item{ border-bottom-color:rgba(255,255,255,.16); }
+.deadline-date-block{ border-left:0; background:var(--accent); color:#000; }
+.deadline-date-block strong{ color:#000; font-family:var(--font-display); font-size:21px; }
+.deadline-date-block span{ color:#000; font-family:var(--font-mono); }
+.deadline-item h3{ color:#fff; font-family:var(--font-heavy); letter-spacing:-.025em; }
+.deadline-item .deadline-institute,.deadline-item .deadline-exact{ color:#aaa; }
+.deadline-item .deadline-details{ color:var(--accent); font-family:var(--font-mono); }
+.agenda-empty{ color:#aaa; }
+.top-picks-panel{
+  border-color:var(--accent-2);
+  background:var(--accent-2);
+  color:#fff;
+}
+.top-picks-panel .agenda-heading{ border-color:rgba(255,255,255,.32); }
+.top-picks-panel .agenda-heading h2,.top-picks-panel .calendar-kicker{ color:#fff; }
+.top-picks-panel .agenda-count{ color:#e5dcff; }
+.top-picks-list .deadline-item{
+  border-color:rgba(255,255,255,.28);
+  border-radius:var(--radius-s);
+  background:rgba(19,19,19,.2);
+}
+.top-picks-list .deadline-item:last-child{ border-color:rgba(255,255,255,.28); }
+.top-picks-list .deadline-date-block,.deadline-date-block.is-top-pick{ background:var(--accent); }
+.top-pick-label{ color:#fff; font-family:var(--font-mono); }
+.top-pick-note{ color:#eee8ff; }
+.top-picks-empty{ color:#f0eaff; }
+.competition-day-dialog{
+  border-color:var(--accent);
+  border-radius:var(--radius-s);
+  background:#171717;
+  box-shadow:0 24px 70px rgba(0,0,0,.6);
+}
+.competition-day-dialog::backdrop{ background:rgba(0,0,0,.78); backdrop-filter:blur(2px); }
+.day-dialog-header{ border-color:rgba(255,255,255,.2); }
+.day-dialog-header h2{ font-family:var(--font-display); font-weight:400; text-transform:uppercase; }
+.day-dialog-close{ border-radius:var(--radius-s); border-color:rgba(255,255,255,.25); }
+.day-dialog-close:hover{ border-color:var(--accent); background:var(--accent); color:#000; }
+@media (max-width:760px){
+  .calendar-panel{ padding:16px 12px; }
+  .deadline-agenda{ padding:16px; }
+}
