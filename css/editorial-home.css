@@ -7,6 +7,7 @@ body[data-page="home"] .main{
 }
 .home-editorial{ width:min(100%,1460px); margin:0 auto; }
 .home-intro{
+  position:relative;
   min-height:min(70vh,760px);
   padding:clamp(72px,12vh,150px) 0 clamp(42px,7vh,88px);
   display:grid;
@@ -40,20 +41,35 @@ body[data-page="home"] .main{
   place-items:center;
   border:1px solid rgba(24,59,102,.24);
   border-radius:50%;
-  overflow:hidden;
-  background:#F1ECE2;
+  overflow:visible;
+  background:transparent;
+  perspective:1100px;
 }
-.home-logo-frame img{
-  width:150%;
+.home-logo-door{
+  position:relative;
+  width:140%;
+  height:140%;
+  transform-style:preserve-3d;
+  animation:home-door-turn 18s linear infinite;
+}
+.home-logo-door img{
+  position:absolute;
+  inset:0;
+  width:100%;
   max-width:none;
-  height:auto;
+  height:100%;
+  object-fit:contain;
+  backface-visibility:hidden;
   filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%);
 }
+.home-logo-door img.home-logo-back{ transform:rotateY(180deg); }
+@keyframes home-door-turn{ from{ transform:rotateY(0deg); } to{ transform:rotateY(360deg); } }
 .home-intro-bottom{
   margin-top:clamp(32px,6vh,70px);
+  padding-right:220px;
   display:flex;
   align-items:flex-end;
-  justify-content:space-between;
+  justify-content:flex-start;
   gap:28px;
 }
 .home-intro-bottom p{
@@ -71,6 +87,9 @@ body[data-page="home"] .main{
   font:700 10px/1.4 var(--font-mono);
   letter-spacing:.04em;
   text-transform:uppercase;
+  position:absolute;
+  right:0;
+  bottom:clamp(42px,7vh,88px);
 }
 .home-jump span{ display:inline-block; padding-left:10px; transition:transform .2s ease; }
 .home-jump:hover span{ transform:translateY(3px); }
@@ -141,8 +160,10 @@ body[data-page="home"] .main{
   body[data-page="home"] .main{ padding-inline:18px; }
   .home-intro{ min-height:0; grid-template-columns:1fr; padding-top:66px; }
   .home-intro h1{ font-size:clamp(4.3rem,17vw,8rem); }
-  .home-intro-bottom{ align-items:flex-start; flex-direction:column; gap:20px; }
+  .home-intro-bottom{ align-items:flex-start; flex-direction:column; gap:20px; padding-right:0; }
+  .home-jump{ position:relative; right:auto; bottom:auto; align-self:flex-end; }
   .home-logo-frame{ width:min(78vw,330px); margin:18px auto 0; }
+  .home-logo-door{ width:140%; height:140%; }
   .home-index-heading{ grid-template-columns:1fr; gap:14px; }
   .home-index-heading h2{ font-size:clamp(3.2rem,12vw,5rem); }
   .home-index-note{ text-align:left; }
@@ -155,4 +176,5 @@ body[data-page="home"] .main{
 }
 @media(prefers-reduced-motion:reduce){
   .home-jump span,.home-index-row,.home-index-arrow{ transition:none; }
+  .home-logo-door{ animation:none; transform:rotateY(25deg); }
 }

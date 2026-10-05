@@ -82,10 +82,8 @@
     // Active link highlighting based on body[data-page]
     const page = document.body.getAttribute("data-page");
     if (page){
-      const repositoryPages = new Set(["courses", "case-studies", "github", "resources"]);
-      const activeKey = repositoryPages.has(page) ? "knowledge" : page;
       document.querySelectorAll(`.sidebar .nav-link[data-page-key]`).forEach(link => {
-        if (link.getAttribute("data-page-key") === activeKey){
+        if (link.getAttribute("data-page-key") === page){
           link.classList.add("is-active");
         }
       });
