@@ -1,8 +1,8 @@
 # Internship Committee Portal — Design Direction
 
-## Visual reference
+## Visual direction
 
-Use the dark editorial energy of the The Verge analysis in the supplied `awesome-design-md` collection: near-black canvas, oversized condensed headlines, monospaced utility labels, thin outlines, strong blocks of saturated color, and a clear rhythm between quiet and loud sections. Adapt those patterns for IIM Rohtak students; do not copy The Verge wordmark, content, or logo.
+Use a warm cream canvas, deep navy typography, and restrained blue accents. Oversized Acthirey serif headlines bring a literary editorial character; Manrope and Space Mono keep interface labels and dense information easy to scan. Keep the page rhythm bold but calm, with fine navy rules and clear colored states. The design can draw on editorial patterns without using another brand's identity, wordmark, or content.
 
 ## Purpose
 
@@ -10,10 +10,10 @@ Help IIM Rohtak IPM students find opportunities and learning resources quickly. 
 
 ## Visual system
 
-- Canvas: ink black `#131313`, with charcoal `#1d1d1d` as the secondary surface.
-- Signal colors: acid mint `#3CFFD0` for the main interaction color and ultraviolet `#875CFF` for occasional editorial emphasis. Use accent color in solid, deliberate blocks rather than gradients or glows.
-- Text: white headlines, readable light gray body copy, and mid-gray metadata.
-- Typography: Anton (or a similar condensed display face) for large headlines; Manrope for body and interface text; Space Mono for timestamps, section labels, and compact metadata.
+- Canvas: warm cream `#F5F1E8`; use near-white cream `#FFFCF6` for raised surfaces.
+- Accent: deep navy `#183B66`; reserve lighter navy shades for hover and metadata emphasis.
+- Text: ink navy headlines, muted blue-gray body copy, and mid-blue metadata.
+- Typography: Acthirey for display headings; Manrope for body and interface text; Space Mono for timestamps, section labels, and compact metadata.
 - Use square or lightly rounded form controls, and reserve larger rounded corners for image tiles and feature cards. Prefer hairline borders over shadows and glass effects.
 - Keep color contrast accessible. Status colors may communicate real states, but labels must carry the meaning too.
 
@@ -54,4 +54,4 @@ Help IIM Rohtak IPM students find opportunities and learning resources quickly. 
 - Preserve the calendar filters, day detail view, dynamic institute names, and IC Top Picks data behavior.
 - Keep changes reviewable and retain responsive behavior, semantic markup, and keyboard access.
 
-Reference source: [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md), The Verge-inspired design analysis supplied for this project. This document is the portal-specific adaptation.
+Acthirey is the requested display face. The font asset must be supplied with a web embedding license before it can be bundled in the public site; until then, the CSS uses an elegant serif fallback.
