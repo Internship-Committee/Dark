@@ -42,18 +42,7 @@
     <nav class="sidebar-nav" aria-label="Site sections">
       <a class="nav-link" data-page-key="home" href="index.html" title="Home"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg></span><span class="nav-label">Home</span></a>
 
-      <div class="nav-group">
-        <button class="nav-group-trigger" aria-expanded="false" title="Knowledge Repository">
-          <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><span class="nav-label">Knowledge Repository</span>
-          <span class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
-        </button>
-        <div class="nav-submenu"><div class="nav-submenu-inner">
-          <a class="nav-link" data-page-key="courses" href="courses.html" title="Course Repository"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z"/><path d="M4 19.5V6.5"/></svg></span><span class="nav-label">Course Repository</span></a>
-          <a class="nav-link" data-page-key="case-studies" href="case-studies.html" title="Case Studies"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span><span class="nav-label">Case Studies</span></a>
-          <a class="nav-link" data-page-key="github" href="github-repositories.html" title="GitHub Repositories"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 4 4 4M16 9l4 4-4 4"/></svg></span><span class="nav-label">GitHub Repositories</span></a>
-          <a class="nav-link" data-page-key="resources" href="iimr-resources.html" title="IIMR Student Resources"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/></svg></span><span class="nav-label">IIMR Student Resources</span></a>
-        </div></div>
-      </div>
+      <a class="nav-link" data-page-key="knowledge" href="knowledge-repository.html" title="Knowledge Repository"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><span class="nav-label">Knowledge Repository</span></a>
 
       <a class="nav-link" data-page-key="competitions" href="case-competitions.html" title="Case Competitions"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h3a4 4 0 0 1-4 4M7 5H4a4 4 0 0 0 4 4"/></svg></span><span class="nav-label">Case Competitions</span></a>
       <a class="nav-link" data-page-key="live-projects" href="live-projects.html" title="Live Projects"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 19 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-2.23 2-3c1.62-.87 4 0 4 0"/><path d="M12 15v5s2.23-.55 3-2c.87-1.62 0-4 0-4"/></svg></span><span class="nav-label">Live Projects</span></a>
@@ -66,9 +55,9 @@
   </aside>
 
   <div class="mobile-topbar">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <img data-ic-logo src="assets/logo.png" alt="" style="width:30px;height:30px;">
-      <span class="brand-text"><strong>IC · IIM Rohtak</strong></span>
+    <div class="mobile-brand">
+      <img data-ic-logo src="assets/logo.png" alt="">
+      <span class="brand-text"><strong>Internship Committee</strong><span>IIM Rohtak</span></span>
     </div>
     <button class="menu-btn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>

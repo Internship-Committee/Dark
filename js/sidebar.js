@@ -1,7 +1,7 @@
 /* ============================================================
    IC Portal — Sidebar behaviour (shared across every page)
    - mobile drawer open/close
-   - Knowledge Repository dropdown
+   - Knowledge Repository landing-page navigation
    - active link highlighting
    - injects committee email / LinkedIn / logo from config.js
    ============================================================ */
@@ -35,24 +35,6 @@
     }
     if (scrim){ scrim.addEventListener("click", closeDrawer); }
     document.querySelectorAll(".sidebar .nav-link").forEach(a => a.addEventListener("click", closeDrawer));
-
-    // Knowledge Repository dropdown
-    const group = document.querySelector(".nav-group");
-    if (group){
-      const trigger = group.querySelector(".nav-group-trigger");
-      trigger.addEventListener("click", () => {
-        // If the sidebar is collapsed to icons-only, expand it first so the
-        // submenu labels are actually visible instead of toggling unseen.
-        if (shell && shell.classList.contains("sidebar-collapsed")){
-          setCollapsed(false);
-          group.classList.add("is-open");
-          trigger.setAttribute("aria-expanded", "true");
-          return;
-        }
-        const isOpen = group.classList.toggle("is-open");
-        trigger.setAttribute("aria-expanded", String(isOpen));
-      });
-    }
 
     // Desktop sidebar collapse / pin-open, with a hover preview while collapsed.
     // - Collapsed (pinned shut) is a persisted state, toggled only by clicking "<<".
@@ -100,11 +82,11 @@
     // Active link highlighting based on body[data-page]
     const page = document.body.getAttribute("data-page");
     if (page){
+      const repositoryPages = new Set(["courses", "case-studies", "github", "resources"]);
+      const activeKey = repositoryPages.has(page) ? "knowledge" : page;
       document.querySelectorAll(`.sidebar .nav-link[data-page-key]`).forEach(link => {
-        if (link.getAttribute("data-page-key") === page){
+        if (link.getAttribute("data-page-key") === activeKey){
           link.classList.add("is-active");
-          const parentGroup = link.closest(".nav-group");
-          if (parentGroup) parentGroup.classList.add("is-open");
         }
       });
     }

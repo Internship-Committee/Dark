@@ -21,6 +21,14 @@
 }
 body[data-page]{ background:var(--bg)!important; color:var(--text-primary)!important; }
 html{ color-scheme:light; }
+body{ cursor:default; }
+a[href],button,[role="button"],summary{ cursor:pointer; }
+.sidebar{ grid-template-columns:minmax(320px,360px) minmax(0,1fr) auto; }
+.sidebar-brand{ min-width:0; gap:13px; white-space:nowrap; }
+.sidebar-brand img{ width:42px; height:42px; flex:0 0 42px; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%); }
+.sidebar-brand .brand-text{ display:flex; flex:none; min-width:max-content; overflow:visible; padding-right:0; }
+.sidebar-brand .brand-text strong{ white-space:nowrap; font-size:20px; }
+.sidebar-nav{ justify-content:flex-end; gap:clamp(5px,.7vw,13px); }
 h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-heading,
 .section-heading,.page-header .section-heading,.page-header h1,.calendar-month-label,.agenda-heading h2,
 .day-dialog-header h2{
@@ -106,13 +114,45 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
 
 /* Keep the desktop navigation in one clean line between laptop and wide screens. */
 @media (min-width:1101px) and (max-width:1400px){
-  .sidebar{ grid-template-columns:minmax(150px,205px) minmax(0,1fr) auto!important; gap:10px!important; padding-inline:20px!important; }
+  .sidebar{ grid-template-columns:minmax(285px,320px) minmax(0,1fr) auto!important; gap:8px!important; padding-inline:20px!important; }
   .sidebar-footer{ display:flex!important; gap:8px!important; }
   .sidebar-footer a span{ display:none!important; }
   .sidebar-nav{ justify-content:flex-end!important; gap:0!important; flex-wrap:nowrap!important; }
   .nav-link,.nav-group-trigger{ padding-inline:7px!important; font-size:9px!important; letter-spacing:0!important; white-space:nowrap!important; }
+  .sidebar-brand .brand-text strong{ font-size:18px; }
 }
 @media (max-width:700px){
   .mobile-topbar{ background:var(--bg)!important; }
-  .mobile-topbar img{ filter:none!important; }
+  .mobile-brand{ display:flex; min-width:0; align-items:center; gap:10px; }
+  .mobile-brand img{ width:38px!important; height:38px!important; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%)!important; }
+  .mobile-brand .brand-text{ display:flex; min-width:0; flex-direction:column; white-space:nowrap; }
+  .mobile-brand .brand-text strong{ font:700 16px/1.1 var(--font-heavy)!important; color:var(--text-primary)!important; }
+  .mobile-brand .brand-text span{ margin-top:3px; color:var(--text-muted); font:700 8px/1.2 var(--font-mono); letter-spacing:.08em; text-transform:uppercase; }
+}
+
+/* A category landing page replaces the old expanding Knowledge Repository menu. */
+body[data-page="knowledge"] .card-grid.indexed{ display:grid; grid-template-columns:1fr; gap:0; border-top:1px solid var(--surface-border); }
+body[data-page="knowledge"] .card-grid.indexed .subtile{
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr) auto;
+  grid-template-rows:auto auto;
+  align-items:center;
+  gap:7px 20px;
+  padding:21px 12px;
+  border:0;
+  border-bottom:1px solid var(--surface-border);
+  border-radius:0;
+  background:transparent!important;
+  box-shadow:none;
+  transform:none;
+}
+body[data-page="knowledge"] .card-grid.indexed .subtile .card-icon{ grid-column:1; grid-row:1/3; background:transparent; color:var(--accent); }
+body[data-page="knowledge"] .card-grid.indexed .subtile h3{ grid-column:2; grid-row:1; margin:0; }
+body[data-page="knowledge"] .card-grid.indexed .subtile p{ grid-column:2; grid-row:2; margin:4px 0 0; }
+body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ grid-column:3; grid-row:1/3; margin:0; white-space:nowrap; }
+body[data-page="knowledge"] .card-grid.indexed .subtile:hover{ padding-inline:20px; background:#ECE6DA!important; }
+@media(max-width:700px){
+  body[data-page="knowledge"] .card-grid.indexed .subtile{ grid-template-columns:34px minmax(0,1fr); gap:6px 12px; padding:17px 5px; }
+  body[data-page="knowledge"] .card-grid.indexed .subtile .card-icon{ grid-row:1/4; }
+  body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ grid-column:2; grid-row:3; justify-self:start; margin-top:5px; }
 }
