@@ -21,8 +21,9 @@
 }
 body[data-page]{ background:var(--bg)!important; color:var(--text-primary)!important; }
 html{ color-scheme:light; }
-body{ cursor:default; }
-a[href],button,[role="button"],summary{ cursor:pointer; }
+body{ cursor:url("../assets/ic-cursor.png") 2 2,default!important; }
+a[href],button,[role="button"],summary{ cursor:url("../assets/ic-cursor.png") 2 2,pointer!important; }
+input,textarea{ cursor:text!important; }
 .sidebar{
   grid-template-columns:max-content minmax(0,1fr);
   grid-template-rows:auto auto;

@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/cream-theme.css">
 <link rel="stylesheet" href="css/editorial-home.css">
 </head>
@@ -56,52 +55,48 @@
   <main class="main" id="main-content">
 
     <section class="home-editorial" aria-labelledby="home-title">
-      <header class="home-intro">
-        <div class="home-intro-copy">
-          <p class="home-kicker">IIM Rohtak <span>·</span> IPM student portal</p>
-          <h1 id="home-title">Internship<br>Committee</h1>
-          <div class="home-intro-bottom">
-            <p>Opportunities, learning resources, and practical tools selected by the Internship Committee.</p>
-            <a class="home-jump" href="#explore">Explore the portal <span aria-hidden="true">↓</span></a>
-          </div>
+      <section class="home-splash" aria-label="Internship Committee introduction">
+        <h1 class="home-display-title" id="home-title" aria-label="Internship Committee">
+          <span class="home-title-line">Internship</span>
+          <span class="home-title-line">Committee</span>
+        </h1>
+        <div class="home-logo-card">
+          <img src="assets/logo.png" alt="Internship Committee, IIM Rohtak seal">
         </div>
-        <div class="home-logo-frame" aria-hidden="true">
-          <div class="home-logo-door">
-            <img src="assets/logo.png" alt="">
-          </div>
-        </div>
-      </header>
+        <a class="home-jump" href="#explore">Explore the portal <span aria-hidden="true">↓</span></a>
+        <p class="home-scroll-note" aria-hidden="true">Scroll to explore <span>↓</span></p>
+      </section>
 
       <section class="home-index" id="explore" aria-labelledby="home-index-title">
-        <div class="home-index-heading">
-          <p class="home-kicker">Browse the collection</p>
-          <h2 id="home-index-title">Find your next move.</h2>
-          <span class="home-index-note">Six sections · for IIM Rohtak IPM students</span>
-        </div>
+        <header class="home-index-heading" data-scroll-reveal>
+          <p class="home-kicker">IIM Rohtak · IPM student portal</p>
+          <h2 id="home-index-title">Opportunities, resources, and practical tools.</h2>
+          <p class="home-index-intro">A collection selected by the Internship Committee for students ready to learn, compete, and work on real business challenges.</p>
+        </header>
         <nav class="home-index-list" aria-label="Explore portal sections">
-          <a class="home-index-row is-featured" href="live-projects.html">
-            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Live Projects</span>
-            <span class="home-index-description">Work with companies on active business challenges.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
-          </a>
-          <a class="home-index-row" href="case-competitions.html">
-            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Case Competitions</span>
-            <span class="home-index-description">Track deadlines and find your next competition.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
-          </a>
-          <a class="home-index-row" href="courses.html">
-            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Course Repository</span>
+          <a class="home-index-row" href="courses.html" data-scroll-reveal>
+            <span class="home-index-number">01</span><span class="home-index-title">Course Repository</span>
             <span class="home-index-description">Compare courses by domain, price, and rating.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="home-index-row" href="case-studies.html">
-            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Case Studies</span>
+          <a class="home-index-row" href="case-studies.html" data-scroll-reveal>
+            <span class="home-index-number">02</span><span class="home-index-title">Case Studies</span>
             <span class="home-index-description">Learn from business cases and student work.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="home-index-row" href="iimr-resources.html">
-            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">IIMR Student Resources</span>
+          <a class="home-index-row" href="github-repositories.html" data-scroll-reveal>
+            <span class="home-index-number">03</span><span class="home-index-title">GitHub Repositories</span>
+            <span class="home-index-description">Browse useful repositories for your work.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="iimr-resources.html" data-scroll-reveal>
+            <span class="home-index-number">04</span><span class="home-index-title">IIMR Student Resources</span>
             <span class="home-index-description">Find databases and tools available to students.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="home-index-row" href="github-repositories.html">
-            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">GitHub Repositories</span>
-            <span class="home-index-description">Browse useful repositories for your work.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          <a class="home-index-row" href="case-competitions.html" data-scroll-reveal>
+            <span class="home-index-number">05</span><span class="home-index-title">Case Competitions</span>
+            <span class="home-index-description">Track deadlines and find your next competition.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="live-projects.html" data-scroll-reveal>
+            <span class="home-index-number">06</span><span class="home-index-title">Live Projects</span>
+            <span class="home-index-description">Work with companies on active business challenges.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
           </a>
         </nav>
       </section>
@@ -118,5 +113,6 @@
 <script src="js/icons.js"></script>
 <script src="js/data-adapter.js"></script>
 <script src="js/sidebar.js"></script>
+<script src="js/home-scroll.js"></script>
 </body>
 </html>
