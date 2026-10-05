@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="assets/circular-gallery.css">
 <link rel="stylesheet" href="css/cream-theme.css">
+<link rel="stylesheet" href="css/editorial-home.css">
 </head>
 <body data-page="home">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -65,108 +65,50 @@
 
   <main class="main" id="main-content">
 
-    <!-- One pinned screen: the hero morphs into the circular gallery as you scroll
-         (see assets/circular-gallery.js). Scrolling forward keeps spinning the ring
-         forever in either direction; there's no separate "release" step — use the
-         sidebar to jump to another page whenever you like. -->
-    <div class="home-stage" id="home-stage">
-
-    <section class="hero">
-      <div class="logo-stage" aria-hidden="true">
-        <div class="logo-orbit">
-          <img src="assets/logo.png" alt="">
+    <section class="home-editorial" aria-labelledby="home-title">
+      <header class="home-intro">
+        <p class="home-kicker">IIM Rohtak <span>·</span> IPM student portal</p>
+        <h1 id="home-title">Internship<br>Committee</h1>
+        <div class="home-intro-bottom">
+          <p>Opportunities, learning resources, and practical tools selected by the Internship Committee.</p>
+          <a class="home-jump" href="#explore">Explore the portal <span aria-hidden="true">↓</span></a>
         </div>
-      </div>
+      </header>
 
-      <div class="hero-inner">
-        <div class="hero-eyebrow">For IIM Rohtak IPM students</div>
-        <h1 class="hero-tagline">IPM<br>INTERNSHIP<br>COMMITTEE</h1>
-        <p class="hero-sub">Find live projects, case competitions, courses, and practical resources selected by the Internship Committee.</p>
-      </div>
-
-      <a class="hero-scroll-cue" href="#explore">
-        <span>Explore the portal</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </a>
+      <section class="home-index" id="explore" aria-labelledby="home-index-title">
+        <div class="home-index-heading">
+          <p class="home-kicker">Browse the collection</p>
+          <h2 id="home-index-title">Find your next move.</h2>
+          <span class="home-index-note">Six sections · for IIM Rohtak IPM students</span>
+        </div>
+        <nav class="home-index-list" aria-label="Explore portal sections">
+          <a class="home-index-row is-featured" href="live-projects.html">
+            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Live Projects</span>
+            <span class="home-index-description">Work with companies on active business challenges.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="case-competitions.html">
+            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Case Competitions</span>
+            <span class="home-index-description">Track deadlines and find your next competition.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="courses.html">
+            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Course Repository</span>
+            <span class="home-index-description">Compare courses by domain, price, and rating.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="case-studies.html">
+            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">Case Studies</span>
+            <span class="home-index-description">Learn from business cases and student work.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="iimr-resources.html">
+            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">IIMR Student Resources</span>
+            <span class="home-index-description">Find databases and tools available to students.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="home-index-row" href="github-repositories.html">
+            <span class="home-index-dot" aria-hidden="true"></span><span class="home-index-title">GitHub Repositories</span>
+            <span class="home-index-description">Browse useful repositories for your work.</span><span class="home-index-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </section>
     </section>
-
-    <section class="home-gallery" id="explore" aria-labelledby="gallery-heading">
-      <div class="gallery-stage">
-        <div class="gallery-heading">
-          <span class="eyebrow">Explore the portal</span>
-          <h2 class="section-heading" id="gallery-heading">Find your next opportunity</h2>
-        <p class="gallery-hint">Scroll or swipe to browse. Select a card to open a section.</p>
-        </div>
-        <!-- Vanilla-JS mounts the 3D circular gallery here (assets/circular-gallery.js — no build step needed). -->
-        <div id="circular-gallery-root"></div>
-
-        <!-- No-JavaScript / reduced-motion fallback: plain cards, hidden as soon as the gallery mounts. -->
-        <div class="hero-cards gallery-fallback">
-          <a class="glass-card home-card" href="live-projects.html">
-            <div>
-              <div class="card-head">
-                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 19 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-2.23 2-3c1.62-.87 4 0 4 0"/><path d="M12 15v5s2.23-.55 3-2c.87-1.62 0-4 0-4"/></svg></div>
-                <h3>Live Projects</h3>
-              </div>
-              <p>Active industry projects, with full role details on the site.</p>
-            </div>
-            <span class="card-cta">View projects <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-          </a>
-          <a class="glass-card home-card" href="courses.html">
-            <div>
-              <div class="card-head">
-                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z"/><path d="M4 19.5V6.5"/></svg></div>
-                <h3>Course Repository</h3>
-              </div>
-              <p>Domain-wise learning resources with price, rating and a direct link.</p>
-            </div>
-            <span class="card-cta">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-          </a>
-          <a class="glass-card home-card" href="case-competitions.html">
-            <div>
-              <div class="card-head">
-                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h3a4 4 0 0 1-4 4M7 5H4a4 4 0 0 0 4 4"/></svg></div>
-                <h3>Case Competitions</h3>
-              </div>
-              <p>Compete in analysing and solving real-world business problems.</p>
-            </div>
-            <span class="card-cta">View competitions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-          </a>
-          <a class="glass-card home-card" href="case-studies.html">
-            <div>
-              <div class="card-head">
-                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-                <h3>Case Studies</h3>
-              </div>
-              <p>Written case studies from the IC research cell and student contributors.</p>
-            </div>
-            <span class="card-cta">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-          </a>
-          <a class="glass-card home-card" href="iimr-resources.html">
-            <div>
-              <div class="card-head">
-                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/></svg></div>
-                <h3>IIMR Student Resources</h3>
-              </div>
-              <p>Databases and tools students use, with login requirements made clear.</p>
-            </div>
-            <span class="card-cta">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-          </a>
-          <a class="glass-card home-card" href="github-repositories.html">
-            <div>
-              <div class="card-head">
-                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 4 4 4M16 9l4 4-4 4"/></svg></div>
-                <h3>GitHub Repositories</h3>
-              </div>
-              <p>A directory pointing to useful repositories, not a copy of them.</p>
-            </div>
-            <span class="card-cta">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    </div><!-- /.home-stage -->
 
     <footer class="site-footer">
       <span>&copy; Internship Committee, IIM Rohtak</span>
@@ -179,6 +121,5 @@
 <script src="js/icons.js"></script>
 <script src="js/data-adapter.js"></script>
 <script src="js/sidebar.js"></script>
-<script src="assets/circular-gallery.js"></script>
 </body>
 </html>
