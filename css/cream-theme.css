@@ -40,6 +40,67 @@ input,textarea{ cursor:text!important; }
 .sidebar-brand .brand-text strong{ white-space:nowrap; font-size:20px; }
 .sidebar-nav{ grid-area:nav; width:100%; justify-content:flex-start; gap:2px; flex-wrap:nowrap; }
 .sidebar-footer{ grid-area:footer; }
+/* Shared desktop masthead. Keep every page on the homepage's quiet, two-row nav. */
+@media (min-width:1101px){
+  .sidebar{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto;
+    grid-template-areas:"nav" "footer";
+    align-items:center;
+    justify-items:stretch;
+    gap:0;
+    padding:8px clamp(18px,2.7vw,52px) 9px;
+  }
+  .sidebar-brand{ display:none; }
+  .sidebar-nav{
+    display:grid;
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    align-items:center;
+    justify-content:stretch;
+    gap:4px;
+    width:100%;
+  }
+  .sidebar-nav .nav-link{
+    display:flex;
+    justify-content:center;
+    max-width:none;
+    min-height:44px;
+    padding:8px 5px;
+    color:#17202b!important;
+    font:800 clamp(9px,.72vw,13px)/1.05 var(--font-heavy);
+    letter-spacing:.015em;
+    text-align:center;
+    white-space:normal;
+  }
+  .sidebar-nav .nav-link:nth-child(n){ max-width:none; }
+  .sidebar-nav .nav-link:hover{ color:var(--accent)!important; }
+  .sidebar-nav .nav-link.is-active{ box-shadow:none!important; }
+  .sidebar-nav .nav-link[data-page-key="home"]::before{
+    content:"";
+    width:9px;
+    height:9px;
+    margin-right:8px;
+    flex:0 0 9px;
+    border-radius:50%;
+    background:currentColor;
+  }
+  .sidebar-footer{
+    display:flex;
+    justify-content:flex-end;
+    width:100%;
+    gap:22px;
+    padding-right:5px;
+  }
+}
+/* Keep the homepage's existing compact nav sizing at laptop widths. */
+@media (min-width:1101px) and (max-width:1400px){
+  .sidebar{ grid-template-columns:max-content minmax(0,1fr)!important; grid-template-rows:auto auto!important; grid-template-areas:"brand nav" ". footer"!important; column-gap:18px!important; padding-inline:24px!important; }
+  .sidebar-footer{ display:flex!important; gap:18px!important; }
+  .sidebar-footer a span{ display:inline!important; }
+  .sidebar-nav{ justify-content:flex-start!important; gap:0!important; flex-wrap:nowrap!important; }
+  .nav-link{ padding-inline:7px!important; font-size:9px!important; letter-spacing:0!important; }
+  .sidebar-brand .brand-text strong{ font-size:18px; }
+}
 h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-heading,
 .section-heading,.page-header .section-heading,.page-header h1,.calendar-month-label,.agenda-heading h2,
 .day-dialog-header h2{
@@ -158,15 +219,6 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
 }
 .list-card .card-link:hover,.subtile:hover .card-cta{ color:var(--accent-2)!important; }
 
-/* Keep the header compact and the page links readable on laptop screens. */
-@media (min-width:1101px) and (max-width:1400px){
-  .sidebar{ grid-template-columns:max-content minmax(0,1fr)!important; grid-template-rows:auto auto!important; grid-template-areas:"brand nav" ". footer"!important; column-gap:18px!important; padding-inline:24px!important; }
-  .sidebar-footer{ display:flex!important; gap:18px!important; }
-  .sidebar-footer a span{ display:inline!important; }
-  .sidebar-nav{ justify-content:flex-start!important; gap:0!important; flex-wrap:nowrap!important; }
-  .nav-link{ padding-inline:7px!important; font-size:9px!important; letter-spacing:0!important; }
-  .sidebar-brand .brand-text strong{ font-size:18px; }
-}
 @media (max-width:700px){
   .mobile-topbar{ background:var(--bg)!important; }
   .mobile-brand{ display:flex; min-width:0; align-items:center; gap:10px; }
@@ -206,4 +258,13 @@ body[data-page="knowledge"] .card-grid.indexed .subtile:hover{ padding-inline:20
   body[data-page="knowledge"] .card-grid.indexed .subtile{ grid-template-columns:34px minmax(0,1fr); gap:6px 12px; padding:17px 5px; }
   body[data-page="knowledge"] .card-grid.indexed .subtile .card-icon{ grid-row:1/4; }
   body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ grid-column:2; grid-row:3; justify-self:start; margin-top:5px; }
+}
+
+/* Keep the homepage's existing drawer alignment consistent across the portal. */
+@media (max-width:1100px){
+  .sidebar-brand{ display:flex; }
+  .sidebar-nav{ display:block!important; width:100%; }
+  .sidebar-nav .nav-link{ display:flex; justify-content:flex-start; max-width:none; text-align:left; }
+  .sidebar-nav .nav-link[data-page-key="home"]::before{ display:none; }
+  .sidebar-footer{ grid-area:auto; }
 }

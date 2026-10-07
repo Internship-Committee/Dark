@@ -1,6 +1,6 @@
 (() => {
-  const splash = document.querySelector(".home-splash");
-  if (!splash) return;
+  const home = document.querySelector(".home-editorial");
+  if (!home) return;
 
   const root = document.documentElement;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -22,9 +22,9 @@
     if (Math.abs(target - current) < 0.001) current = target;
 
     const progress = 0.22 + current * 0.78;
-    splash.style.setProperty("--title-hidden", `${(1 - progress) * 32}%`);
-    splash.style.setProperty("--title-opacity", `${0.55 + progress * 0.45}`);
-    splash.style.setProperty("--title-offset", `${(1 - progress) * 20}px`);
+    home.style.setProperty("--title-hidden", `${(1 - progress) * 32}%`);
+    home.style.setProperty("--title-opacity", `${0.18 + progress * 0.12}`);
+    home.style.setProperty("--title-offset", `${(1 - progress) * 20}px`);
 
     if (current !== target) frame = requestAnimationFrame(paintTitle);
     else frame = 0;
