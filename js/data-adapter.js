@@ -127,14 +127,6 @@ const ICData = (() => {
     };
   }
 
-  function normRepo(row){
-    return {
-      name: pick(row, "Repository Name", "name"),
-      description: pick(row, "Description", "description"),
-      link: pick(row, "Link", "link", "url")
-    };
-  }
-
   function normResource(row){
     return {
       name: pick(row, "Resource Name", "name"),
@@ -324,11 +316,6 @@ const ICData = (() => {
     return rows.map(normCaseStudy);
   }
 
-  async function getGithubRepos(){
-    const rows = await fetchSource("githubRepos");
-    return rows.map(normRepo);
-  }
-
   async function getResources(){
     const rows = await fetchSource("resources");
     return rows.map(normResource);
@@ -352,7 +339,7 @@ const ICData = (() => {
   }
 
   return {
-    getCourses, getCaseStudies, getGithubRepos, getResources,
+    getCourses, getCaseStudies, getResources,
     getCompetitions, getLiveProjects, getLiveProjectById,
     slugify
   };

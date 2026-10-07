@@ -14,6 +14,7 @@
     document.querySelectorAll("[data-ic-email]").forEach(el => {
       el.href = `mailto:${IC_CONFIG.committee.email}`;
       el.title = IC_CONFIG.committee.email;
+      el.setAttribute("aria-label", "Email the committee");
       const span = el.querySelector("span");
       if (span){
         // Prefer breaking right after the "@" so a long address wraps into
@@ -23,6 +24,19 @@
     });
     document.querySelectorAll("[data-ic-linkedin]").forEach(el => {
       el.href = IC_CONFIG.committee.linkedin;
+      el.setAttribute("aria-label", "IC on LinkedIn");
+    });
+
+    // Keep the contact shortcuts in the visible mobile masthead as well.
+    const contactLinks = document.querySelector(".sidebar-footer");
+    document.querySelectorAll(".mobile-contact-links").forEach(group => {
+      ["[data-ic-email]", "[data-ic-linkedin]"].forEach(selector => {
+        const source = contactLinks && contactLinks.querySelector(selector);
+        if (!source) return;
+        const iconLink = source.cloneNode(true);
+        iconLink.setAttribute("aria-label", source.getAttribute("aria-label") || source.title);
+        group.appendChild(iconLink);
+      });
     });
 
     // Mobile drawer
@@ -82,11 +96,21 @@
     // Active link highlighting based on body[data-page]
     const page = document.body.getAttribute("data-page");
     if (page){
+      const pageKey = page === "live-project" ? "live-projects" : page;
+      let matchedLabel = "";
       document.querySelectorAll(`.sidebar .nav-link[data-page-key]`).forEach(link => {
-        if (link.getAttribute("data-page-key") === page){
+        if (link.getAttribute("data-page-key") === pageKey){
           link.classList.add("is-active");
+          link.setAttribute("aria-current", "page");
+          const pageLabel = link.querySelector(".nav-label");
+          if (pageLabel) matchedLabel = pageLabel.textContent.trim();
         }
       });
+      const mobileIndicator = document.querySelector(".mobile-current-page");
+      if (mobileIndicator){
+        const fallbackLabels = { knowledge: "Knowledge Repository", "live-project": "Live Projects" };
+        mobileIndicator.textContent = matchedLabel || fallbackLabels[page] || page.replace(/-/g, " ");
+      }
     }
 
     // Escape closes mobile drawer

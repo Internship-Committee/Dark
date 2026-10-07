@@ -45,7 +45,6 @@ const IC_CONFIG = {
   sheetTabs: {
     courses:      "Courses",
     caseStudies:  "Case Studies",
-    githubRepos:  "GitHub Repositories",
     resources:    "IIMR Resources",
     competitions: "Case Competitions",
     liveProjects: "Live Projects"
@@ -57,7 +56,6 @@ const IC_CONFIG = {
   useLocalData: {
     courses: false,
     caseStudies: false,
-    githubRepos: false,
     resources: false,
     competitions: false,
     liveProjects: false
@@ -68,7 +66,6 @@ const IC_CONFIG = {
   localPaths: {
     courses:        "data/courses.json",
     caseStudies:    "data/case-studies.json",
-    githubRepos:    "data/github-repos.json",
     resources:      "data/resources.json",
     competitions:   "data/competitions.json",
     liveProjects:   "data/live-projects.json"
@@ -82,7 +79,6 @@ const IC_CONFIG = {
   endpoints: {
     courses:        "",
     caseStudies:    "",
-    githubRepos:    "",
     resources:      "",
     competitions:   "",
     liveProjects:   ""

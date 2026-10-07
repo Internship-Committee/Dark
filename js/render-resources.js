@@ -8,15 +8,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       grid.innerHTML = `<div class="state-msg">No resources listed yet. New rows added to the IIMR Student Resources sheet will appear here automatically.</div>`;
       return;
     }
-    grid.innerHTML = items.map(r => `
+    grid.innerHTML = items.map((r, index) => `
       <article class="glass-card list-card">
+        <span class="list-number">${String(index + 1).padStart(2, "0")}</span>
         <span class="resource-type-badge ${typeClass(r.resourceType)}">
           ${escapeHtml(r.resourceType)}
         </span>
         <h3>${escapeHtml(r.name)}</h3>
         ${r.description ? `<p class="desc">${escapeHtml(r.description)}</p>` : ""}
-        <a class="card-link" href="${escapeHtml(r.link)}" target="_blank" rel="noopener">
-          Open resource ${ICIcons.externalLink}
+        <a class="card-link icon-link" href="${escapeHtml(r.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(r.name)} resource" title="Open resource">
+          ${ICIcons.externalLink}
         </a>
       </article>
     `).join("");

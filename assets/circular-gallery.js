@@ -33,7 +33,7 @@
   if (reducedMotion) return; // keep the plain, static fallback cards + normal page scroll
 
   /* ---------------------------------------------------------
-     Card content — same six sections as before
+     Card content — five destination sections
      --------------------------------------------------------- */
   function unsplash(id) {
     return "https://images.unsplash.com/photo-" + id + "?auto=format&fit=crop&w=800&q=80";
@@ -46,8 +46,7 @@
     trophy:
       '<path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h3a4 4 0 0 1-4 4M7 5H4a4 4 0 0 0 4 4"/>',
     file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
-    compass: '<circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/>',
-    code: '<path d="M8 9l-4 4 4 4M16 9l4 4-4 4"/>'
+    compass: '<circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2z"/>'
   };
   var ARROW = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
 
@@ -86,7 +85,7 @@
       },
       {
         common: "Course Repository",
-        binomial: "Domain-wise learning resources with price, rating and a direct link.",
+        binomial: "Domain-wise learning resources with ratings, durations and a direct link.",
         photoUrl: unsplash("1481627834876-b7833e8f5570"),
         photoAlt: "A library with tall shelves full of books",
         photoPos: "50% 50%",
@@ -124,16 +123,6 @@
         icon: iconSvg("compass"),
         cta: exploreCta("Explore")
       },
-      {
-        common: "GitHub Repositories",
-        binomial: "A directory pointing to useful repositories, not a copy of them.",
-        photoUrl: unsplash("1461749280684-dccba630e2f6"),
-        photoAlt: "Source code on a computer monitor",
-        photoPos: "50% 50%",
-        href: "github-repositories.html",
-        icon: iconSvg("code"),
-        cta: exploreCta("Explore")
-      }
     ];
   }
 

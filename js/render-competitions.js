@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       : `<div class="deadline-date-block is-undated${isTopPick ? " is-top-pick" : ""}" aria-hidden="true"><strong>—</strong><span>TBC</span></div>`;
     const dateCopy = date ? `<p class="deadline-exact">Due ${formatShortDate(date)}</p>` : `<p class="deadline-exact">Deadline not announced</p>`;
     const details = item.link
-      ? `<a class="deadline-details" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">Competition details ${ICIcons.externalLink}</a>`
+      ? `<a class="deadline-details icon-link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(item.name)} competition details" title="Competition details">${ICIcons.externalLink}</a>`
       : "";
     const note = isTopPick && item.pickNote ? `<p class="top-pick-note">${escapeHtml(item.pickNote)}</p>` : "";
     const pickLabel = isTopPick ? `<span class="top-pick-label">IC pick</span>` : "";

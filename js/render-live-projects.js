@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     const stageShort = { 1: "OPEN", 2: "SELECTION", 3: "ONGOING" };
     grid.innerHTML = items.map(p => `
-      <a class="glass-card lp-card" href="live-project.html?id=${encodeURIComponent(p.id)}">
+      <a class="glass-card lp-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
         <span class="live-flag stage-${p.stage}"><span class="pulse-dot"></span> ${escapeHtml(stageShort[p.stage] || "LIVE")}</span>
         <h3>${escapeHtml(p.company)}</h3>
         ${p.roles.length ? `<span class="role-line">${escapeHtml(p.roles.map(r=>r.title).join(" · "))}</span>` : ""}
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           ${p.duration ? `<span class="meta-chip">${ICIcons.clock} ${escapeHtml(p.duration)}</span>` : ""}
         </div>
         ${p.deadline ? `<span class="lp-deadline">Apply by ${escapeHtml(formatDate(p.deadline))}</span>` : ""}
-        <span class="card-link">View project ${ICIcons.arrowRight}</span>
+        <span class="card-link icon-link" aria-hidden="true" title="Open project">${ICIcons.arrowRight}</span>
       </a>
     `).join("");
   }catch(err){

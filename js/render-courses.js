@@ -44,34 +44,29 @@ document.addEventListener("DOMContentLoaded", async () => {
       grid.innerHTML = `<div class="state-msg">No courses in this domain yet.</div>`;
       return;
     }
-    grid.innerHTML = list.map(c => `
+    grid.innerHTML = list.map((c, index) => `
       <article class="glass-card course-card">
-        <span class="domain-tag">${escapeHtml(c.domain || "Uncategorized")}</span>
-        <h3>${escapeHtml(c.name)}</h3>
-        ${c.duration ? `<span class="duration-chip">${ICIcons.calendar} ${escapeHtml(c.duration)}</span>` : ""}
-        <div class="course-row">
-          ${c.price ? `<span class="price-chip">${escapeHtml(c.price)}*</span>` : `<span></span>`}
-          ${c.rating ? `<span class="rating">${ratingStars(c.rating)}</span>` : ""}
+        <span class="course-number" aria-label="Serial number ${index + 1}">${String(index + 1).padStart(2, "0")}</span>
+        <div class="course-name-cell">
+          ${activeDomain === "All" ? `<span class="domain-tag">${escapeHtml(c.domain || "Uncategorized")}</span>` : ""}
+          <h3>${escapeHtml(c.name)}</h3>
         </div>
-        <a class="card-link" href="${escapeHtml(c.link)}" target="_blank" rel="noopener">
-          View course ${ICIcons.externalLink}
+        <span class="course-rating" data-label="Rating">${c.rating ? `<span class="rating" role="img" aria-label="Rating ${c.rating.toFixed(1)} out of 5">${ratingStars(c.rating)}</span>` : "—"}</span>
+        <span class="course-duration" data-label="Duration" aria-label="Duration: ${escapeHtml(formatCourseDuration(c.duration) || "Not listed")}">${escapeHtml(formatCourseDuration(c.duration) || "—")}</span>
+        <a class="card-link icon-link" href="${escapeHtml(c.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(c.name)} course" title="Open course">
+          ${ICIcons.externalLink}
         </a>
       </article>
     `).join("");
-    showDisclaimer(grid, "*Prices are subject to variation — please confirm the final price on the course's official page before enrolling.");
   }
 
   renderFilters();
   renderGrid();
 });
 
-function showDisclaimer(afterEl, text){
-  let note = document.getElementById("courses-disclaimer");
-  if (!note){
-    note = document.createElement("p");
-    note.id = "courses-disclaimer";
-    note.className = "page-disclaimer";
-    afterEl.insertAdjacentElement("afterend", note);
-  }
-  note.textContent = text;
+function formatCourseDuration(duration){
+  const value = String(duration || "").trim();
+  if (!value) return "";
+  if (/^\d+(?:\.\d+)?(?:\s*[-–]\s*\d+(?:\.\d+)?)?$/.test(value)) return `${value} hours`;
+  return value.replace(/\bhrs?\b/gi, "hours");
 }

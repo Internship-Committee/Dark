@@ -4,7 +4,7 @@ import { CircularGallery, type GalleryItem } from '@/components/ui/circular-gall
 /* ------------------------------------------------------------------
    Icons — the same Lucide glyphs the sidebar already uses, kept inline so
    the gallery has no extra runtime dependency. (Swap for `lucide-react`
-   imports whenever you like: Rocket, BookOpen, Trophy, FileText, Compass, Code.)
+   imports whenever you like: Rocket, BookOpen, Trophy, FileText, Compass.)
    ------------------------------------------------------------------ */
 const Svg = ({ children, size = 20 }: { children: ReactNode; size?: number }) => (
   <svg
@@ -54,11 +54,6 @@ const CompassIcon = () => (
     <path d="M15 9l-2 6-6 2 2-6 6-2z" />
   </Svg>
 );
-const CodeIcon = () => (
-  <Svg>
-    <path d="M8 9l-4 4 4 4M16 9l4 4-4 4" />
-  </Svg>
-);
 const ArrowRight = () => (
   <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M5 12h14M13 5l7 7-7 7" />
@@ -98,7 +93,7 @@ function buildItems(liveOpen: boolean): GalleryItem[] {
     },
     {
       common: 'Course Repository',
-      binomial: 'Domain-wise learning resources with price, rating and a direct link.',
+      binomial: 'Domain-wise learning resources with ratings, durations and a direct link.',
       photo: { url: unsplash('1481627834876-b7833e8f5570'), text: 'A library with tall shelves full of books', pos: '50% 50%' },
       href: 'courses.html',
       icon: <BookIcon />,
@@ -126,14 +121,6 @@ function buildItems(liveOpen: boolean): GalleryItem[] {
       photo: { url: unsplash('1523240795612-9a054b0db644'), text: 'Students talking together in a group', pos: '50% 40%' },
       href: 'iimr-resources.html',
       icon: <CompassIcon />,
-      cta: <Explore />,
-    },
-    {
-      common: 'GitHub Repositories',
-      binomial: 'A directory pointing to useful repositories, not a copy of them.',
-      photo: { url: unsplash('1461749280684-dccba630e2f6'), text: 'Source code on a computer monitor', pos: '50% 50%' },
-      href: 'github-repositories.html',
-      icon: <CodeIcon />,
       cta: <Explore />,
     },
   ];
