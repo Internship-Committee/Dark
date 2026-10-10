@@ -22,23 +22,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         : "";
       const initials = (p.company || "LP").trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase();
       return `
-        <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
-          <span class="lp-file-tab" aria-hidden="true"></span>
-          <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
-          <span class="lp-file-brand">${logo}<span class="lp-file-monogram"${logo ? " hidden" : ""} aria-hidden="true">${escapeHtml(initials)}</span></span>
-          <span class="lp-file-content">
-            <span class="lp-file-kicker">Live project brief</span>
+        <article class="lp-project-item">
+          <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
+            <span class="lp-file-tab" aria-hidden="true"></span>
+            <span class="lp-file-brand">${logo}<span class="lp-file-monogram"${logo ? " hidden" : ""} aria-hidden="true"></span></span>
             <span class="lp-file-company">${escapeHtml(p.company)}</span>
-            ${p.tagline ? `<span class="lp-file-tagline">${escapeHtml(p.tagline)}</span>` : ""}
+            <span class="lp-file-open" aria-hidden="true">${ICIcons.arrowRight}</span>
+          </a>
+          <div class="lp-file-meta">
+            <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
             ${p.roles.length ? `<span class="lp-file-roles">${escapeHtml(p.roles.map(role => role.title).join(" · "))}</span>` : ""}
-            <span class="lp-file-details">
-              <span>${ICIcons.pin}<span>${escapeHtml(p.location)}</span></span>
-              ${p.duration ? `<span>${ICIcons.clock}<span>${escapeHtml(p.duration)}</span></span>` : ""}
-            </span>
-          </span>
-          <span class="lp-file-footnote">${p.deadline ? `Apply by ${escapeHtml(formatDate(p.deadline))}` : "Explore opportunity"}</span>
-          <span class="lp-file-open" aria-hidden="true">${ICIcons.arrowRight}</span>
-        </a>`;
+            ${p.deadline ? `<span class="lp-file-footnote">Apply by ${escapeHtml(formatDate(p.deadline))}</span>` : ""}
+          </div>
+        </article>`;
     };
 
     const render = () => {
