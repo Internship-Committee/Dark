@@ -71,12 +71,20 @@
       <p>Search current opportunities and open any project file to read its full brief.</p>
     </div>
 
-    <div class="lp-search-wrap">
+    <div class="lp-listing-tools">
+      <div class="lp-status-filters" role="group" aria-label="Filter live projects by status">
+        <button class="lp-status-filter is-active" type="button" data-stage="all" aria-pressed="true">All projects</button>
+        <button class="lp-status-filter" type="button" data-stage="1" aria-pressed="false">Applications open</button>
+        <button class="lp-status-filter" type="button" data-stage="2" aria-pressed="false">Selection in progress</button>
+        <button class="lp-status-filter" type="button" data-stage="3" aria-pressed="false">Project ongoing</button>
+      </div>
+      <div class="lp-search-wrap">
       <label class="lp-search-label" for="lp-search">Find a project</label>
       <div class="lp-search-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
         <input id="lp-search" type="search" placeholder="Search company, role, location or keyword" autocomplete="off" aria-controls="lp-grid">
         <span id="lp-search-count" class="lp-search-count" aria-live="polite"></span>
+      </div>
       </div>
     </div>
     <div class="card-grid" id="lp-grid" aria-live="polite"></div>
