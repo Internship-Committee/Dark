@@ -21,8 +21,9 @@
 }
 body[data-page]{ background:var(--bg)!important; color:var(--text-primary)!important; }
 html{ color-scheme:light; }
-html,body,body *{ cursor:url("../assets/site-cursor.svg") 5 2,auto!important; }
-input,textarea,[contenteditable="true"]{ cursor:text!important; }
+/* Keep the custom arrow on links, controls, and their pseudo-elements too.
+   `default` prevents the browser from switching to a hand if the SVG is unsupported. */
+html,html *,html *::before,html *::after{ cursor:url("../assets/site-cursor.svg") 2 1,default!important; }
 .sidebar{
   grid-template-columns:max-content minmax(0,1fr);
   grid-template-rows:auto auto;
