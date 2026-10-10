@@ -861,3 +861,21 @@ body[data-page="live-projects"] .lp-file-status{ white-space:nowrap; }
   body[data-page="live-projects"] #lp-grid{ grid-template-columns:minmax(0,320px); }
   body[data-page="live-projects"] .lp-file-card{ max-width:320px; }
 }
+
+/* Tighter file cards: remove decorative tab/glint/arrow, enlarge brand and title. */
+body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(230px,270px)); gap:31px 26px; }
+body[data-page="live-projects"] .lp-project-item{ padding-bottom:0; }
+body[data-page="live-projects"] .lp-file-card{ max-width:270px; padding:10px 12px 15%; }
+body[data-page="live-projects"] .lp-file-card::after{ display:none!important; }
+body[data-page="live-projects"] .lp-file-card .lp-file-tab,
+body[data-page="live-projects"] .lp-file-card .lp-file-open{ display:none!important; }
+body[data-page="live-projects"] .lp-file-card .lp-file-brand{ flex:0 0 108px; width:108px; height:108px; margin:0 0 10px; }
+body[data-page="live-projects"] .lp-file-card .lp-file-logo{ padding:8px; }
+body[data-page="live-projects"] .lp-file-card .lp-file-company{ max-width:94%; font-size:clamp(27px,2vw,32px); line-height:1.05; }
+body[data-page="live-projects"] .lp-file-meta{ right:8px; bottom:8px; padding:0; }
+body[data-page="live-projects"] .lp-file-status{ gap:5px; font-size:8px; line-height:1.2; }
+body[data-page="live-projects"] .lp-file-status .pulse-dot{ width:6px; height:6px; flex-basis:6px; }
+@media(max-width:600px){
+  body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(220px,270px)); gap:28px 20px; }
+  body[data-page="live-projects"] .lp-file-card{ max-width:270px; }
+}
