@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
             <span class="lp-file-brand">${logo}</span>
             <span class="lp-file-company">${escapeHtml(p.company)}</span>
-            <span class="lp-file-open" aria-hidden="true">${ICIcons.arrowRight}</span>
           </a>
           <div class="lp-file-meta">
             <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
