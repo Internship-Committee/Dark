@@ -895,3 +895,7 @@ body[data-page="live-projects"] .lp-file-status{ font-size:7px; }
   body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(200px,220px)); gap:28px 18px; }
   body[data-page="live-projects"] .lp-file-card{ max-width:220px; }
 }
+body[data-page="live-projects"] .lp-file-meta{ right:4px; bottom:3px; }
+body[data-page="live-projects"] .lp-file-status{ display:grid; width:62px; grid-template-columns:6px 52px; align-items:start; justify-content:end; gap:4px; white-space:normal; text-align:right; line-height:1.05; }
+body[data-page="live-projects"] .lp-file-status .pulse-dot{ align-self:center; margin-top:0; }
+body[data-page="live-projects"] .lp-status-copy{ display:block; width:52px; text-align:right; }
