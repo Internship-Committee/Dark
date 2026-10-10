@@ -679,3 +679,30 @@ body[data-page="live-projects"] .lp-empty-search{ grid-column:1/-1; }
   body[data-page="live-projects"] .lp-file-company{ font-size:27px; }
 }
 @media(prefers-reduced-motion:reduce){ body[data-page="live-projects"] .lp-file-card{ transition:none; } }
+
+/* Each listing item is a single, unmistakable document icon. Project status sits below it. */
+body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:38px clamp(15px,2vw,30px); align-items:start; }
+body[data-page="live-projects"] .lp-project-item{ min-width:0; }
+body[data-page="live-projects"] .lp-file-card{ display:flex; width:100%; min-height:0; height:270px; flex-direction:column; align-items:center; justify-content:center; padding:24px 24px 42px; overflow:hidden; border:1.5px solid rgba(20,43,72,.52); border-radius:5px 5px 5px 5px; background:rgba(255,252,246,.78); clip-path:polygon(0 0,100% 0,100% 82%,88% 82%,78% 100%,0 100%); box-shadow:0 8px 20px rgba(18,42,75,.045); text-align:center; }
+body[data-page="live-projects"] .lp-file-card::after{ content:none; }
+body[data-page="live-projects"] .lp-file-card:hover{ background:#FFFCF6!important; box-shadow:0 16px 30px rgba(18,42,75,.12); }
+body[data-page="live-projects"] .lp-file-tab{ top:0; left:0; width:42%; height:10px; border:0; border-radius:0 0 5px 0; background:rgba(24,59,102,.11); }
+body[data-page="live-projects"] .lp-file-brand{ width:94px; height:94px; flex:0 0 94px; margin:8px 0 17px; border:1.5px solid rgba(24,59,102,.32); border-radius:50%; background:rgba(233,228,217,.42); }
+body[data-page="live-projects"] .lp-file-logo{ width:100%; height:100%; padding:15px; border-radius:50%; object-fit:contain; }
+body[data-page="live-projects"] .lp-file-monogram{ display:none; }
+body[data-page="live-projects"] .lp-file-company{ display:-webkit-box; max-width:100%; margin:0; overflow:hidden; color:var(--text-primary)!important; font:500 clamp(22px,2vw,30px)/1.12 var(--font-display); text-align:center; text-overflow:ellipsis; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+body[data-page="live-projects"] .lp-file-open{ right:14px; bottom:16px; border:0; background:var(--bg); }
+body[data-page="live-projects"] .lp-file-meta{ display:flex; min-height:48px; flex-wrap:wrap; align-items:flex-start; justify-content:flex-end; gap:6px 14px; padding:8px 3px 0; text-align:right; }
+body[data-page="live-projects"] .lp-file-status{ position:static; display:inline-flex; width:max-content; max-width:100%; align-items:center; gap:7px; color:var(--accent); font:700 10px/1.4 var(--font-mono); letter-spacing:.035em; text-align:right; text-transform:uppercase; }
+body[data-page="live-projects"] .lp-file-status .pulse-dot{ width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:currentColor; }
+body[data-page="live-projects"] .lp-file-status.stage-2{ color:#8A5A14; }
+body[data-page="live-projects"] .lp-file-status.stage-3{ color:var(--text-muted); }
+body[data-page="live-projects"] .lp-file-roles,body[data-page="live-projects"] .lp-file-footnote{ margin:0; padding:0; color:var(--text-muted); font:500 10px/1.4 var(--font-heavy); text-align:right; }
+body[data-page="live-projects"] .lp-file-open svg{ width:15px; height:15px; }
+@media(max-width:1100px){ body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:34px 20px; } }
+@media(max-width:760px){ body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 18px; } }
+@media(max-width:560px){
+  body[data-page="live-projects"] #lp-grid{ grid-template-columns:minmax(0,1fr); gap:32px; }
+  body[data-page="live-projects"] .lp-file-card{ width:min(100%,360px); height:250px; margin:auto; }
+  body[data-page="live-projects"] .lp-file-meta{ width:min(100%,360px); margin:auto; }
+}
