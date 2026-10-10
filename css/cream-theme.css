@@ -21,9 +21,8 @@
 }
 body[data-page]{ background:var(--bg)!important; color:var(--text-primary)!important; }
 html{ color-scheme:light; }
-body{ cursor:url("../assets/ic-cursor.png") 2 2,default!important; }
-a[href],button,[role="button"],summary{ cursor:url("../assets/ic-cursor.png") 2 2,pointer!important; }
-input,textarea{ cursor:text!important; }
+html,body,body *{ cursor:url("../assets/site-cursor.svg") 6 2,auto!important; }
+input,textarea,[contenteditable="true"]{ cursor:text!important; }
 .sidebar{
   grid-template-columns:max-content minmax(0,1fr);
   grid-template-rows:auto auto;
@@ -75,15 +74,6 @@ input,textarea{ cursor:text!important; }
   .sidebar-nav .nav-link:nth-child(n){ max-width:none; }
   .sidebar-nav .nav-link:hover{ color:var(--accent)!important; }
   .sidebar-nav .nav-link.is-active{ box-shadow:none!important; }
-  .sidebar-nav .nav-link[data-page-key="home"]::before{
-    content:"";
-    width:9px;
-    height:9px;
-    margin-right:8px;
-    flex:0 0 9px;
-    border-radius:50%;
-    background:currentColor;
-  }
   .sidebar-footer{
     display:flex;
     justify-content:flex-end;
@@ -233,33 +223,6 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .sidebar .nav-link{ width:100%; }
 }
 
-/* A category landing page replaces the old expanding Knowledge Repository menu. */
-body[data-page="knowledge"] .card-grid.indexed{ display:grid; grid-template-columns:1fr; gap:0; border-top:1px solid var(--surface-border); }
-body[data-page="knowledge"] .card-grid.indexed .subtile{
-  display:grid;
-  grid-template-columns:52px minmax(0,1fr) auto;
-  grid-template-rows:auto auto;
-  align-items:center;
-  gap:7px 20px;
-  padding:21px 12px;
-  border:0;
-  border-bottom:1px solid var(--surface-border);
-  border-radius:0;
-  background:transparent!important;
-  box-shadow:none;
-  transform:none;
-}
-body[data-page="knowledge"] .card-grid.indexed .subtile .card-icon{ grid-column:1; grid-row:1/3; background:transparent; color:var(--accent); }
-body[data-page="knowledge"] .card-grid.indexed .subtile h3{ grid-column:2; grid-row:1; margin:0; }
-body[data-page="knowledge"] .card-grid.indexed .subtile p{ grid-column:2; grid-row:2; margin:4px 0 0; }
-body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ grid-column:3; grid-row:1/3; margin:0; white-space:nowrap; }
-body[data-page="knowledge"] .card-grid.indexed .subtile:hover{ padding-inline:20px; background:#ECE6DA!important; }
-@media(max-width:700px){
-  body[data-page="knowledge"] .card-grid.indexed .subtile{ grid-template-columns:34px minmax(0,1fr); gap:6px 12px; padding:17px 5px; }
-  body[data-page="knowledge"] .card-grid.indexed .subtile .card-icon{ grid-row:1/4; }
-  body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ grid-column:2; grid-row:3; justify-self:start; margin-top:5px; }
-}
-
 /* Keep the homepage's existing drawer alignment consistent across the portal. */
 @media (max-width:1100px){
   .sidebar-brand{ display:flex; }
@@ -302,12 +265,17 @@ body[data-page="knowledge"] .card-grid.indexed .subtile:hover{ padding-inline:20
     justify-content:center;
     min-height:42px;
     max-width:none!important;
-    padding:6px clamp(4px,.55vw,10px)!important;
+    padding:6px clamp(3px,.32vw,6px)!important;
     color:var(--text-primary)!important;
-    font:800 clamp(12px,1.2vw,23px)/1 var(--font-heavy)!important;
+    font:800 clamp(10px,calc(1.25vw - 3.75px),20px)/1 var(--font-heavy)!important;
     letter-spacing:0!important;
     text-align:center;
     white-space:nowrap;
+  }
+  .sidebar-nav .nav-link .nav-label{
+    min-width:max-content;
+    overflow:visible;
+    text-overflow:clip;
   }
   .sidebar-nav .nav-link::before{ content:none; }
   .sidebar-nav .nav-link.is-active::before{
@@ -315,7 +283,7 @@ body[data-page="knowledge"] .card-grid.indexed .subtile:hover{ padding-inline:20
     display:inline-block;
     width:8px;
     height:8px;
-    margin:0 8px 0 0;
+    margin:0 6px 0 0;
     flex:0 0 8px;
     border-radius:50%;
     background:currentColor;
@@ -416,7 +384,7 @@ body[data-page="knowledge"] .card-grid.indexed .subtile:hover{ padding-inline:20
 .editorial-list-heading > *{ padding:0 13px; }
 .editorial-list-heading > :not(:first-child){ border-left:1px solid rgba(20,43,72,.24); }
 .editorial-list-heading svg{ display:block; width:14px; height:14px; margin:auto; }
-.course-list-heading,.course-card{
+.course-list-heading,body[data-page="courses"] .course-card{
   grid-template-columns:64px minmax(220px,1.8fr) minmax(100px,.65fr) minmax(130px,.8fr) 56px;
 }
 body[data-page="courses"] #courses-grid{ display:block; border-bottom:1px solid var(--surface-border); }
@@ -557,7 +525,6 @@ body[data-page="competitions"] .calendar-day.is-selected{ background:rgba(228,23
 
 @media (min-width:701px){
   .home-index-row > :not(:first-child){ padding-left:clamp(12px,2vw,30px); border-left:1px solid rgba(20,43,72,.2); }
-  body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ padding-left:18px; border-left:1px solid rgba(20,43,72,.2); }
 }
 @media (max-width:900px) and (min-width:701px){
   .course-list-heading,body[data-page="courses"] .course-card{ grid-template-columns:50px minmax(170px,1.4fr) minmax(82px,.6fr) minmax(105px,.75fr) 48px; }
@@ -633,5 +600,4 @@ body[data-page="competitions"] .calendar-day.is-selected{ background:rgba(228,23
   body[data-page="resources"] .list-card .icon-link,
   body[data-page="live-projects"] .lp-card .icon-link{ border-left:1px solid rgba(20,43,72,.2)!important; }
   .home-index-row > :not(:first-child){ padding-left:0; border-left:0; }
-  body[data-page="knowledge"] .card-grid.indexed .subtile .card-cta{ padding-left:0; border-left:0; }
 }

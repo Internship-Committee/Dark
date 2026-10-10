@@ -86,7 +86,7 @@ html.home-scroll-ready .home-display-title{
   font:700 11px/1.4 var(--font-mono);
   letter-spacing:.04em;
   text-transform:uppercase;
-  cursor:url("../assets/ic-cursor.png") 2 2,pointer;
+  cursor:url("../assets/site-cursor.svg") 6 2,pointer;
 }
 .home-jump span{ display:inline-block; padding-left:10px; transition:transform .2s ease; }
 .home-jump:hover span{ transform:translateY(4px); }

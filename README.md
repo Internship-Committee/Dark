@@ -13,7 +13,6 @@ section 8 — so you still don't need to build anything unless you edit it.)
 ```
 /project
   index.html                 Home (3D logo signature + circular 3D gallery of five sections)
-  knowledge-repository.html  Knowledge Repository landing (3 sub-tiles)
   courses.html                Course Repository
   case-studies.html           Case Studies
   iimr-resources.html         IIMR Student Resources
@@ -362,5 +361,3 @@ Notes:
   shows the same five sections as ordinary cards (the fallback in `index.html`).
 - The Live Projects card's "Applications open / closed" badge is driven by
   `ICData.getLiveProjects()`, exactly like the old home-page badge.
-- `knowledge-repository.html` still exists (the sub-pages' "← Knowledge
-  Repository" breadcrumbs link to it) but the home page no longer points to it.

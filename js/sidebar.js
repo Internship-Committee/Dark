@@ -1,7 +1,6 @@
 /* ============================================================
    IC Portal — Sidebar behaviour (shared across every page)
    - mobile drawer open/close
-   - Knowledge Repository landing-page navigation
    - active link highlighting
    - injects committee email / LinkedIn / logo from config.js
    ============================================================ */
@@ -108,7 +107,7 @@
       });
       const mobileIndicator = document.querySelector(".mobile-current-page");
       if (mobileIndicator){
-        const fallbackLabels = { knowledge: "Knowledge Repository", "live-project": "Live Projects" };
+        const fallbackLabels = { "live-project": "Live Projects" };
         mobileIndicator.textContent = matchedLabel || fallbackLabels[page] || page.replace(/-/g, " ");
       }
     }
