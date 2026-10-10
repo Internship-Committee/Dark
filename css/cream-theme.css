@@ -879,3 +879,19 @@ body[data-page="live-projects"] .lp-file-status .pulse-dot{ width:6px; height:6p
   body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(220px,270px)); gap:28px 20px; }
   body[data-page="live-projects"] .lp-file-card{ max-width:270px; }
 }
+
+/* Smaller files, same-size branding, page-matched interior and a shallower fold. */
+body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(200px,220px)); gap:30px 22px; }
+body[data-page="live-projects"] .lp-file-card{
+  max-width:220px;
+  padding:8px 10px 12%;
+  --lp-file-shape:polygon(0 1.6%,.12% .95%,.35% .4%,.8% .12%,1.5% 0,98.5% 0,99.2% .12%,99.65% .4%,99.88% .95%,100% 1.6%,100% 86%,99.95% 87%,99.7% 88%,99.2% 88.8%,98.4% 89.5%,97.3% 90%,96% 90.4%,94.5% 90.6%,92.5% 90.7%,73% 90.7%,71% 90.9%,69.2% 91.4%,67.5% 92.2%,65.8% 93.3%,64% 94.6%,62.2% 96%,60.3% 97.5%,58.5% 99%,57% 100%,1.5% 100%,.8% 99.88%,.35% 99.6%,.12% 99.05%,0 98.4%);
+}
+body[data-page="live-projects"] .lp-file-card::before,
+body[data-page="live-projects"] .lp-file-card:hover::before{ background:var(--bg)!important; }
+body[data-page="live-projects"] .lp-file-meta{ right:5px; bottom:5px; }
+body[data-page="live-projects"] .lp-file-status{ font-size:7px; }
+@media(max-width:600px){
+  body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(200px,220px)); gap:28px 18px; }
+  body[data-page="live-projects"] .lp-file-card{ max-width:220px; }
+}
