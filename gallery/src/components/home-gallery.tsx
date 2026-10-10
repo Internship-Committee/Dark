@@ -92,10 +92,10 @@ function buildItems(liveOpen: boolean): GalleryItem[] {
       cta: <LiveBadge open={liveOpen} />,
     },
     {
-      common: 'Knowledge Repository',
+      common: 'Course Repository',
       binomial: 'Courses, case studies, and student resources gathered in one place.',
       photo: { url: unsplash('1481627834876-b7833e8f5570'), text: 'A library with tall shelves full of books', pos: '50% 50%' },
-      href: 'knowledge-repository.html',
+      href: 'courses.html',
       icon: <BookIcon />,
       cta: <Explore />,
     },

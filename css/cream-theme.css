@@ -21,7 +21,7 @@
 }
 body[data-page]{ background:var(--bg)!important; color:var(--text-primary)!important; }
 html{ color-scheme:light; }
-html,body,body *{ cursor:url("../assets/site-cursor.svg") 6 2,auto!important; }
+html,body,body *{ cursor:url("../assets/site-cursor.svg") 5 2,auto!important; }
 input,textarea,[contenteditable="true"]{ cursor:text!important; }
 .sidebar{
   grid-template-columns:max-content minmax(0,1fr);

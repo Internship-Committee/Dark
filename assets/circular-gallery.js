@@ -84,12 +84,12 @@
         liveCta: true
       },
       {
-        common: "Knowledge Repository",
+        common: "Course Repository",
         binomial: "Courses, case studies, and student resources gathered in one place.",
         photoUrl: unsplash("1481627834876-b7833e8f5570"),
         photoAlt: "A library with tall shelves full of books",
         photoPos: "50% 50%",
-        href: "knowledge-repository.html",
+        href: "courses.html",
         icon: iconSvg("book"),
         cta: exploreCta("Explore")
       },
