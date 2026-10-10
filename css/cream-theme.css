@@ -706,3 +706,53 @@ body[data-page="live-projects"] .lp-file-open svg{ width:15px; height:15px; }
   body[data-page="live-projects"] .lp-file-card{ width:min(100%,360px); height:250px; margin:auto; }
   body[data-page="live-projects"] .lp-file-meta{ width:min(100%,360px); margin:auto; }
 }
+
+/* Compact, translucent project files with one status label outside each file. */
+body[data-page="live-projects"] #lp-grid{ perspective:1100px; gap:31px clamp(15px,1.8vw,26px); }
+body[data-page="live-projects"] .lp-project-item{ position:relative; }
+body[data-page="live-projects"] .lp-file-card{
+  height:218px;
+  padding:22px 18px 36px;
+  border:1px solid rgba(20,43,72,.48);
+  border-radius:0;
+  background:rgba(255,252,246,.48)!important;
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  clip-path:polygon(0 1%,1% 0,99% 0,100% 1%,100% 75%,99.8% 77%,99.2% 79%,98.2% 81%,96.8% 82.8%,95% 84%,92.5% 85%,87.5% 85%,85% 85.5%,82.8% 86.5%,80.8% 88%,79% 90%,77.5% 92.5%,76% 95.5%,74% 98%,71.5% 100%,1% 100%,0 99%);
+  box-shadow:0 9px 17px rgba(18,42,75,.09),inset 0 1px 0 rgba(255,255,255,.8);
+  transform:translateZ(0);
+  transform-style:preserve-3d;
+  transition:transform .32s cubic-bezier(.2,.75,.25,1),box-shadow .32s ease,background-color .32s ease;
+  will-change:transform;
+}
+body[data-page="live-projects"] .lp-file-card::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:1px;
+  clip-path:inherit;
+  background:linear-gradient(145deg,rgba(255,255,255,.54),rgba(255,255,255,0) 48%);
+  opacity:.5;
+  pointer-events:none;
+  transition:opacity .3s ease;
+}
+body[data-page="live-projects"] .lp-file-card:hover{
+  z-index:3;
+  background:rgba(255,252,246,.66)!important;
+  box-shadow:0 22px 32px rgba(18,42,75,.16),0 4px 10px rgba(24,59,102,.08),inset 0 1px 0 rgba(255,255,255,.92);
+  transform:translateY(-7px) scale(1.045) rotateX(1deg);
+}
+body[data-page="live-projects"] .lp-file-card:hover::after{ opacity:.9; }
+body[data-page="live-projects"] .lp-file-card > *{ z-index:1; }
+body[data-page="live-projects"] .lp-file-tab{ height:7px; background:rgba(24,59,102,.09); }
+body[data-page="live-projects"] .lp-file-brand{ width:76px; height:76px; flex-basis:76px; margin:3px 0 12px; border-color:rgba(24,59,102,.27); background:rgba(255,255,255,.27); }
+body[data-page="live-projects"] .lp-file-logo{ padding:12px; }
+body[data-page="live-projects"] .lp-file-company{ font-size:clamp(19px,1.6vw,25px); }
+body[data-page="live-projects"] .lp-file-meta{ min-height:34px; padding-top:7px; }
+body[data-page="live-projects"] .lp-file-status{ color:var(--accent); font-size:9px; }
+@media(max-width:560px){ body[data-page="live-projects"] .lp-file-card{ height:210px; } }
+@media(hover:none){ body[data-page="live-projects"] .lp-file-card:hover{ transform:none; } }
+@media(prefers-reduced-motion:reduce){
+  body[data-page="live-projects"] .lp-file-card{ will-change:auto; transition:none; }
+  body[data-page="live-projects"] .lp-file-card:hover{ transform:none; }
+}
