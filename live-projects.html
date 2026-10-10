@@ -67,12 +67,17 @@
   <main class="main" id="main-content">
     <div class="page-header">
       <span class="eyebrow">Live Projects</span>
-      <h1 class="section-heading">Active projects, open now</h1>
-      <p>Ordered by application deadline — soonest first. Tap a project to see the full brief.</p>
+      <h1 class="section-heading">Find your next live project</h1>
+      <p>Search current opportunities and open any project file to read its full brief.</p>
     </div>
 
-    <div class="editorial-list-heading live-project-list-heading">
-      <span>Status</span><span>Company</span><span>Roles</span><span>Location / duration</span><span>Deadline</span><span>Link</span>
+    <div class="lp-search-wrap">
+      <label class="lp-search-label" for="lp-search">Find a project</label>
+      <div class="lp-search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+        <input id="lp-search" type="search" placeholder="Search company, role, location or keyword" autocomplete="off" aria-controls="lp-grid">
+        <span id="lp-search-count" class="lp-search-count" aria-live="polite"></span>
+      </div>
     </div>
     <div class="card-grid" id="lp-grid" aria-live="polite"></div>
 
