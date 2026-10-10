@@ -20,19 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       const logo = p.companyLogo
         ? `<img class="lp-file-logo" src="${escapeHtml(p.companyLogo)}" alt="${escapeHtml(p.company)} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">`
         : "";
-      const initials = (p.company || "LP").trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase();
       return `
         <article class="lp-project-item">
           <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
             <span class="lp-file-tab" aria-hidden="true"></span>
-            <span class="lp-file-brand">${logo}<span class="lp-file-monogram"${logo ? " hidden" : ""} aria-hidden="true"></span></span>
+            <span class="lp-file-brand">${logo}</span>
             <span class="lp-file-company">${escapeHtml(p.company)}</span>
             <span class="lp-file-open" aria-hidden="true">${ICIcons.arrowRight}</span>
           </a>
           <div class="lp-file-meta">
             <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
-            ${p.roles.length ? `<span class="lp-file-roles">${escapeHtml(p.roles.map(role => role.title).join(" · "))}</span>` : ""}
-            ${p.deadline ? `<span class="lp-file-footnote">Apply by ${escapeHtml(formatDate(p.deadline))}</span>` : ""}
           </div>
         </article>`;
     };
