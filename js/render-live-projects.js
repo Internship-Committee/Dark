@@ -1,27 +1,57 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const grid = document.getElementById("lp-grid");
+  const search = document.getElementById("lp-search");
+  const count = document.getElementById("lp-search-count");
   if (!grid) return;
   grid.innerHTML = skeletonGrid(6);
+
   try{
     const items = await ICData.getLiveProjects();
     if (!items.length){
       grid.innerHTML = `<div class="state-msg">No live projects at the moment. New rows added to the Live Projects sheet will appear here automatically, ordered by application deadline.</div>`;
       return;
     }
-    const stageShort = { 1: "OPEN", 2: "SELECTION", 3: "ONGOING" };
-    grid.innerHTML = items.map(p => `
-      <a class="glass-card lp-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
-        <span class="live-flag stage-${p.stage}"><span class="pulse-dot"></span> ${escapeHtml(stageShort[p.stage] || "LIVE")}</span>
-        <h3>${escapeHtml(p.company)}</h3>
-        ${p.roles.length ? `<span class="role-line">${escapeHtml(p.roles.map(r=>r.title).join(" · "))}</span>` : ""}
-        <div class="lp-meta-row">
-          <span class="meta-chip">${ICIcons.pin} ${escapeHtml(p.location)}</span>
-          ${p.duration ? `<span class="meta-chip">${ICIcons.clock} ${escapeHtml(p.duration)}</span>` : ""}
-        </div>
-        ${p.deadline ? `<span class="lp-deadline">Apply by ${escapeHtml(formatDate(p.deadline))}</span>` : ""}
-        <span class="card-link icon-link" aria-hidden="true" title="Open project">${ICIcons.arrowRight}</span>
-      </a>
-    `).join("");
+
+    const stageShort = { 1: "Applications open", 2: "Selection in progress", 3: "Project ongoing" };
+    const searchableText = p => [p.company, p.tagline, p.aboutCompany, p.location, p.duration,
+      p.stageLabel, ...p.roles.flatMap(role => [role.title, role.responsibilities.join(" "), role.takeaway]),
+      ...p.selectionCriteria].join(" ").toLowerCase();
+    const cardMarkup = p => {
+      const logo = p.companyLogo
+        ? `<img class="lp-file-logo" src="${escapeHtml(p.companyLogo)}" alt="${escapeHtml(p.company)} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">`
+        : "";
+      const initials = (p.company || "LP").trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase();
+      return `
+        <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
+          <span class="lp-file-tab" aria-hidden="true"></span>
+          <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
+          <span class="lp-file-brand">${logo}<span class="lp-file-monogram"${logo ? " hidden" : ""} aria-hidden="true">${escapeHtml(initials)}</span></span>
+          <span class="lp-file-content">
+            <span class="lp-file-kicker">Live project brief</span>
+            <span class="lp-file-company">${escapeHtml(p.company)}</span>
+            ${p.tagline ? `<span class="lp-file-tagline">${escapeHtml(p.tagline)}</span>` : ""}
+            ${p.roles.length ? `<span class="lp-file-roles">${escapeHtml(p.roles.map(role => role.title).join(" · "))}</span>` : ""}
+            <span class="lp-file-details">
+              <span>${ICIcons.pin}<span>${escapeHtml(p.location)}</span></span>
+              ${p.duration ? `<span>${ICIcons.clock}<span>${escapeHtml(p.duration)}</span></span>` : ""}
+            </span>
+          </span>
+          <span class="lp-file-footnote">${p.deadline ? `Apply by ${escapeHtml(formatDate(p.deadline))}` : "Explore opportunity"}</span>
+          <span class="lp-file-open" aria-hidden="true">${ICIcons.arrowRight}</span>
+        </a>`;
+    };
+
+    const render = () => {
+      const query = (search?.value || "").trim().toLowerCase();
+      const matches = items.filter(p => !query || searchableText(p).includes(query));
+      grid.innerHTML = matches.length
+        ? matches.map(cardMarkup).join("")
+        : `<div class="state-msg lp-empty-search">No projects match “${escapeHtml(search.value.trim())}”. Try a company, role or location.</div>`;
+      if (count) count.textContent = query ? `${matches.length} ${matches.length === 1 ? "result" : "results"}` : `${items.length} ${items.length === 1 ? "project" : "projects"}`;
+    };
+
+    render();
+    search?.addEventListener("input", render);
   }catch(err){
     grid.innerHTML = `<div class="state-msg is-error">${escapeHtml(err.message)}</div>`;
   }
