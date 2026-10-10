@@ -40,6 +40,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       grid.innerHTML = matches.length
         ? matches.map(cardMarkup).join("")
         : `<div class="state-msg lp-empty-search">No projects match “${escapeHtml(search.value.trim())}”. Try a company, role or location.</div>`;
+      grid.querySelectorAll(".lp-file-card").forEach(card => {
+        card.addEventListener("pointermove", event => {
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width;
+          const y = (event.clientY - rect.top) / rect.height;
+          card.style.setProperty("--pointer-x", `${(x * 100).toFixed(1)}%`);
+          card.style.setProperty("--pointer-y", `${(y * 100).toFixed(1)}%`);
+          card.style.setProperty("--tilt-x", `${((x - 0.5) * 3).toFixed(2)}deg`);
+          card.style.setProperty("--tilt-y", `${((0.5 - y) * 3).toFixed(2)}deg`);
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.setProperty("--pointer-x", "50%");
+          card.style.setProperty("--pointer-y", "40%");
+          card.style.setProperty("--tilt-x", "0deg");
+          card.style.setProperty("--tilt-y", "0deg");
+        });
+      });
       if (count) count.textContent = query ? `${matches.length} ${matches.length === 1 ? "result" : "results"}` : `${items.length} ${items.length === 1 ? "project" : "projects"}`;
     };
 
