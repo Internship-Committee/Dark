@@ -54,24 +54,25 @@
   </div>
 
   <main class="main" id="main-content">
-
-    <section class="home-editorial" aria-labelledby="home-title">
-      <div class="home-backdrop">
-        <h1 class="home-display-title" id="home-title" aria-label="Internship Committee">
-          <span class="home-title-line">Internship</span>
-          <span class="home-title-line">Committee</span>
-        </h1>
+    <div class="home-intro" aria-label="Internship Committee introduction">
+      <div class="home-intro-mark" aria-hidden="true">
+        <span class="home-intro-half home-intro-top">IC</span>
+        <span class="home-intro-half home-intro-bottom">IC</span>
       </div>
-      <section class="home-splash" aria-label="Internship Committee introduction">
-        <div class="home-logo-card">
-          <img src="assets/logo.png" alt="Internship Committee, IIM Rohtak seal">
-        </div>
-        <a class="home-jump" href="#explore">Explore the portal <span aria-hidden="true">↓</span></a>
-        <p class="home-scroll-note" aria-hidden="true">Scroll to explore <span>↓</span></p>
-      </section>
+      <div class="home-intro-reveal" aria-hidden="true">
+        <strong>Internship Committee</strong>
+        <span>Integrity. Collaboration. Passion.</span>
+      </div>
+      <button class="home-intro-skip" type="button">Skip intro</button>
+    </div>
 
+    <section class="home-editorial" aria-labelledby="home-index-title">
       <section class="home-index" id="explore" aria-labelledby="home-index-title">
         <header class="home-index-heading" data-scroll-reveal>
+          <div class="home-identity" aria-label="Internship Committee: Integrity. Collaboration. Passion.">
+            <span>Internship Committee</span>
+            <span>Integrity. Collaboration. Passion.</span>
+          </div>
           <p class="home-kicker">IIM Rohtak · IPM student portal</p>
           <h2 id="home-index-title">Opportunities, resources, and practical tools.</h2>
           <p class="home-index-intro">A collection selected by the Internship Committee for students ready to learn, compete, and work on real business challenges.</p>
@@ -113,5 +114,6 @@
 <script src="js/data-adapter.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/home-scroll.js"></script>
+<script src="js/home-intro.js"></script>
 </body>
 </html>
