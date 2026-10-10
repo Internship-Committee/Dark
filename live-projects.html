@@ -41,7 +41,7 @@
 
     <nav class="sidebar-nav" aria-label="Site pages">
       <a class="nav-link" data-page-key="home" href="index.html" title="Home"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/><path d="M10 19v-6h4v6"/></svg></span><span class="nav-label">Home</span></a>
-      <a class="nav-link" data-page-key="courses" href="courses.html" title="Course Repository"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h8"/></svg></span><span class="nav-label">Course Repository</span></a>
+      <a class="nav-link" data-page-key="knowledge" href="knowledge-repository.html" title="Knowledge Repository"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h8"/></svg></span><span class="nav-label">Knowledge Repository</span></a>
       <a class="nav-link" data-page-key="case-studies" href="case-studies.html" title="Case Studies"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><span class="nav-label">Case Studies</span></a>
       <a class="nav-link" data-page-key="resources" href="iimr-resources.html" title="IIMR Student Resources"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/></svg></span><span class="nav-label">IIMR Student Resources</span></a>
       <a class="nav-link" data-page-key="competitions" href="case-competitions.html" title="Case Competitions"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h3a4 4 0 0 1-4 4M7 5H4a4 4 0 0 0 4 4"/></svg></span><span class="nav-label">Case Competitions</span></a>
@@ -67,12 +67,25 @@
   <main class="main" id="main-content">
     <div class="page-header">
       <span class="eyebrow">Live Projects</span>
-      <h1 class="section-heading">Active projects, open now</h1>
-      <p>Ordered by application deadline — soonest first. Tap a project to see the full brief.</p>
+      <h1 class="section-heading">Find your next live project</h1>
+      <p>Search current opportunities and open any project file to read its full brief.</p>
     </div>
 
-    <div class="editorial-list-heading live-project-list-heading">
-      <span>Status</span><span>Company</span><span>Roles</span><span>Location / duration</span><span>Deadline</span><span>Link</span>
+    <div class="lp-listing-tools">
+      <div class="lp-status-filters" role="group" aria-label="Filter live projects by status">
+        <button class="lp-status-filter is-active" type="button" data-stage="all" aria-pressed="true">All projects</button>
+        <button class="lp-status-filter" type="button" data-stage="1" aria-pressed="false">Applications open</button>
+        <button class="lp-status-filter" type="button" data-stage="2" aria-pressed="false">Selection in progress</button>
+        <button class="lp-status-filter" type="button" data-stage="3" aria-pressed="false">Project ongoing</button>
+      </div>
+      <div class="lp-search-wrap">
+      <label class="lp-search-label" for="lp-search">Find a project</label>
+      <div class="lp-search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+        <input id="lp-search" type="search" placeholder="Search company, role, location or keyword" autocomplete="off" aria-controls="lp-grid">
+        <span id="lp-search-count" class="lp-search-count" aria-live="polite"></span>
+      </div>
+      </div>
     </div>
     <div class="card-grid" id="lp-grid" aria-live="polite"></div>
 

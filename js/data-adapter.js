@@ -238,6 +238,7 @@ const ICData = (() => {
     return {
       id: pick(row, "ID", "id") || slugify(pick(row, "Company", "company") + "-" + pick(row, "Project/Role", "role")),
       company: pick(row, "Company", "company"),
+      companyLogo: pick(row, "Company Logo", "Company Logo URL", "Logo", "Logo URL", "company logo"),
       stage: stage,
       stageLabel: LP_STAGES[stage],
       status: (pick(row, "Status", "status") || "Live"),

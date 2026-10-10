@@ -153,7 +153,7 @@ is purely additive and optional.
 
 **Live Projects**
 ```
-ID | Company | Status | Tagline | About the Company |
+ID | Company | Company Logo | Status | Tagline | About the Company |
 Role 1 | Role 1 Responsibilities | Role 1 Takeaways |
 Role 2 | Role 2 Responsibilities | Role 2 Takeaways |
 Role 3 | Role 3 Responsibilities | Role 3 Takeaways |
@@ -174,6 +174,10 @@ Apply URL | Deadline | Google Doc URL
   line break within a cell) — the page turns each line into a bullet.
 - `Status`: set to `Closed` to hide a project from the listing without
   deleting the row.
+- `Company Logo`: optional direct image URL or a path such as
+  `assets/company-logos/acme.png` for the logo shown on the project listing.
+  To use a repository image, upload it under `assets/company-logos/` and put
+  that path in the matching row. Leave it blank to keep the empty logo circle.
 - See "Google Docs → Live Project pages" below for why most of these
   columns exist even though the source document already has this
   information.
