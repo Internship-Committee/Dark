@@ -814,3 +814,50 @@ body[data-page="live-projects"] .lp-file-status{ font-size:10px; }
 @media(prefers-reduced-motion:reduce){
   body[data-page="live-projects"] .lp-file-card:hover{ transform:none; filter:none; }
 }
+
+/* Status filters and the final compact folder outline. */
+body[data-page="live-projects"] .lp-listing-tools{ display:flex; max-width:1060px; flex-direction:column; align-items:flex-start; gap:18px; margin:0 0 30px; }
+body[data-page="live-projects"] .lp-status-filters{ display:flex; flex-wrap:wrap; align-items:center; gap:7px; }
+body[data-page="live-projects"] .lp-status-filter{ min-height:36px; padding:8px 13px; border:1px solid rgba(20,43,72,.2); border-radius:3px; background:rgba(255,252,246,.45); color:var(--text-secondary); font:700 10px/1.2 var(--font-mono); cursor:pointer; transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease; }
+body[data-page="live-projects"] .lp-status-filter:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+body[data-page="live-projects"] .lp-status-filter.is-active{ border-color:var(--accent); background:var(--accent); color:#fff; }
+body[data-page="live-projects"] .lp-status-filter:focus-visible{ outline:2px solid var(--accent)!important; outline-offset:3px; }
+body[data-page="live-projects"] .lp-search-wrap{ width:min(100%,720px); margin:0; }
+body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(240px,320px)); justify-content:start; gap:36px 32px; max-width:1060px; }
+body[data-page="live-projects"] .lp-project-item{ min-width:0; padding-bottom:23px; }
+body[data-page="live-projects"] .lp-file-card{
+  --lp-file-shape:polygon(0 1.6%,.12% .95%,.35% .4%,.8% .12%,1.5% 0,98.5% 0,99.2% .12%,99.65% .4%,99.88% .95%,100% 1.6%,100% 79%,99.95% 80.1%,99.75% 81.2%,99.4% 82.1%,98.9% 83%,98.2% 83.8%,97.2% 84.5%,96% 85%,94.5% 85.3%,92.5% 85.5%,69% 85.5%,67.2% 85.65%,65.5% 86.1%,64% 86.8%,62.5% 87.8%,61% 89.2%,59.4% 91%,57.8% 93%,56.2% 95%,54.5% 97%,52.5% 99%,51.5% 100%,1.5% 100%,.8% 99.88%,.35% 99.6%,.12% 99.05%,0 98.4%);
+  position:relative;
+  width:100%;
+  height:auto;
+  max-width:320px;
+  aspect-ratio:1/1;
+  margin:0;
+  padding:20px 18px 17%;
+  overflow:hidden;
+  border:0;
+  border-radius:0;
+  background:rgba(20,43,72,.5)!important;
+  clip-path:var(--lp-file-shape);
+  box-shadow:none;
+}
+body[data-page="live-projects"] .lp-file-card::before{ content:""; position:absolute; z-index:0; inset:1.5px; clip-path:var(--lp-file-shape); background:rgba(255,252,246,.37); pointer-events:none; transition:background-color .3s ease; }
+body[data-page="live-projects"] .lp-file-card::after{ inset:1.5px; clip-path:var(--lp-file-shape); }
+body[data-page="live-projects"] .lp-file-card:hover{ background:rgba(24,59,102,.95)!important; }
+body[data-page="live-projects"] .lp-file-card:hover::before{ background:rgba(255,252,246,.49); }
+body[data-page="live-projects"] .lp-file-card > *{ position:relative; z-index:1; }
+body[data-page="live-projects"] .lp-file-card .lp-file-tab{ display:none!important; }
+body[data-page="live-projects"] .lp-file-card .lp-file-brand{ flex:0 0 clamp(68px,6vw,82px); width:clamp(68px,6vw,82px); height:clamp(68px,6vw,82px); margin:0 0 12px; }
+body[data-page="live-projects"] .lp-file-card .lp-file-company{ font-size:clamp(18px,1.45vw,23px); }
+body[data-page="live-projects"] .lp-file-meta{ position:absolute; right:0; bottom:0; display:flex; width:max-content; min-height:0; justify-content:flex-end; padding:0 0 0 10px; }
+body[data-page="live-projects"] .lp-file-status{ white-space:nowrap; }
+@media(max-width:760px){
+  body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(auto-fit,minmax(220px,300px)); gap:33px 22px; }
+  body[data-page="live-projects"] .lp-file-card{ max-width:300px; }
+}
+@media(max-width:520px){
+  body[data-page="live-projects"] .lp-status-filters{ gap:6px; }
+  body[data-page="live-projects"] .lp-status-filter{ padding:8px 10px; font-size:9px; }
+  body[data-page="live-projects"] #lp-grid{ grid-template-columns:minmax(0,320px); }
+  body[data-page="live-projects"] .lp-file-card{ max-width:320px; }
+}
