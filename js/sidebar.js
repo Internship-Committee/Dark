@@ -96,7 +96,7 @@
     // Active link highlighting based on body[data-page]
     const page = document.body.getAttribute("data-page");
     if (page){
-      const pageKey = page === "live-project" ? "live-projects" : page;
+      const pageKey = page === "live-project" ? "live-projects" : (page === "courses" ? "knowledge" : page);
       let matchedLabel = "";
       document.querySelectorAll(`.sidebar .nav-link[data-page-key]`).forEach(link => {
         if (link.getAttribute("data-page-key") === pageKey){
