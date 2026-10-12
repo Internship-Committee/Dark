@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/cream-theme.css">
+<link rel="stylesheet" href="css/course-gallery.css">
 </head>
 <body data-page="courses">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -56,6 +57,17 @@
       <h1 class="section-heading">Course Repository</h1>
       <p>Browse courses by domain, compare ratings and durations, and open the original course link.</p>
     </div>
+
+    <section class="course-exploration" id="course-exploration" aria-labelledby="course-exploration-title" hidden>
+      <div class="course-exploration-heading">
+        <div>
+          <span class="eyebrow">Start with a subject</span>
+          <h2 id="course-exploration-title">Find your next focus.</h2>
+        </div>
+        <p>Move across the gallery to explore course areas.</p>
+      </div>
+      <div class="course-paths" id="course-paths" aria-label="Course domains"></div>
+    </section>
 
     <div class="domain-filter" id="domain-filter" aria-label="Filter by domain"></div>
     <div class="editorial-list-heading course-list-heading">
