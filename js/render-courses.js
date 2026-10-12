@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     paths.dataset.count = String(courses.length);
     paths.innerHTML = courses.map((course, index) => {
       const domain = course.domain || "Uncategorized";
-      const shape = index % 2 === 0 ? "wide" : "tall";
+      const shape = courses.length === 2 ? "square" : courses.length === 1 || index % 2 === 1 ? "rectangle" : "square";
       const rating = course.rating ? course.rating.toFixed(1) : "—";
       const duration = formatCourseDuration(course.duration) || "—";
       return `
