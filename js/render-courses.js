@@ -51,19 +51,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     paths.dataset.count = String(courses.length);
     paths.innerHTML = courses.map((course, index) => {
       const domain = course.domain || "Uncategorized";
-      const photo = coursePhotoForCourse(course, index);
       const shape = index % 2 === 0 ? "wide" : "tall";
-      const details = [
-        course.rating ? `Rated ${course.rating.toFixed(1)}` : "",
-        formatCourseDuration(course.duration),
-      ].filter(Boolean).join(" · ");
+      const rating = course.rating ? course.rating.toFixed(1) : "—";
+      const duration = formatCourseDuration(course.duration) || "—";
       return `
-        <a class="course-path" data-shape="${shape}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in ${escapeHtml(domain)}" style="--course-photo:url('${photo}')">
-          <span class="course-path__image" aria-hidden="true"></span>
-          <span class="course-path__shade" aria-hidden="true"></span>
-          <span class="course-path__eyebrow"><span>${escapeHtml(domain)}</span><span class="course-path__arrow" aria-hidden="true">↗</span></span>
+        <a class="course-path" data-shape="${shape}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in ${escapeHtml(domain)}. Rating ${rating} out of 5. Duration ${escapeHtml(duration)}.">
+          <span class="course-path__eyebrow">${escapeHtml(domain)}</span>
           <span class="course-path__title">${escapeHtml(course.name)}</span>
-          <span class="course-path__detail">${escapeHtml(details || "Open course")}</span>
+          <span class="course-path__detail"><span>Rating ${rating}</span><span>Duration ${escapeHtml(duration)}</span></span>
+          <span class="course-path__arrow" aria-hidden="true">↗</span>
         </a>
       `;
     }).join("");
@@ -95,26 +91,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderFilters();
   renderGrid();
 });
-
-const coursePhotoOptions = [
-  { match:/equity|stock|research/i, url:"photo-1611974789855-9c2a0a7236a3" },
-  { match:/modelling|valuation|accounting/i, url:"photo-1554224155-6726b3ff858f" },
-  { match:/finance|account|invest|econom|bank/i, url:"photo-1460925895917-afdab827c52f" },
-  { match:/market|brand|sales|advertis/i, url:"photo-1533750349088-cd871a92f312" },
-  { match:/consult|strategy|management/i, url:"photo-1454165804606-c3d57bc86b40" },
-  { match:/data|analytics|business intelligence/i, url:"photo-1551288049-bebda4e38f71" },
-  { match:/leadership|entrepreneur|startup/i, url:"photo-1521737711867-e3b97375f902" },
-  { match:/operation|supply|project/i, url:"photo-1556761175-b413da4baf72" },
-];
-
-function coursePhotoForCourse(course, index){
-  const name = course.name || "";
-  const domain = course.domain || "";
-  const image = coursePhotoOptions.find(option => option.match.test(name))
-    || coursePhotoOptions.find(option => option.match.test(domain))
-    || coursePhotoOptions[index % coursePhotoOptions.length];
-  return `https://images.unsplash.com/${image.url}?auto=format&fit=crop&w=1100&q=82`;
-}
 
 function formatCourseDuration(duration){
   const value = String(duration || "").trim();
