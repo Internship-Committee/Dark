@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const domains = ["All", ...Array.from(new Set(courses.map(c => c.domain || "Uncategorized")))];
   let activeDomain = "All";
 
-  renderCoursePaths();
+  renderCourseTiles();
 
   function renderFilters(){
     if (!filterBar) return;
@@ -40,47 +40,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         activeDomain = btn.getAttribute("data-domain");
         renderFilters();
         renderGrid();
-        updatePathSelection();
       });
     });
   }
 
-  function renderCoursePaths(){
+  function renderCourseTiles(){
     if (!exploration || !paths) return;
-    const visibleDomains = domains.slice(1, 9);
-    if (!visibleDomains.length) return;
+    if (!courses.length) return;
 
-    paths.dataset.count = String(visibleDomains.length);
-    paths.innerHTML = visibleDomains.map((domain, index) => {
-      const count = courses.filter(course => (course.domain || "Uncategorized") === domain).length;
-      const photo = coursePhotoForDomain(domain, index);
+    paths.dataset.count = String(courses.length);
+    paths.innerHTML = courses.map((course, index) => {
+      const domain = course.domain || "Uncategorized";
+      const photo = coursePhotoForCourse(course, index);
+      const shape = index % 2 === 0 ? "wide" : "tall";
+      const details = [
+        course.rating ? `Rated ${course.rating.toFixed(1)}` : "",
+        formatCourseDuration(course.duration),
+      ].filter(Boolean).join(" · ");
       return `
-        <button class="course-path" type="button" data-domain="${escapeHtml(domain)}" aria-pressed="false" aria-controls="courses-grid" aria-label="Show ${count} ${count === 1 ? "course" : "courses"} in ${escapeHtml(domain)}" style="--course-photo:url('${photo}')">
+        <a class="course-path" data-shape="${shape}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in ${escapeHtml(domain)}" style="--course-photo:url('${photo}')">
           <span class="course-path__image" aria-hidden="true"></span>
           <span class="course-path__shade" aria-hidden="true"></span>
-          <span class="course-path__eyebrow"><span>${count} ${count === 1 ? "course" : "courses"}</span><span class="course-path__arrow" aria-hidden="true">↗</span></span>
-          <span class="course-path__title">${escapeHtml(domain)}</span>
-          <span class="course-path__detail">Explore this subject in the course list.</span>
-        </button>
+          <span class="course-path__eyebrow"><span>${escapeHtml(domain)}</span><span class="course-path__arrow" aria-hidden="true">↗</span></span>
+          <span class="course-path__title">${escapeHtml(course.name)}</span>
+          <span class="course-path__detail">${escapeHtml(details || "Open course")}</span>
+        </a>
       `;
     }).join("");
-
-    paths.querySelectorAll(".course-path").forEach(button => {
-      button.addEventListener("click", () => {
-        activeDomain = button.getAttribute("data-domain");
-        renderFilters();
-        renderGrid();
-        updatePathSelection();
-        document.querySelector(".course-list-heading")?.scrollIntoView({ behavior:"smooth", block:"start" });
-      });
-    });
     exploration.hidden = false;
-  }
-
-  function updatePathSelection(){
-    paths?.querySelectorAll(".course-path").forEach(button => {
-      button.setAttribute("aria-pressed", String(button.getAttribute("data-domain") === activeDomain));
-    });
   }
 
   function renderGrid(){
@@ -110,6 +97,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 const coursePhotoOptions = [
+  { match:/equity|stock|research/i, url:"photo-1611974789855-9c2a0a7236a3" },
+  { match:/modelling|valuation|accounting/i, url:"photo-1554224155-6726b3ff858f" },
   { match:/finance|account|invest|econom|bank/i, url:"photo-1460925895917-afdab827c52f" },
   { match:/market|brand|sales|advertis/i, url:"photo-1533750349088-cd871a92f312" },
   { match:/consult|strategy|management/i, url:"photo-1454165804606-c3d57bc86b40" },
@@ -118,8 +107,12 @@ const coursePhotoOptions = [
   { match:/operation|supply|project/i, url:"photo-1556761175-b413da4baf72" },
 ];
 
-function coursePhotoForDomain(domain, index){
-  const image = coursePhotoOptions.find(option => option.match.test(domain)) || coursePhotoOptions[index % coursePhotoOptions.length];
+function coursePhotoForCourse(course, index){
+  const name = course.name || "";
+  const domain = course.domain || "";
+  const image = coursePhotoOptions.find(option => option.match.test(name))
+    || coursePhotoOptions.find(option => option.match.test(domain))
+    || coursePhotoOptions[index % coursePhotoOptions.length];
   return `https://images.unsplash.com/${image.url}?auto=format&fit=crop&w=1100&q=82`;
 }
 
