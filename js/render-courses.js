@@ -1,17 +1,14 @@
 /* ============================================================
-   Renders the Course Repository and its full-screen domain views.
+   Domain gallery and full-screen course collections.
    ============================================================ */
 document.addEventListener("DOMContentLoaded", async () => {
-  const grid = document.getElementById("courses-grid");
-  const filterBar = document.getElementById("domain-filter");
   const exploration = document.getElementById("course-exploration");
   const paths = document.getElementById("course-paths");
   const domainView = document.getElementById("course-domain-view");
-  const pageHeader = document.querySelector("#main-content .page-header");
   const main = document.getElementById("main-content");
   const sidebar = document.querySelector(".sidebar");
   const mobileTopbar = document.querySelector(".mobile-topbar");
-  if (!grid) return;
+  if (!paths || !domainView) return;
 
   const artwork = [
     "https://cdn.21st.dev/assets/mirror/21/21bf561c0452c2fae65a5c747aeba0996e6942fcb8eb3e628c50478f458065c5.jpg",
@@ -34,34 +31,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let courses = [];
   let domains = [];
-  let activeDomain = "All";
   let currentDomain = null;
   let originatingCard = null;
   let originatingImage = null;
   let directEntry = false;
   let waitingForHistory = false;
 
-  grid.innerHTML = skeletonGrid(6);
+  exploration.hidden = false;
+  paths.setAttribute("aria-busy", "true");
+  paths.innerHTML = Array.from({ length: 6 }, () => `<div class="course-domain-skeleton" aria-hidden="true"></div>`).join("");
 
   try{
     courses = await ICData.getCourses();
   }catch(err){
-    if (exploration) exploration.hidden = true;
-    grid.innerHTML = `<div class="state-msg is-error">${escapeHtml(err.message)}</div>`;
+    renderGalleryMessage(`We couldn't load the course domains. ${err.message}`, true);
     return;
   }
 
   if (!courses.length){
-    if (exploration) exploration.hidden = true;
-    grid.innerHTML = `<div class="state-msg">No courses are listed yet. Once the Course Repository sheet has rows, they'll appear here automatically.</div>`;
+    renderGalleryMessage("No courses are listed yet.");
     return;
   }
 
   domains = Array.from(new Set(courses.map(course => course.domain || "Uncategorized")));
   renderDomainTiles();
-  renderFilters();
-  renderGrid();
-  exploration.hidden = false;
 
   const initialDomain = domainFromUrl();
   if (initialDomain){
@@ -70,9 +63,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     openDomain(initialDomain, findDomainCard(initialDomain), { push: false, animate: false });
   }
 
-  function renderDomainTiles(){
-    if (!exploration || !paths) return;
+  function renderGalleryMessage(message, isError = false){
+    paths.removeAttribute("aria-busy");
+    paths.innerHTML = `<p class="course-gallery-state${isError ? " is-error" : ""}" role="${isError ? "alert" : "status"}">${escapeHtml(message)}</p>`;
+  }
 
+  function renderDomainTiles(){
+    paths.removeAttribute("aria-busy");
     paths.dataset.count = String(domains.length);
     paths.innerHTML = domains.map((domain, index) => {
       const count = courses.filter(course => (course.domain || "Uncategorized") === domain).length;
@@ -98,50 +95,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  function renderFilters(){
-    if (!filterBar) return;
-    const filterDomains = ["All", ...domains];
-    filterBar.innerHTML = filterDomains.map(domain =>
-      `<button class="domain-pill${domain === activeDomain ? " is-active" : ""}" data-domain="${escapeHtml(domain)}" aria-pressed="${domain === activeDomain}">${escapeHtml(domain)}</button>`
-    ).join("");
-    filterBar.querySelectorAll("button").forEach(button => {
-      button.addEventListener("click", () => {
-        activeDomain = button.getAttribute("data-domain");
-        renderFilters();
-        renderGrid();
-      });
-    });
-  }
-
-  function renderGrid(){
-    const list = activeDomain === "All" ? courses : courses.filter(course => (course.domain || "Uncategorized") === activeDomain);
-    if (!list.length){
-      grid.innerHTML = `<div class="state-msg">No courses in this domain yet.</div>`;
-      return;
-    }
-    grid.innerHTML = courseRows(list, activeDomain === "All");
-  }
-
-  function courseRows(list, showDomain){
-    return list.map((course, index) => `
-      <article class="glass-card course-card">
-        <span class="course-number" aria-label="Serial number ${index + 1}">${String(index + 1).padStart(2, "0")}</span>
-        <div class="course-name-cell">
-          ${showDomain ? `<span class="domain-tag">${escapeHtml(course.domain || "Uncategorized")}</span>` : ""}
-          <h3>${escapeHtml(course.name)}</h3>
-        </div>
-        <span class="course-rating" data-label="Rating">${course.rating ? `<span class="rating" role="img" aria-label="Rating ${course.rating.toFixed(1)} out of 5">${ratingStars(course.rating)}</span>` : "—"}</span>
-        <span class="course-duration" data-label="Duration" aria-label="Duration: ${escapeHtml(formatCourseDuration(course.duration) || "Not listed")}">${escapeHtml(formatCourseDuration(course.duration) || "—")}</span>
-        <a class="card-link icon-link" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course" title="Open course">
-          ${ICIcons.externalLink}
+  function courseTiles(list){
+    return list.map((course, index) => {
+      const rating = course.rating ? course.rating.toFixed(1) : "Not rated";
+      const duration = formatCourseDuration(course.duration) || "Duration not listed";
+      const price = String(course.price || "").trim();
+      return `
+        <a class="course-learning-tile" data-shape="${index % 5 === 0 ? "feature" : index % 4 === 2 ? "compact" : "standard"}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab. Rating ${rating}. ${escapeHtml(duration)}.">
+          <span class="course-learning-tile__eyebrow">${String(index + 1).padStart(2, "0")} <span>/</span> ${escapeHtml(course.domain || "Uncategorized")}</span>
+          <span class="course-learning-tile__title">${escapeHtml(course.name)}</span>
+          <span class="course-learning-tile__meta">
+            <span>${course.rating ? `Rating ${rating}` : "Rating not listed"}</span>
+            <span>${escapeHtml(duration)}</span>
+            ${price ? `<span>${escapeHtml(price)}</span>` : ""}
+          </span>
+          <span class="course-learning-tile__arrow" aria-hidden="true">↗</span>
         </a>
-      </article>
-    `).join("");
+      `;
+    }).join("");
   }
 
   function openDomain(domain, card, options = {}){
     const actualDomain = domains.find(item => item.toLocaleLowerCase() === String(domain || "").toLocaleLowerCase());
-    if (!actualDomain || !domainView) return;
+    if (!actualDomain) return;
 
     const image = card?.querySelector(".course-domain-card__image") || null;
     const imageSrc = image?.currentSrc || image?.src || artwork[domains.indexOf(actualDomain) % artwork.length];
@@ -161,22 +137,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="course-domain-view__cover-content">
             <button class="course-domain-view__back" type="button" data-close-domain><span aria-hidden="true">←</span> All domains</button>
             <div class="course-domain-view__title-block">
-              <span class="course-domain-view__eyebrow">Course repository <span>/</span> ${collection.length} ${collection.length === 1 ? "course" : "courses"}</span>
+              <span class="course-domain-view__eyebrow">${collection.length} ${collection.length === 1 ? "course" : "courses"}</span>
               <h1 id="course-domain-title">${escapeHtml(actualDomain)}</h1>
               <p>${escapeHtml(description)}</p>
             </div>
           </div>
         </div>
         <div class="course-domain-view__content">
-          <div class="course-domain-view__section-heading">
-            <span class="eyebrow">${String(collection.length).padStart(2, "0")} courses</span>
-            <h2>Build your ${escapeHtml(actualDomain.toLocaleLowerCase())} toolkit.</h2>
-          </div>
-          <div class="editorial-list-heading course-list-heading">
-            <span>S.no</span><span>Course name</span><span>Rating</span><span>Duration</span><span role="img" aria-label="Course link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg></span>
-          </div>
-          <div class="card-grid indexed" id="course-domain-courses" aria-live="polite">${collection.length ? courseRows(collection, false) : `<div class="state-msg">No courses are listed for this domain yet.</div>`}</div>
-          <footer class="course-domain-view__footer"><span>Internship Committee, IIM Rohtak</span><button type="button" data-close-domain>Back to all domains <span aria-hidden="true">↗</span></button></footer>
+          <p class="course-domain-view__collection-meta">${String(collection.length).padStart(2, "0")} ${collection.length === 1 ? "course" : "courses"}</p>
+          <div class="course-learning-grid" id="course-domain-courses" aria-label="${escapeHtml(actualDomain)} courses">${collection.length ? courseTiles(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
         </div>
       `;
       const coverImage = domainView.querySelector(".course-domain-view__image");
@@ -186,11 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (sidebar) sidebar.inert = true;
       if (mobileTopbar) mobileTopbar.inert = true;
       document.body.classList.add("course-domain-open");
-      if (pageHeader) pageHeader.hidden = true;
       if (exploration) exploration.hidden = true;
-      if (filterBar) filterBar.hidden = true;
-      grid.parentElement.querySelector(".course-list-heading")?.setAttribute("hidden", "");
-      grid.hidden = true;
       if (options.animate !== false && !document.startViewTransition && !prefersReducedMotion.matches){
         domainView.classList.add("is-entering");
       }
@@ -238,11 +203,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (sidebar) sidebar.inert = false;
       if (mobileTopbar) mobileTopbar.inert = false;
       document.body.classList.remove("course-domain-open");
-      if (pageHeader) pageHeader.hidden = false;
       if (exploration) exploration.hidden = false;
-      if (filterBar) filterBar.hidden = false;
-      grid.parentElement.querySelector(".course-list-heading")?.removeAttribute("hidden");
-      grid.hidden = false;
     };
 
     const finish = () => {
@@ -280,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function findDomainCard(domain){
-    return Array.from(paths?.querySelectorAll(".course-domain-card") || []).find(card => card.dataset.domain === domain) || null;
+    return Array.from(paths.querySelectorAll(".course-domain-card")).find(card => card.dataset.domain === domain) || null;
   }
 
   window.addEventListener("popstate", () => {

@@ -53,32 +53,9 @@
   </div>
 
   <main class="main" id="main-content">
-    <div class="page-header">
-      <h1 class="section-heading">Course Repository</h1>
-      <p>Browse courses by domain, compare ratings and durations, and open the original course link.</p>
-    </div>
-
-    <section class="course-exploration" id="course-exploration" aria-labelledby="course-exploration-title" hidden>
-      <div class="course-exploration-heading">
-        <div>
-          <span class="eyebrow">Learning pathways</span>
-          <h2 id="course-exploration-title">Explore by domain.</h2>
-        </div>
-        <p>Choose a field to see its full course collection.</p>
-      </div>
+    <section class="course-exploration" id="course-exploration" aria-label="Course domains" hidden>
       <div class="course-paths" id="course-paths" aria-label="Course domains"></div>
     </section>
-
-    <div class="domain-filter" id="domain-filter" aria-label="Filter by domain"></div>
-    <div class="editorial-list-heading course-list-heading">
-      <span>S.no</span><span>Course name</span><span>Rating</span><span>Duration</span><span role="img" aria-label="Course link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg></span>
-    </div>
-    <div class="card-grid indexed" id="courses-grid" aria-live="polite"></div>
-
-    <footer class="site-footer">
-      <span>&copy; Internship Committee, IIM Rohtak</span>
-      <span class="footer-built"><span>Built for IPM Students,</span><span style="font-weight:700;">By IPM Students</span></span>
-    </footer>
   </main>
 
   <section class="course-domain-view" id="course-domain-view" aria-label="Course domain" role="dialog" aria-modal="true" aria-labelledby="course-domain-title" hidden></section>
