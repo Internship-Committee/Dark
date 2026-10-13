@@ -10,14 +10,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   const mobileTopbar = document.querySelector(".mobile-topbar");
   if (!paths || !domainView) return;
 
-  const artwork = [
-    "https://cdn.21st.dev/assets/mirror/21/21bf561c0452c2fae65a5c747aeba0996e6942fcb8eb3e628c50478f458065c5.jpg",
-    "https://cdn.21st.dev/assets/mirror/7c/7c873d1af9cfb98c26de10dc98e807bcec8de8321936158d1b0e82c6b7f73d0c.jpg",
-    "https://cdn.21st.dev/assets/mirror/35/350edca6de5b00194dbba8be86d6fc51f9192901ed127fd67855f369ff3bc9e5.jpg",
-    "https://cdn.21st.dev/assets/mirror/dc/dc1338c2544ff95224a36bff0cd432e122417e6250bfd0ff82fbfceacfbf3283.jpg",
-    "https://cdn.21st.dev/assets/mirror/ba/ba6557999b707efbaa73506debbc594e0703c071fdfc05951c9b355f0ad078e8.jpg",
-    "https://cdn.21st.dev/assets/mirror/67/676c45dea273e8467aa434fbd08669408fe0a8b9151902e3ac39c7dc74cab416.jpg"
-  ];
+  const artwork = {
+    "All Courses": "assets/domain-all-courses.svg",
+    "Finance": "assets/domain-finance.svg",
+    "Marketing": "assets/domain-marketing.svg",
+    "Consulting": "assets/domain-consulting.svg",
+    "Entrepreneurship": "assets/domain-entrepreneurship.svg",
+    "Leadership": "assets/domain-leadership.svg",
+    "Data Analytics": "assets/domain-data-analytics.svg",
+    "Business Analytics": "assets/domain-business-analytics.svg",
+    "Operations Management": "assets/domain-operations-management.svg"
+  };
   const descriptions = {
     "All Courses": "Browse every course in one place, across all learning domains.",
     "Finance": "Build confidence with courses in financial analysis, markets, and valuation.",
@@ -78,14 +81,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       const count = domain === "All Courses"
         ? courses.length
         : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
-      const image = artwork[index % artwork.length];
+      const image = artwork[domain] || artwork["All Courses"];
       return `
         <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
           <img class="course-domain-card__image" src="${image}" alt="" loading="lazy">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content">
+            <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
             <span class="course-domain-card__count">${String(count).padStart(2, "0")} ${count === 1 ? "course" : "courses"}</span>
             <span class="course-domain-card__title">${escapeHtml(domain)}</span>
+            <span class="course-domain-card__summary">${escapeHtml(descriptions[domain] || `Browse courses selected for ${domain.toLocaleLowerCase()}.`)}</span>
             <span class="course-domain-card__action" aria-hidden="true">Explore <span>↗</span></span>
           </span>
         </button>
@@ -124,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!actualDomain) return;
 
     const image = card?.querySelector(".course-domain-card__image") || null;
-    const imageSrc = image?.currentSrc || image?.src || artwork[domains.indexOf(actualDomain) % artwork.length];
+    const imageSrc = image?.currentSrc || image?.src || artwork[actualDomain] || artwork["All Courses"];
     originatingCard = card || findDomainCard(actualDomain);
     originatingImage = originatingCard?.querySelector(".course-domain-card__image") || null;
     if (originatingImage) originatingImage.style.viewTransitionName = "course-domain-cover";
