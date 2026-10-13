@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     "https://cdn.21st.dev/assets/mirror/67/676c45dea273e8467aa434fbd08669408fe0a8b9151902e3ac39c7dc74cab416.jpg"
   ];
   const descriptions = {
+    "All Courses": "Browse every course in one place, across all learning domains.",
     "Finance": "Build confidence with courses in financial analysis, markets, and valuation.",
     "Marketing": "Explore the ideas and tools behind strong brands, campaigns, and customer insight.",
     "Consulting": "Strengthen structured problem solving, communication, and case interview skills.",
@@ -53,7 +54,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  domains = Array.from(new Set(courses.map(course => course.domain || "Uncategorized")));
+  const courseDomains = Array.from(new Set(courses.map(course => course.domain || "Uncategorized")))
+    .filter(domain => domain.toLocaleLowerCase() !== "all courses");
+  domains = ["All Courses", ...courseDomains];
   renderDomainTiles();
 
   const initialDomain = domainFromUrl();
@@ -72,7 +75,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     paths.removeAttribute("aria-busy");
     paths.dataset.count = String(domains.length);
     paths.innerHTML = domains.map((domain, index) => {
-      const count = courses.filter(course => (course.domain || "Uncategorized") === domain).length;
+      const count = domain === "All Courses"
+        ? courses.length
+        : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
       const image = artwork[index % artwork.length];
       return `
         <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
@@ -99,17 +104,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     return list.map((course, index) => {
       const rating = course.rating ? course.rating.toFixed(1) : "Not rated";
       const duration = formatCourseDuration(course.duration) || "Duration not listed";
-      const price = String(course.price || "").trim();
+      const shape = list.length === 2 ? "square" : list.length === 1 || index % 2 === 1 ? "rectangle" : "square";
       return `
-        <a class="course-learning-tile" data-shape="${index % 5 === 0 ? "feature" : index % 4 === 2 ? "compact" : "standard"}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab. Rating ${rating}. ${escapeHtml(duration)}.">
-          <span class="course-learning-tile__eyebrow">${String(index + 1).padStart(2, "0")} <span>/</span> ${escapeHtml(course.domain || "Uncategorized")}</span>
-          <span class="course-learning-tile__title">${escapeHtml(course.name)}</span>
-          <span class="course-learning-tile__meta">
-            <span>${course.rating ? `Rating ${rating}` : "Rating not listed"}</span>
-            <span>${escapeHtml(duration)}</span>
-            ${price ? `<span>${escapeHtml(price)}</span>` : ""}
+        <a class="course-path" data-shape="${shape}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab. Rating ${rating}. ${escapeHtml(duration)}.">
+          <span class="course-path__eyebrow">${escapeHtml(course.domain || "Uncategorized")}</span>
+          <span class="course-path__title">${escapeHtml(course.name)}</span>
+          <span class="course-path__detail">
+            <span>Rating ${course.rating ? rating : "—"}</span>
+            <span>Duration ${course.duration ? escapeHtml(duration) : "—"}</span>
           </span>
-          <span class="course-learning-tile__arrow" aria-hidden="true">↗</span>
+          <span class="course-path__arrow" aria-hidden="true">↗</span>
         </a>
       `;
     }).join("");
@@ -128,7 +132,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const update = () => {
       currentDomain = actualDomain;
       domainView.classList.remove("is-entering", "is-leaving");
-      const collection = courses.filter(course => (course.domain || "Uncategorized") === actualDomain);
+      const collection = actualDomain === "All Courses"
+        ? courses
+        : courses.filter(course => (course.domain || "Uncategorized") === actualDomain);
       const description = descriptions[actualDomain] || `Browse courses selected for ${actualDomain.toLocaleLowerCase()}.`;
       domainView.innerHTML = `
         <div class="course-domain-view__cover">
@@ -145,7 +151,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="course-domain-view__content">
           <p class="course-domain-view__collection-meta">${String(collection.length).padStart(2, "0")} ${collection.length === 1 ? "course" : "courses"}</p>
-          <div class="course-learning-grid" id="course-domain-courses" aria-label="${escapeHtml(actualDomain)} courses">${collection.length ? courseTiles(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
+          <div class="course-paths course-course-grid" id="course-domain-courses" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}" data-count="${collection.length}">${collection.length ? courseTiles(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
+          <footer class="site-footer">
+            <span>&copy; Internship Committee, IIM Rohtak</span>
+            <span class="footer-built"><span>Built for IPM Students,</span><span style="font-weight:700;">By IPM Students</span></span>
+          </footer>
         </div>
       `;
       const coverImage = domainView.querySelector(".course-domain-view__image");
