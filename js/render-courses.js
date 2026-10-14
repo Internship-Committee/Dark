@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!paths || !domainView) return;
 
   const artwork = {
-    "All Courses": "assets/domain-all-courses.svg",
-    "Finance": "assets/domain-finance.svg",
-    "Marketing": "assets/domain-marketing.svg",
-    "Consulting": "assets/domain-consulting.svg",
-    "Entrepreneurship": "assets/domain-entrepreneurship.svg",
-    "Leadership": "assets/domain-leadership.svg",
-    "Data Analytics": "assets/domain-data-analytics.svg",
-    "Business Analytics": "assets/domain-business-analytics.svg",
-    "Operations Management": "assets/domain-operations-management.svg"
+    "All Courses": "assets/domain-all-courses.jpg",
+    "Finance": "assets/domain-finance.jpg",
+    "Marketing": "assets/domain-marketing.jpg",
+    "Consulting": "assets/domain-consulting.jpg",
+    "Entrepreneurship": "assets/domain-entrepreneurship.jpg",
+    "Leadership": "assets/domain-leadership.jpg",
+    "Data Analytics": "assets/domain-data-analytics.jpg",
+    "Business Analytics": "assets/domain-business-analytics.jpg",
+    "Operations Management": "assets/domain-operations-management.jpg"
   };
   const descriptions = {
     "All Courses": "Browse every course in one place, across all learning domains.",
