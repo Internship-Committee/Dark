@@ -105,21 +105,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  function courseTiles(list){
+  function courseRows(list){
     return list.map((course, index) => {
       const rating = course.rating ? course.rating.toFixed(1) : "Not rated";
-      const duration = formatCourseDuration(course.duration) || "Duration not listed";
-      const shape = list.length === 2 ? "square" : list.length === 1 || index % 2 === 1 ? "rectangle" : "square";
+      const duration = formatCourseDuration(course.duration) || "Not listed";
       return `
-        <a class="course-path" data-shape="${shape}" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab. Rating ${rating}. ${escapeHtml(duration)}.">
-          <span class="course-path__eyebrow">${escapeHtml(course.domain || "Uncategorized")}</span>
-          <span class="course-path__title">${escapeHtml(course.name)}</span>
-          <span class="course-path__detail">
-            <span>Rating ${course.rating ? rating : "—"}</span>
-            <span>Duration ${course.duration ? escapeHtml(duration) : "—"}</span>
-          </span>
-          <span class="course-path__arrow" aria-hidden="true">↗</span>
-        </a>
+        <article class="glass-card course-card" role="listitem">
+          <span class="course-number">${String(index + 1).padStart(2, "0")}</span>
+          <div class="course-name-cell">
+            <span class="domain-tag">${escapeHtml(course.domain || "Uncategorized")}</span>
+            <h3>${escapeHtml(course.name)}</h3>
+          </div>
+          <div class="course-rating" data-label="Rating">${course.rating ? `<span class="rating">★ ${escapeHtml(rating)}</span>` : "—"}</div>
+          <div class="course-duration" data-label="Duration">${course.duration ? escapeHtml(duration) : "—"}</div>
+          <a class="card-link icon-link" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab" title="Open course">${ICIcons.externalLink}</a>
+        </article>
       `;
     }).join("");
   }
@@ -156,7 +156,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="course-domain-view__content">
           <p class="course-domain-view__collection-meta">${String(collection.length).padStart(2, "0")} ${collection.length === 1 ? "course" : "courses"}</p>
-          <div class="course-paths course-course-grid" id="course-domain-courses" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}" data-count="${collection.length}">${collection.length ? courseTiles(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
+          ${collection.length ? `
+            <div class="course-list-heading editorial-list-heading">
+              <span>No.</span><span>Course</span><span>Rating</span><span>Duration</span><span>Open</span>
+            </div>
+          ` : ""}
+          <div class="course-domain-list" id="course-domain-courses" role="list" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}" data-count="${collection.length}">${collection.length ? courseRows(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
           <footer class="site-footer">
             <span>&copy; Internship Committee, IIM Rohtak</span>
             <span class="footer-built"><span>Built for IPM Students,</span><span style="font-weight:700;">By IPM Students</span></span>
