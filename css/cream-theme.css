@@ -262,12 +262,11 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .sidebar-brand img{ width:28px; height:28px; flex:0 0 28px; }
   .sidebar-brand .brand-text,.sidebar-brand .sidebar-pin-btn{ display:none!important; }
   .sidebar-nav{
-    display:grid!important;
+    display:flex!important;
     grid-area:nav;
-    grid-template-columns:repeat(6,minmax(0,1fr));
     align-items:center;
-    justify-content:stretch;
-    gap:0;
+    justify-content:space-between;
+    gap:clamp(10px,1.25vw,22px);
     width:100%;
     min-width:0;
     padding:0;
@@ -275,6 +274,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   }
   .sidebar-nav .nav-link{
     display:flex;
+    flex:0 0 auto;
     justify-content:center;
     min-height:42px;
     max-width:none!important;
