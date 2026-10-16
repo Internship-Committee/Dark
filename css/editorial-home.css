@@ -26,9 +26,9 @@ body[data-page="home"] .main{
   display:grid;
   place-items:center;
   font-family:'Playfair Display', Georgia, serif;
-  font-size:clamp(15rem,53vw,52rem);
+  font-size:clamp(8rem,min(53vw,72vh),52rem);
   font-weight:700;
-  line-height:.8;
+  line-height:.9;
   letter-spacing:-.075em;
   padding-right:.075em;
   animation:home-mark-blink 1.25s steps(1,end) both;
@@ -43,7 +43,7 @@ body[data-page="home"] .main{
   right:0;
   top:50%;
   height:clamp(76px,13vh,150px);
-  background:#fff;
+  background:var(--bg,#F5F1E8);
   opacity:1;
   transform:translateY(-50%) scaleX(0);
   transform-origin:left center;
@@ -76,9 +76,9 @@ body[data-page="home"] .main{
 }
 .home-intro-reveal span{
   color:#333;
-  font:700 clamp(.55rem,1.1vw,.9rem)/1.4 var(--font-mono,monospace);
-  letter-spacing:.1em;
-  text-transform:uppercase;
+  font:700 clamp(.72rem,1.5vw,1.15rem)/1.2 'Playfair Display',Georgia,serif;
+  letter-spacing:.015em;
+  transform:translateY(-7px);
 }
 .home-intro-skip{
   position:absolute;
@@ -228,7 +228,7 @@ html.home-scroll-ready [data-scroll-reveal].is-visible{ opacity:1; transform:tra
   .home-index-title{ grid-column:2; grid-row:1; font-size:clamp(.95rem,4.6vw,1.2rem); }
   .home-index-description{ grid-column:2; grid-row:2; font-size:12px; }
   .home-index-arrow{ grid-column:3; grid-row:1/3; }
-  .home-intro-mark{ font-size:clamp(12rem,64vw,30rem); }
+  .home-intro-mark{ font-size:clamp(8rem,min(64vw,72vh),30rem); }
   .home-intro-reveal{ width:94vw; }
   .home-intro-reveal strong{ font-size:clamp(1rem,6vw,2rem); }
 }
