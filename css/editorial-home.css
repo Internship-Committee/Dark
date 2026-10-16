@@ -31,7 +31,7 @@ body[data-page="home"] .main{
   line-height:.9;
   letter-spacing:-.075em;
   padding-right:.075em;
-  animation:home-mark-blink 3.8s steps(1,end) both;
+  animation:home-mark-blink 3.8s ease-in-out both;
 }
 .home-intro-half{ position:absolute; display:block; white-space:nowrap; }
 .home-intro-top{ clip-path:inset(0 0 50% 0); }
@@ -100,9 +100,8 @@ body[data-page="home"] .main{
 .home-intro-skip:hover,.home-intro-skip:focus-visible{ background:var(--accent,#183B66); color:var(--bg,#F5F1E8); }
 .home-intro.is-done{ display:none; }
 @keyframes home-mark-blink{
-  0%,14%,30%,46%,62%,78%,94%,100%{ opacity:1; }
-  16%,32%,48%,64%,80%,96%{ opacity:0; }
-  18%,34%,50%,66%,82%,98%{ opacity:.8; }
+  0%,6%,16%,26%,42%,48%,58%,68%,88%,100%{ opacity:1; }
+  11%,53%,93%{ opacity:.08; }
 }
 @keyframes home-identity-reveal{
   from{ opacity:0; }
