@@ -67,7 +67,9 @@ body[data-page="home"] .main{
   width:min(98vw,1900px);
   clip-path:none;
   opacity:0;
-  animation:home-identity-reveal 1.8s 2.65s ease-out forwards;
+  animation:
+    home-identity-reveal 1.8s 2.65s ease-out forwards,
+    home-identity-exit .6s 6.4s ease-in forwards;
 }
 .home-intro-reveal strong{
   color:#111;
@@ -105,6 +107,9 @@ body[data-page="home"] .main{
 @keyframes home-identity-reveal{
   from{ opacity:0; }
   to{ opacity:1; }
+}
+@keyframes home-identity-exit{
+  to{ opacity:0; }
 }
 @keyframes home-intro-open{
   to{ transform:translateY(-50%) scaleX(1); }
