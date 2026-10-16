@@ -18,7 +18,7 @@ body[data-page="home"] .main{
   overflow:hidden;
   background:var(--bg,#F5F1E8);
   color:var(--accent,#183B66);
-  animation:home-intro-exit .9s 6.15s ease forwards;
+  animation:home-intro-exit .9s 7.55s ease forwards;
 }
 .home-intro-mark{
   position:absolute;
@@ -68,8 +68,8 @@ body[data-page="home"] .main{
   clip-path:none;
   opacity:0;
   animation:
-    home-identity-reveal 1s 4.35s ease-out forwards,
-    home-identity-exit .6s 5.4s ease-in forwards;
+    home-identity-reveal .8s 4.95s ease-out forwards,
+    home-identity-exit .6s 6.95s ease-in forwards;
 }
 .home-intro-reveal strong{
   color:#111;
@@ -100,9 +100,9 @@ body[data-page="home"] .main{
 .home-intro-skip:hover,.home-intro-skip:focus-visible{ background:var(--accent,#183B66); color:var(--bg,#F5F1E8); }
 .home-intro.is-done{ display:none; }
 @keyframes home-mark-blink{
-  0%,9%,18%,27%,36%,100%{ opacity:1; }
-  10%,19%,28%{ opacity:0; }
-  12%,21%,30%{ opacity:.8; }
+  0%,14%,30%,46%,62%,78%,94%,100%{ opacity:1; }
+  16%,32%,48%,64%,80%,96%{ opacity:0; }
+  18%,34%,50%,66%,82%,98%{ opacity:.8; }
 }
 @keyframes home-identity-reveal{
   from{ opacity:0; }
@@ -123,8 +123,8 @@ body[data-page="home"] .main{
 @keyframes home-intro-exit{
   to{ opacity:0; visibility:hidden; }
 }
-.home-intro-top{ animation:home-intro-top-part 1.6s 3.8s cubic-bezier(.76,0,.24,1) forwards; }
-.home-intro-bottom{ animation:home-intro-bottom-part 1.6s 3.8s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-top{ animation:home-intro-top-part 1.2s 5.75s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-bottom{ animation:home-intro-bottom-part 1.2s 5.75s cubic-bezier(.76,0,.24,1) forwards; }
 
 .home-index{
   position:relative;
