@@ -21,6 +21,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     "Business Analytics": "assets/domain-business-analytics.jpg",
     "Operations Management": "assets/domain-operations-management.jpg"
   };
+  const expandedArtwork = {
+    "All Courses": "assets/domain-all-courses-expanded.jpg",
+    "Finance": "assets/domain-finance-expanded.jpg",
+    "Marketing": "assets/domain-marketing-expanded.jpg",
+    "Consulting": "assets/domain-consulting-expanded.jpg",
+    "Entrepreneurship": "assets/domain-entrepreneurship-expanded.jpg",
+    "Leadership": "assets/domain-leadership-expanded.jpg",
+    "Data Analytics": "assets/domain-data-analytics-expanded.jpg",
+    "Business Analytics": "assets/domain-business-analytics-expanded.jpg",
+    "Operations Management": "assets/domain-operations-management-expanded.jpg"
+  };
+  const defaultArtwork = artwork["All Courses"];
+  const defaultExpandedArtwork = "assets/domain-default-expanded.jpg";
   const descriptions = {
     "All Courses": "Browse every course in one place, across all learning domains.",
     "Finance": "Build confidence with courses in financial analysis, markets, and valuation.",
@@ -43,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   exploration.hidden = false;
   paths.setAttribute("aria-busy", "true");
-  paths.innerHTML = Array.from({ length: 6 }, () => `<div class="course-domain-skeleton" aria-hidden="true"></div>`).join("");
+  paths.innerHTML = Array.from({ length: 9 }, () => `<div class="course-domain-skeleton" aria-hidden="true"></div>`).join("");
 
   try{
     courses = await ICData.getCourses();
@@ -81,17 +94,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       const count = domain === "All Courses"
         ? courses.length
         : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
-      const image = artwork[domain] || artwork["All Courses"];
+      const image = artwork[domain] || defaultArtwork;
+      const expandedImage = expandedArtwork[domain] || defaultExpandedArtwork;
+      const description = descriptions[domain] || `Browse courses selected for ${domain.toLocaleLowerCase()}.`;
       return `
-        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
-          <img class="course-domain-card__image" src="${image}" alt="" loading="lazy">
+        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-expanded-image="${expandedImage}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
+          <img class="course-domain-card__image course-domain-card__image--collapsed" src="${image}" alt="" loading="lazy">
+          <img class="course-domain-card__image course-domain-card__image--expanded" data-src="${expandedImage}" alt="" loading="lazy">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
-          <span class="course-domain-card__content">
+          <span class="course-domain-card__content" aria-hidden="true">
             <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
-            <span class="course-domain-card__count">${String(count).padStart(2, "0")} ${count === 1 ? "course" : "courses"}</span>
+            <span class="course-domain-card__count">${count} ${count === 1 ? "course" : "courses"}</span>
             <span class="course-domain-card__title">${escapeHtml(domain)}</span>
-            <span class="course-domain-card__summary">${escapeHtml(descriptions[domain] || `Browse courses selected for ${domain.toLocaleLowerCase()}.`)}</span>
-            <span class="course-domain-card__action" aria-hidden="true">Explore <span>↗</span></span>
+            <span class="course-domain-card__summary">${escapeHtml(description)}</span>
+            <span class="course-domain-card__action">Explore <span aria-hidden="true">↗</span></span>
           </span>
         </button>
       `;
@@ -99,6 +115,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     paths.querySelectorAll(".course-domain-card").forEach(card => {
       card.addEventListener("click", () => openDomain(card.dataset.domain, card));
+      const expandedImage = card.querySelector(".course-domain-card__image--expanded");
+      const loadExpandedImage = () => {
+        if (expandedImage && !expandedImage.hasAttribute("src")) expandedImage.src = expandedImage.dataset.src;
+      };
+      card.addEventListener("pointerenter", loadExpandedImage, { once: true });
+      card.addEventListener("focus", loadExpandedImage, { once: true });
     });
     paths.querySelectorAll(".course-domain-card__image").forEach(image => {
       image.addEventListener("error", () => { image.hidden = true; }, { once: true });
@@ -128,10 +150,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const actualDomain = domains.find(item => item.toLocaleLowerCase() === String(domain || "").toLocaleLowerCase());
     if (!actualDomain) return;
 
-    const image = card?.querySelector(".course-domain-card__image") || null;
-    const imageSrc = image?.currentSrc || image?.src || artwork[actualDomain] || artwork["All Courses"];
+    const image = card?.querySelector(".course-domain-card__image--expanded") || null;
+    const imageSrc = card?.dataset.expandedImage || image?.currentSrc || image?.src || expandedArtwork[actualDomain] || defaultExpandedArtwork;
     originatingCard = card || findDomainCard(actualDomain);
-    originatingImage = originatingCard?.querySelector(".course-domain-card__image") || null;
+    originatingImage = originatingCard?.querySelector(".course-domain-card__image--expanded") || null;
     if (originatingImage) originatingImage.style.viewTransitionName = "course-domain-cover";
 
     const update = () => {
