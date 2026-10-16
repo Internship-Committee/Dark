@@ -18,7 +18,7 @@ body[data-page="home"] .main{
   overflow:hidden;
   background:var(--bg,#F5F1E8);
   color:var(--accent,#183B66);
-  animation:home-intro-exit .9s 9s ease forwards;
+  animation:home-intro-exit .9s 6.15s ease forwards;
 }
 .home-intro-mark{
   position:absolute;
@@ -68,8 +68,8 @@ body[data-page="home"] .main{
   clip-path:none;
   opacity:0;
   animation:
-    home-identity-reveal 1.8s 4.5s ease-out forwards,
-    home-identity-exit .6s 8.1s ease-in forwards;
+    home-identity-reveal 1s 4.35s ease-out forwards,
+    home-identity-exit .6s 5.4s ease-in forwards;
 }
 .home-intro-reveal strong{
   color:#111;
@@ -123,8 +123,8 @@ body[data-page="home"] .main{
 @keyframes home-intro-exit{
   to{ opacity:0; visibility:hidden; }
 }
-.home-intro-top{ animation:home-intro-top-part 1.6s 6.5s cubic-bezier(.76,0,.24,1) forwards; }
-.home-intro-bottom{ animation:home-intro-bottom-part 1.6s 6.5s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-top{ animation:home-intro-top-part 1.6s 3.8s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-bottom{ animation:home-intro-bottom-part 1.6s 3.8s cubic-bezier(.76,0,.24,1) forwards; }
 
 .home-index{
   position:relative;
