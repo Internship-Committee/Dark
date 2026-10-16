@@ -18,7 +18,7 @@ body[data-page="home"] .main{
   overflow:hidden;
   background:var(--bg,#F5F1E8);
   color:var(--accent,#183B66);
-  animation:home-intro-exit .9s 7.55s ease forwards;
+  animation:home-intro-exit .9s 6s ease forwards;
 }
 .home-intro-mark{
   position:absolute;
@@ -31,7 +31,7 @@ body[data-page="home"] .main{
   line-height:.9;
   letter-spacing:-.075em;
   padding-right:.075em;
-  animation:home-mark-blink 3.8s ease-in-out both;
+  animation:home-mark-blink 2.2s ease-in-out both;
 }
 .home-intro-half{ position:absolute; display:block; white-space:nowrap; }
 .home-intro-top{ clip-path:inset(0 0 50% 0); }
@@ -47,7 +47,7 @@ body[data-page="home"] .main{
   opacity:1;
   transform:translateY(-50%) scaleX(0);
   transform-origin:left center;
-  animation:home-intro-open 1.15s 3.8s cubic-bezier(.76,0,.24,1) forwards;
+  animation:home-intro-open 1.15s 2.2s cubic-bezier(.76,0,.24,1) forwards;
 }
 .home-intro-reveal{
   position:relative;
@@ -68,8 +68,8 @@ body[data-page="home"] .main{
   clip-path:none;
   opacity:0;
   animation:
-    home-identity-reveal .8s 4.95s ease-out forwards,
-    home-identity-exit .6s 6.95s ease-in forwards;
+    home-identity-reveal .8s 3.35s ease-out forwards,
+    home-identity-exit .6s 5.35s ease-in forwards;
 }
 .home-intro-reveal strong{
   color:#111;
@@ -100,8 +100,8 @@ body[data-page="home"] .main{
 .home-intro-skip:hover,.home-intro-skip:focus-visible{ background:var(--accent,#183B66); color:var(--bg,#F5F1E8); }
 .home-intro.is-done{ display:none; }
 @keyframes home-mark-blink{
-  0%,6%,16%,26%,42%,48%,58%,68%,88%,100%{ opacity:1; }
-  11%,53%,93%{ opacity:.08; }
+  0%,7%,17%,27%,37%,44%,54%,64%,74%,82%,92%,100%{ opacity:1; }
+  12%,42%,80%{ opacity:.08; }
 }
 @keyframes home-identity-reveal{
   from{ opacity:0; }
@@ -122,8 +122,8 @@ body[data-page="home"] .main{
 @keyframes home-intro-exit{
   to{ opacity:0; visibility:hidden; }
 }
-.home-intro-top{ animation:home-intro-top-part 1.2s 5.75s cubic-bezier(.76,0,.24,1) forwards; }
-.home-intro-bottom{ animation:home-intro-bottom-part 1.2s 5.75s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-top{ animation:home-intro-top-part 1.2s 4.15s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-bottom{ animation:home-intro-bottom-part 1.2s 4.15s cubic-bezier(.76,0,.24,1) forwards; }
 
 .home-index{
   position:relative;
