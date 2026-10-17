@@ -103,6 +103,7 @@ h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-headin
 body[data-page="resources"] .page-header,
 body[data-page="competitions"] .page-header,
 body[data-page="live-projects"] .page-header{ max-width:none; text-align:center; }
+body[data-page="competitions"] .page-header p{ margin-inline:auto; text-align:center; }
 body[data-page="resources"] .page-header .section-heading,
 body[data-page="competitions"] .page-header .section-heading,
 body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; text-transform:none!important; }
