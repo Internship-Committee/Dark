@@ -1,6 +1,14 @@
 /* Image-led domain gallery and its full-screen course pages. */
 body[data-page="courses"] .course-exploration[hidden]{ display:none!important; }
 body[data-page="courses"] .course-exploration{ position:relative; isolation:isolate; margin:0; }
+body[data-page="courses"] .course-page-heading{ margin:0 0 24px; text-align:center; }
+body[data-page="courses"] .course-page-heading h1{
+  margin:0;
+  color:var(--text-primary);
+  font:500 clamp(2rem,3.2vw,3rem)/1.1 var(--font-display);
+  letter-spacing:-.025em;
+  text-transform:none;
+}
 body[data-page="courses"] .course-exploration::before{
   position:absolute;
   z-index:-1;
