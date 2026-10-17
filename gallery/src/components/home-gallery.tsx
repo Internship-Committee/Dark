@@ -93,7 +93,7 @@ function buildItems(liveOpen: boolean): GalleryItem[] {
     },
     {
       common: 'Course Repository',
-      binomial: 'Courses, case studies, and student resources gathered in one place.',
+      binomial: 'Courses and student resources gathered in one place.',
       photo: { url: unsplash('1481627834876-b7833e8f5570'), text: 'A library with tall shelves full of books', pos: '50% 50%' },
       href: 'courses.html',
       icon: <BookIcon />,
@@ -106,14 +106,6 @@ function buildItems(liveOpen: boolean): GalleryItem[] {
       href: 'case-competitions.html',
       icon: <TrophyIcon />,
       cta: <Explore label="View competitions" />,
-    },
-    {
-      common: 'Case Studies',
-      binomial: 'Written case studies from the IC research cell and student contributors.',
-      photo: { url: unsplash('1454165804606-c3d57bc86b40'), text: 'Desk with a laptop, charts and papers for business analysis', pos: '50% 50%' },
-      href: 'case-studies.html',
-      icon: <FileIcon />,
-      cta: <Explore />,
     },
     {
       common: 'IIMR Student Resources',
