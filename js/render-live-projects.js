@@ -23,15 +23,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? `<img class="lp-file-logo" src="${escapeHtml(p.companyLogo)}" alt="${escapeHtml(p.company)} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">`
         : "";
       return `
-        <article class="lp-project-item">
-          <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
+        <a class="lp-project-item" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
+          <span class="lp-file-card">
             <span class="lp-file-brand">${logo}</span>
             <span class="lp-file-company">${escapeHtml(p.company)}</span>
-          </a>
-          <div class="lp-file-meta">
+          </span>
+          <span class="lp-file-meta">
             <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
-          </div>
-        </article>`;
+          </span>
+        </a>`;
     };
 
     const render = () => {

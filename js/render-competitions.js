@@ -306,13 +306,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? `<div class="deadline-date-block${isTopPick ? " is-top-pick" : ""}" aria-hidden="true"><strong>${date.getDate()}</strong><span>${date.toLocaleDateString("en-IN", { month:"short" })}</span></div>`
       : `<div class="deadline-date-block is-undated${isTopPick ? " is-top-pick" : ""}" aria-hidden="true"><strong>—</strong><span>TBC</span></div>`;
     const dateCopy = date ? `<p class="deadline-exact">Due ${formatShortDate(date)}</p>` : `<p class="deadline-exact">Deadline not announced</p>`;
-    const details = item.link
-      ? `<a class="deadline-details icon-link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(item.name)} competition details" title="Competition details">${ICIcons.externalLink}</a>`
+    const href = String(item.link || "").trim();
+    const wrapper = href ? "a" : "article";
+    const linkAttributes = href
+      ? `href="${escapeHtml(href)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(item.name)} competition details in a new tab"`
+      : "";
+    const details = href
+      ? `<span class="deadline-details icon-link" aria-hidden="true" title="Competition details">${ICIcons.externalLink}</span>`
       : "";
     const note = isTopPick && item.pickNote ? `<p class="top-pick-note">${escapeHtml(item.pickNote)}</p>` : "";
     const pickLabel = isTopPick ? `<span class="top-pick-label">IC pick</span>` : "";
 
-    return `<article class="deadline-item${isTopPick ? " is-top-pick" : ""}">
+    return `<${wrapper} class="deadline-item${isTopPick ? " is-top-pick" : ""}" ${linkAttributes}>
       ${dateBlock}
       <div class="deadline-item-copy">
         ${pickLabel}
@@ -322,7 +327,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ${dateCopy}
         ${details}
       </div>
-    </article>`;
+    </${wrapper}>`;
   }
 
   function parseDeadlineDate(value){

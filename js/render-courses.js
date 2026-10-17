@@ -131,8 +131,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     return list.map((course, index) => {
       const rating = course.rating ? course.rating.toFixed(1) : "Not rated";
       const duration = formatCourseDuration(course.duration) || "Not listed";
+      const href = String(course.link || "").trim();
+      const wrapper = href ? "a" : "article";
+      const linkAttributes = href
+        ? `href="${escapeHtml(href)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab"`
+        : "";
       return `
-        <article class="glass-card course-card" role="listitem">
+        <${wrapper} class="glass-card course-card" role="listitem" ${linkAttributes}>
           <span class="course-number">${String(index + 1).padStart(2, "0")}</span>
           <div class="course-name-cell">
             <span class="domain-tag">${escapeHtml(course.domain || "Uncategorized")}</span>
@@ -140,8 +145,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
           <div class="course-rating" data-label="Rating">${course.rating ? `<span class="rating">★ ${escapeHtml(rating)}</span>` : "—"}</div>
           <div class="course-duration" data-label="Duration">${course.duration ? escapeHtml(duration) : "—"}</div>
-          <a class="card-link icon-link" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab" title="Open course">${ICIcons.externalLink}</a>
-        </article>
+          ${href ? `<span class="card-link icon-link" aria-hidden="true" title="Open course">${ICIcons.externalLink}</span>` : ""}
+        </${wrapper}>
       `;
     }).join("");
   }

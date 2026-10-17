@@ -222,6 +222,9 @@
   padding:14px 0;
   border-bottom:1px solid rgba(232,205,178,.09);
 }
+a.deadline-item{ color:inherit; text-decoration:none; cursor:pointer; transition:background-color .2s ease,transform .2s ease; }
+a.deadline-item:hover{ background:rgba(255,255,255,.055); }
+a.deadline-item:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 .deadline-item:last-child{ border-bottom:0; }
 .deadline-date-block{
   width:42px;
@@ -266,6 +269,7 @@
   border-radius:8px;
   background:rgba(217,168,108,.055);
 }
+.top-picks-list a.deadline-item:hover{ background:rgba(255,255,255,.2); transform:translateY(-1px); }
 .top-picks-list .deadline-item:last-child{ border-bottom:1px solid rgba(217,168,108,.23); }
 .top-picks-list .deadline-date-block,
 .deadline-date-block.is-top-pick{ border-left-color:var(--accent-2); background:rgba(217,168,108,.16); }
