@@ -100,6 +100,12 @@ h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-headin
   font-weight:500;
   letter-spacing:-.025em;
 }
+body[data-page="resources"] .page-header,
+body[data-page="competitions"] .page-header,
+body[data-page="live-projects"] .page-header{ max-width:none; text-align:center; }
+body[data-page="resources"] .page-header .section-heading,
+body[data-page="competitions"] .page-header .section-heading,
+body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; }
 p{ color:var(--text-secondary); }
 .sidebar,.mobile-topbar,.hero,.nav-submenu,.menu-btn,.main,.home-stage,
 .calendar-panel,.deadline-agenda,.competition-day-dialog,.list-card,.course-card,
