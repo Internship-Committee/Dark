@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try{
     const items = await ICData.getLiveProjects();
     if (!items.length){
-      grid.innerHTML = `<div class="state-msg">No live projects at the moment. New rows added to the Live Projects sheet will appear here automatically, ordered by application deadline.</div>`;
+      grid.innerHTML = `<div class="state-msg">No live projects at the moment. New rows added to the Live Projects sheet will appear here automatically in the same order as the sheet.</div>`;
       return;
     }
 
