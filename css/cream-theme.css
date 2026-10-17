@@ -109,6 +109,8 @@ body[data-page="live-projects"] .page-header p{ margin-inline:auto; text-align:c
 body[data-page="resources"] .page-header .section-heading,
 body[data-page="competitions"] .page-header .section-heading,
 body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; text-transform:none!important; }
+body[data-page="competitions"] .filter-field input[type="date"]{ color-scheme:light!important; cursor:pointer!important; }
+body[data-page="competitions"] .filter-field input[type="date"]::-webkit-calendar-picker-indicator{ cursor:pointer!important; opacity:.78; }
 p{ color:var(--text-secondary); }
 .sidebar,.mobile-topbar,.hero,.nav-submenu,.menu-btn,.main,.home-stage,
 .calendar-panel,.deadline-agenda,.competition-day-dialog,.list-card,.course-card,
