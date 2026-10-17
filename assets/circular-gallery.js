@@ -85,7 +85,7 @@
       },
       {
         common: "Course Repository",
-        binomial: "Courses, case studies, and student resources gathered in one place.",
+        binomial: "Courses and student resources gathered in one place.",
         photoUrl: unsplash("1481627834876-b7833e8f5570"),
         photoAlt: "A library with tall shelves full of books",
         photoPos: "50% 50%",
@@ -102,16 +102,6 @@
         href: "case-competitions.html",
         icon: iconSvg("trophy"),
         cta: exploreCta("View competitions")
-      },
-      {
-        common: "Case Studies",
-        binomial: "Written case studies from the IC research cell and student contributors.",
-        photoUrl: unsplash("1454165804606-c3d57bc86b40"),
-        photoAlt: "Desk with a laptop, charts and papers for business analysis",
-        photoPos: "50% 50%",
-        href: "case-studies.html",
-        icon: iconSvg("file"),
-        cta: exploreCta("Explore")
       },
       {
         common: "IIMR Student Resources",
