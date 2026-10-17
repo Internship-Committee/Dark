@@ -104,6 +104,7 @@ body[data-page="resources"] .page-header,
 body[data-page="competitions"] .page-header,
 body[data-page="live-projects"] .page-header{ max-width:none; text-align:center; }
 body[data-page="competitions"] .page-header p{ margin-inline:auto; text-align:center; }
+body[data-page="live-projects"] .page-header p{ margin-inline:auto; text-align:center; }
 body[data-page="resources"] .page-header .section-heading,
 body[data-page="competitions"] .page-header .section-heading,
 body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; text-transform:none!important; }
