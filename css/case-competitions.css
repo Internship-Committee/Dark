@@ -6,7 +6,7 @@
 
 .competition-filters{
   display:grid;
-  grid-template-columns: minmax(310px, 1.25fr) minmax(190px, .8fr) auto;
+  grid-template-columns: minmax(310px, 1.25fr) minmax(190px, .8fr) minmax(160px, .7fr) auto;
   align-items:end;
   gap: 22px;
   padding: 20px 0 18px;
