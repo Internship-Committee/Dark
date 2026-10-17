@@ -331,8 +331,9 @@ const ICData = (() => {
   async function getLiveProjects(){
     const rows = await fetchSource("liveProjects");
     return rows.map(normLiveProject)
-      .filter(p => p.stage !== 0)
-      .sort((a, b) => parseDeadline(a.deadline) - parseDeadline(b.deadline));
+      // Keep the source order from the sheet. The CSV parser returns rows
+      // in their top-to-bottom order, so mapping/filtering preserves it.
+      .filter(p => p.stage !== 0);
   }
 
   async function getLiveProjectById(id){
