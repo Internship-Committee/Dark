@@ -371,11 +371,11 @@ footer.site-footer{
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
 }
 .footer-built{
-  display: inline-block;
-  text-align: center;
-  line-height: 1.5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.footer-built span{ display: block; }
+.footer-logo{ display:block; width:58px; height:48px; object-fit:contain; }
 
 /* ============================================================
    Editorial portal refresh — The Verge-inspired layout system
