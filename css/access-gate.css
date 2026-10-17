@@ -36,9 +36,11 @@ body:has(#ic-gate:not(.is-hidden)){ overflow: hidden; }
 }
 
 .ic-gate-card img{
-  width: 44px;
-  height: 44px;
-  margin-bottom: 14px;
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 18px;
+  object-fit: contain;
 }
 
 .ic-gate-card h2{
