@@ -188,6 +188,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
 .ic-gate-card p,.ic-gate-status,.ic-gate-back{ color:var(--text-secondary)!important; }
 .ic-gate-btn{ background:var(--accent)!important; color:#fff!important; border-radius:3px!important; }
 .ic-gate-btn:hover{ background:var(--accent-2)!important; color:#fff!important; }
+.showcase-card a.showcase-link:hover{ color:var(--accent)!important; border-bottom-color:var(--accent)!important; }
 
 /* Keep small controls and metadata readable on the cream palette. */
 .domain-pill,.meta-chip,.price-chip,.domain-tag,.deadline-pill,.resource-type-badge{
