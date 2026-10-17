@@ -26,6 +26,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   let focusedDateKey = toDateKey(new Date());
   let selectedDateKey = "";
 
+  [fromInput, throughInput].forEach(input => {
+    input.addEventListener("click", () => {
+      if (typeof input.showPicker !== "function") return;
+      try { input.showPicker(); } catch (_) { /* The browser may already have opened its native picker. */ }
+    });
+  });
+
   monthLabel.textContent = formatMonth(activeMonth);
   topPicks.innerHTML = `<p class="agenda-empty">Loading committee picks…</p>`;
 
