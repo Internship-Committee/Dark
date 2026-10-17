@@ -147,6 +147,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         focusedDateKey = toDateKey(date);
       }
     }
+    const matches = getFilteredCompetitions();
+    const activeMonthKey = toDateKey(activeMonth).slice(0, 7);
+    if (matches.length && !matches.some(item => item.dateKey.startsWith(activeMonthKey))){
+      const firstVisibleMatch = matches.find(item => item.deadlineDate);
+      if (firstVisibleMatch){
+        activeMonth = firstOfMonth(firstVisibleMatch.deadlineDate);
+        focusedDateKey = firstVisibleMatch.dateKey;
+      }
+    }
     selectedDateKey = "";
     render();
   }
@@ -320,6 +329,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       const day = Number(isoDate[3]);
       const date = new Date(year, month - 1, day);
       return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+    }
+
+    // Google Sheets using an Indian locale may return deadlines as DD/MM/YYYY.
+    // Parse that explicitly instead of relying on the browser's US-oriented Date.parse.
+    const dayFirstDate = raw.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})$/);
+    if (dayFirstDate){
+      const day = Number(dayFirstDate[1]);
+      const month = Number(dayFirstDate[2]);
+      const year = Number(dayFirstDate[3]);
+      const date = new Date(year, month - 1, day);
+      return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+    }
+
+    const googleDate = raw.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)$/i);
+    if (googleDate){
+      const year = Number(googleDate[1]);
+      const month = Number(googleDate[2]);
+      const day = Number(googleDate[3]);
+      const date = new Date(year, month, day);
+      return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day ? date : null;
     }
 
     const parsed = new Date(raw);
