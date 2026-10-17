@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="course-domain-list" id="course-domain-courses" role="list" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}" data-count="${collection.length}">${collection.length ? courseRows(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
           <footer class="site-footer">
             <span>&copy; Internship Committee, IIM Rohtak</span>
-            <span class="footer-built"><span>Built for IPM Students,</span><span style="font-weight:700;">By IPM Students</span></span>
+            <span class="footer-built"><img class="footer-logo" data-ic-logo src="assets/logo.png" alt="Internship Committee logo"></span>
           </footer>
         </div>
       `;
