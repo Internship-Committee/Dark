@@ -319,7 +319,7 @@ body[data-page="courses"] .course-domain-view__eyebrow{
 body[data-page="courses"] .course-domain-view__eyebrow span{ margin:0 7px; opacity:.6; }
 body[data-page="courses"] .course-domain-view__title-block h1{
   margin:0;
-  color:#fff;
+  color:#fff!important;
   font:500 clamp(3.5rem,11vw,9.5rem)/.82 var(--font-display);
   letter-spacing:-.045em;
   text-wrap:balance;
