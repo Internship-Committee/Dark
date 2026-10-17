@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const fromInput = document.getElementById("competition-date-from");
   const throughInput = document.getElementById("competition-date-through");
   const instituteSelect = document.getElementById("competition-institute-filter");
+  const formatSelect = document.getElementById("competition-format-filter");
   const clearButton = document.getElementById("clear-competition-filters");
   const previousButton = document.getElementById("calendar-previous");
   const nextButton = document.getElementById("calendar-next");
@@ -41,6 +42,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     selectedDateKey = "";
     render();
   });
+  formatSelect.addEventListener("change", () => {
+    selectedDateKey = "";
+    render();
+  });
   fromInput.addEventListener("change", onDateRangeChange);
   throughInput.addEventListener("change", onDateRangeChange);
   clearButton.addEventListener("click", () => {
@@ -49,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     fromInput.max = "";
     throughInput.min = "";
     instituteSelect.value = "";
+    formatSelect.value = "";
     activeMonth = firstOfMonth(new Date());
     focusedDateKey = toDateKey(new Date());
     selectedDateKey = "";
@@ -81,6 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ...row,
         name: String(row.name || "Untitled competition").trim(),
         institute: String(row.institute || "").trim(),
+        format: normalizeCompetitionFormat(row.format),
         pickNote: String(row.pickNote || "").trim(),
         pickOrder: Number.isFinite(pickOrderValue) && pickOrderValue > 0 ? pickOrderValue : Number.MAX_SAFE_INTEGER,
         deadlineDate,
@@ -180,12 +187,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const rangeStart = fromInput.value;
     const rangeEnd = throughInput.value;
     const invalidRange = Boolean(rangeStart && rangeEnd && rangeStart > rangeEnd);
-    const hasFilters = Boolean(rangeStart || rangeEnd || instituteSelect.value);
+    const hasFilters = Boolean(rangeStart || rangeEnd || instituteSelect.value || formatSelect.value);
     clearButton.disabled = !hasFilters;
     monthLabel.textContent = formatMonth(activeMonth);
 
     const filtered = invalidRange ? [] : competitions.filter(item => {
       if (instituteSelect.value && item.institute !== instituteSelect.value) return false;
+      if (formatSelect.value && item.format !== formatSelect.value) return false;
       if (rangeStart && (!item.dateKey || item.dateKey < rangeStart)) return false;
       if (rangeEnd && (!item.dateKey || item.dateKey > rangeEnd)) return false;
       return true;
@@ -252,7 +260,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function openDayDialog(dateKey){
     const date = parseDeadlineDate(dateKey);
-    const hasFilters = Boolean(fromInput.value || throughInput.value || instituteSelect.value);
+    const hasFilters = Boolean(fromInput.value || throughInput.value || instituteSelect.value || formatSelect.value);
     const items = getFilteredCompetitions().filter(item => item.dateKey === dateKey);
     dayDialogTitle.textContent = formatLongDate(date);
     dayDialogCount.textContent = `${items.length} ${items.length === 1 ? "competition deadline" : "competition deadlines"}`;
@@ -269,6 +277,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (rangeStart && rangeEnd && rangeStart > rangeEnd) return [];
     return competitions.filter(item => {
       if (instituteSelect.value && item.institute !== instituteSelect.value) return false;
+      if (formatSelect.value && item.format !== formatSelect.value) return false;
       if (rangeStart && (!item.dateKey || item.dateKey < rangeStart)) return false;
       if (rangeEnd && (!item.dateKey || item.dateKey > rangeEnd)) return false;
       return true;
@@ -316,6 +325,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const parsed = new Date(raw);
     if (Number.isNaN(parsed.getTime())) return null;
     return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+  }
+
+  function normalizeCompetitionFormat(value){
+    const format = String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, " ");
+    if (["online", "virtual", "remote"].includes(format)) return "online";
+    if (["offline", "in person", "inperson", "on site", "onsite", "on campus", "physical"].includes(format)) return "offline";
+    if (format === "hybrid") return "hybrid";
+    return format;
   }
 
   function firstOfMonth(date){ return new Date(date.getFullYear(), date.getMonth(), 1); }

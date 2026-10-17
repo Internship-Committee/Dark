@@ -141,6 +141,7 @@ const ICData = (() => {
     return {
       name: pick(row, "Competition Name", "name"),
       institute: pick(row, "Institute", "organising institute", "institute"),
+      format: pick(row, "Format", "Competition Format", "Competition Mode", "Mode", "Participation Mode", "Event Mode", "Delivery Mode"),
       deadline: resolveDeadline(pick(row, "Deadline", "deadline"), scrapedAt),
       link: pick(row, "Link", "link", "url"),
       isTopPick: parseBoolean(pick(row, "IC Top Pick", "Top Pick", "Featured")),
