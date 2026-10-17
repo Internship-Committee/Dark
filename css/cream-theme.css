@@ -507,6 +507,10 @@ body[data-page="live-projects"] .lp-card{
 }
 body[data-page="live-projects"] .lp-card:hover{ background:rgba(255,252,246,.58)!important; }
 body[data-page="live-projects"] .lp-card > :not(:first-child){ border-left:1px solid rgba(20,43,72,.2); }
+/* Keep project detail cards readable on hover, matching the soft blue hover on the competitions calendar. */
+body[data-page="live-projects"] .lp-section:hover,
+body[data-page="live-projects"] .lp-stage-bar:hover,
+body[data-page="live-projects"] .lp-sidebar .glass-card:hover{ background:rgba(232,238,245,.78)!important; }
 body[data-page="live-projects"] .lp-card .live-flag,
 body[data-page="live-projects"] .lp-card h3,
 body[data-page="live-projects"] .lp-card .role-line,
