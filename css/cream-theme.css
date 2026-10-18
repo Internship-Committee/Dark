@@ -37,7 +37,7 @@ html,html *,html *::before,html *::after{ cursor:url("../assets/site-cursor.svg"
 .sidebar-brand{ grid-area:brand; width:max-content; max-width:100%; min-width:0; gap:13px; white-space:nowrap; }
 .sidebar-home-link,.mobile-home-link{ display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; line-height:0; text-decoration:none; }
 .sidebar-home-link:focus-visible,.mobile-home-link:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:50%; }
-.sidebar-brand img{ width:42px; height:42px; flex:0 0 42px; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%); }
+.sidebar-brand img{ width:50px; height:50px; flex:0 0 50px; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%); }
 .sidebar-brand .brand-text{ display:flex; flex:none; min-width:max-content; overflow:visible; padding-right:0; }
 .sidebar-brand .brand-text strong{ white-space:nowrap; font-size:20px; }
 .sidebar-nav{ grid-area:nav; width:100%; justify-content:flex-start; gap:2px; flex-wrap:nowrap; }
@@ -106,15 +106,38 @@ h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-headin
 h1,h2,h3,h4,h5,h6,.section-heading,.hero-tagline,.gallery-heading .section-heading,
 .calendar-month-label,.agenda-heading h2,.day-dialog-header h2,.home-intro-reveal strong,
 .home-index-title{ text-transform:uppercase!important; }
-body[data-page="resources"] .page-header,
-body[data-page="competitions"] .page-header,
-body[data-page="live-projects"] .page-header{ max-width:52vw; text-align:left; }
-body[data-page="resources"] .page-header p,
-body[data-page="competitions"] .page-header p,
-body[data-page="live-projects"] .page-header p{ margin-inline:0; text-align:left; }
-body[data-page="resources"] .page-header .section-heading,
-body[data-page="competitions"] .page-header .section-heading,
-body[data-page="live-projects"] .page-header .section-heading{ max-width:100%; text-align:left; }
+.page-header{ width:100%; margin-inline:0; text-align:left; }
+.page-header .section-heading,.page-header h1{
+  max-width:none;
+  margin-inline:0;
+  font-size:clamp(2.1rem,5.3vw,5rem);
+  line-height:.98;
+  text-align:left;
+  text-wrap:balance;
+}
+.page-header p{ margin:0; text-align:left; }
+body[data-page="competitions"] .page-header-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  grid-template-rows:auto auto;
+  align-items:center;
+  row-gap:14px;
+}
+body[data-page="competitions"] .page-header-row .page-header{
+  grid-column:1/-1;
+  grid-row:1;
+  width:100%;
+  max-width:900px;
+  margin-inline:0;
+}
+body[data-page="competitions"] .page-header-row .showcase-card{
+  position:static;
+  grid-column:2;
+  grid-row:2;
+  justify-self:end;
+}
+.live-project-detail-heading{ margin:clamp(24px,4vw,44px) 0 clamp(28px,4vw,52px); text-align:left; }
+.live-project-detail-heading .section-heading{ font-size:clamp(2.4rem,5vw,4.8rem); }
 body[data-page="competitions"] .filter-field input[type="date"]{ color-scheme:light!important; cursor:pointer!important; }
 body[data-page="competitions"] .filter-field input[type="date"]::-webkit-calendar-picker-indicator{ cursor:pointer!important; opacity:.78; }
 p{ color:var(--text-secondary); }
@@ -235,7 +258,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .mobile-topbar{ background:var(--bg)!important; }
   .mobile-brand{ display:flex; min-width:0; align-items:center; gap:10px; }
   .mobile-home-link{ display:inline-flex; flex:0 0 auto; }
-  .mobile-brand img{ width:38px!important; height:38px!important; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%)!important; }
+  .mobile-brand img{ width:42px!important; height:42px!important; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%)!important; }
   .mobile-brand .brand-text{ display:flex; min-width:0; flex-direction:column; white-space:nowrap; }
   .mobile-brand .brand-text strong{ font:700 16px/1.1 var(--font-heavy)!important; color:var(--text-primary)!important; }
   .mobile-brand .brand-text span{ margin-top:3px; color:var(--text-muted); font:700 8px/1.2 var(--font-mono); letter-spacing:.08em; text-transform:uppercase; }
@@ -264,7 +287,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
     z-index:100;
     height:50px;
     min-height:50px;
-    grid-template-columns:30px minmax(0,1fr) auto!important;
+    grid-template-columns:44px minmax(0,1fr) auto!important;
     grid-template-rows:1fr!important;
     grid-template-areas:"brand nav footer"!important;
     align-items:center;
@@ -276,12 +299,12 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
     grid-area:brand;
     align-items:center;
     justify-content:flex-start;
-    width:30px;
-    min-width:30px;
+    width:44px;
+    min-width:44px;
     padding:0;
     border:0;
   }
-  .sidebar-brand img{ width:28px; height:28px; flex:0 0 28px; }
+  .sidebar-brand img{ width:42px; height:42px; flex:0 0 42px; }
   .sidebar-brand .brand-text,.sidebar-brand .sidebar-pin-btn{ display:none!important; }
   .sidebar-nav{
     display:grid!important;
@@ -353,6 +376,14 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .sidebar-footer a:hover{ background:var(--surface-strong)!important; color:var(--accent)!important; }
   .sidebar-footer a span{ display:none!important; }
   .sidebar-footer svg{ width:16px; height:16px; }
+}
+
+@media (max-width:760px){
+  body[data-page="competitions"] .page-header-row{ grid-template-columns:1fr; row-gap:18px; }
+  body[data-page="competitions"] .page-header-row .showcase-card{ grid-column:1; justify-self:center; }
+}
+@media (max-width:700px){
+  .page-header .section-heading,.page-header h1{ font-size:clamp(2rem,9vw,3.6rem); }
 }
 
 @media (max-width:1100px){
@@ -584,7 +615,7 @@ body[data-page="competitions"] .calendar-day.is-selected{ background:rgba(228,23
     padding:7px 12px 8px;
   }
   .mobile-brand{ grid-column:1; grid-row:1; gap:8px; }
-  .mobile-brand img{ width:32px!important; height:32px!important; }
+  .mobile-brand img{ width:36px!important; height:36px!important; }
   .mobile-brand .brand-text strong{ font-size:13px!important; }
   .mobile-brand .brand-text span{ font-size:7px!important; }
   .mobile-current-page{ grid-column:1/-1; grid-row:2; margin:0 0 0 40px; align-self:center; }

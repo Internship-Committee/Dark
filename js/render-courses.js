@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!paths || !domainView) return;
 
   const artwork = {
-    "All Courses": "assets/domain-all-courses.jpg",
-    "Finance": "assets/domain-finance.jpg",
-    "Marketing": "assets/domain-marketing.jpg",
-    "Consulting": "assets/domain-consulting.jpg",
-    "Entrepreneurship": "assets/domain-entrepreneurship.jpg",
-    "Leadership": "assets/domain-leadership.jpg",
-    "Data Analytics": "assets/domain-data-analytics.jpg",
-    "Business Analytics": "assets/domain-business-analytics.jpg",
-    "Operations Management": "assets/domain-operations-management.jpg"
+    "All Courses": { gallery: "assets/domain-all-courses.jpg", expanded: "assets/domain-all-courses-expanded.jpg" },
+    "Finance": { gallery: "assets/domain-finance.jpg", expanded: "assets/domain-finance-expanded.jpg" },
+    "Marketing": { gallery: "assets/domain-marketing.jpg", expanded: "assets/domain-marketing-expanded.jpg" },
+    "Consulting": { gallery: "assets/domain-consulting.jpg", expanded: "assets/domain-consulting-expanded.jpg" },
+    "Entrepreneurship": { gallery: "assets/domain-entrepreneurship.jpg", expanded: "assets/domain-entrepreneurship-expanded.jpg" },
+    "Leadership": { gallery: "assets/domain-leadership.jpg", expanded: "assets/domain-leadership-expanded.jpg" },
+    "Data Analytics": { gallery: "assets/domain-data-analytics.jpg", expanded: "assets/domain-data-analytics-expanded.jpg" },
+    "Business Analytics": { gallery: "assets/domain-business-analytics.jpg", expanded: "assets/domain-business-analytics-expanded.jpg" },
+    "Operations Management": { gallery: "assets/domain-operations-management.jpg", expanded: "assets/domain-operations-management-expanded.jpg" }
   };
   const defaultArtwork = artwork["All Courses"];
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -73,8 +73,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
       const image = artwork[domain] || defaultArtwork;
       return `
-        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-artwork="${image}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
-          <img class="course-domain-card__image" src="${image}" alt="" loading="lazy">
+        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-artwork="${image.gallery}" data-expanded-artwork="${image.expanded}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
+          <img class="course-domain-card__image course-domain-card__image--thumbnail" src="${image.gallery}" alt="" loading="lazy">
+          <img class="course-domain-card__image course-domain-card__image--expanded" data-source="${image.expanded}" alt="" aria-hidden="true">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content" aria-hidden="true">
             <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
@@ -87,6 +88,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }).join("");
 
     paths.querySelectorAll(".course-domain-card").forEach(card => {
+      const expandedImage = card.querySelector(".course-domain-card__image--expanded");
+      const revealExpandedImage = () => {
+        if (!expandedImage) return;
+        if (expandedImage.dataset.ready === "true"){
+          card.classList.add("is-expanded");
+          return;
+        }
+        if (expandedImage.dataset.loading === "true") return;
+        expandedImage.dataset.loading = "true";
+        expandedImage.addEventListener("load", () => {
+          expandedImage.dataset.ready = "true";
+          if (card.matches(":hover, :focus-visible")) card.classList.add("is-expanded");
+        }, { once: true });
+        expandedImage.addEventListener("error", () => { expandedImage.hidden = true; }, { once: true });
+        expandedImage.src = expandedImage.dataset.source;
+      };
+      card.addEventListener("mouseenter", revealExpandedImage);
+      card.addEventListener("focus", revealExpandedImage);
+      card.addEventListener("mouseleave", () => card.classList.remove("is-expanded"));
+      card.addEventListener("blur", () => card.classList.remove("is-expanded"));
       card.addEventListener("click", () => openDomain(card.dataset.domain, card));
     });
     paths.querySelectorAll(".course-domain-card__image").forEach(image => {
@@ -122,10 +143,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const actualDomain = domains.find(item => item.toLocaleLowerCase() === String(domain || "").toLocaleLowerCase());
     if (!actualDomain) return;
 
-    const image = card?.querySelector(".course-domain-card__image") || null;
-    const imageSrc = card?.dataset.artwork || image?.currentSrc || image?.src || artwork[actualDomain] || defaultArtwork;
+    const image = card?.querySelector(".course-domain-card__image--thumbnail") || null;
+    const expandedImage = card?.querySelector(".course-domain-card__image--expanded") || null;
+    const imageSrc = card?.dataset.expandedArtwork || artwork[actualDomain]?.expanded || defaultArtwork.expanded || image?.currentSrc || image?.src;
     originatingCard = card || findDomainCard(actualDomain);
-    originatingImage = originatingCard?.querySelector(".course-domain-card__image") || null;
+    originatingImage = expandedImage?.dataset.ready === "true" ? expandedImage : null;
     if (originatingImage) originatingImage.style.viewTransitionName = "course-domain-cover";
 
     const update = () => {
