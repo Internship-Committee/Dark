@@ -212,7 +212,6 @@ const ICData = (() => {
   //   1 = Applications Open
   //   2 = Selection Process Ongoing
   //   3 = Ongoing Project
-  //   4 = Completed
   // Leaving "Status" blank defaults to 1 (Applications Open). The words
   // "Live"/"Closed" (used by older rows) still work too, for backward
   // compatibility.
@@ -220,8 +219,7 @@ const ICData = (() => {
     0: "Closed",
     1: "Applications Open",
     2: "Selection Process Ongoing",
-    3: "Ongoing Project",
-    4: "Completed"
+    3: "Ongoing Project"
   };
 
   function parseStage(raw){
@@ -231,9 +229,8 @@ const ICData = (() => {
     if (v === "1" || v === "live" || v === "open" || v === "applications open" || v === "application open") return 1;
     if (v === "2" || v === "selection process ongoing" || v === "selection ongoing" || v === "selection") return 2;
     if (v === "3" || v === "ongoing project" || v === "project ongoing" || v === "ongoing") return 3;
-    if (v === "4" || v === "completed" || v === "complete") return 4;
     const n = parseInt(v, 10);
-    if (!isNaN(n) && n >= 0 && n <= 4) return n;
+    if (!isNaN(n) && n >= 0 && n <= 3) return n;
     return 1; // unrecognized text defaults to "Applications Open" rather than hiding the row
   }
 

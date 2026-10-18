@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const stageShort = { 1: "Applications open", 2: "Selection in progress", 3: "Project ongoing", 4: "Completed" };
+    const stageShort = { 1: "Applications open", 2: "Selection in progress", 3: "Project ongoing" };
     let activeStage = "all";
     const searchableText = p => [p.company, p.tagline, p.aboutCompany, p.location, p.duration,
       p.stageLabel, ...p.roles.flatMap(role => [role.title, role.responsibilities.join(" "), role.takeaway]),
