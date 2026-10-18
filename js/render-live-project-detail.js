@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const deadlineText = project.deadline ? formatDate(project.deadline) : "Rolling";
   const applyButton = applyBtn(project.applyUrl);
-  const stage = project.stage; // 1, 2, or 3 (0/"Closed" rows never reach this page)
+  const stage = project.stage; // 1–4 (0/"Closed" rows never reach this page)
 
   root.innerHTML = `
     <div class="lp-header">
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   `;
 });
 
-// Renders the 3-stage "road" progress bar: a route with a pin at each
+// Renders the 4-stage "road" progress bar: a route with a pin at each
 // stage, the traveled portion of the road highlighted up to the current
 // stage. Stage 0 ("Closed") never reaches this page — closed rows are
 // filtered out before the detail page can load them.
@@ -81,10 +81,11 @@ function stageBar(stage){
   const steps = [
     { n: 1, label: "Applications Open", icon: ICIcons.mail },
     { n: 2, label: "Selection Process Ongoing", icon: ICIcons.users },
-    { n: 3, label: "Ongoing Project", icon: ICIcons.rocket }
+    { n: 3, label: "Ongoing Project", icon: ICIcons.rocket },
+    { n: 4, label: "Completed", icon: ICIcons.check }
   ];
-  // Road fills from the start up to the current stage's pin (0%, 50%, 100%).
-  const fillPct = ((stage - 1) / (steps.length - 1)) * 100;
+  // Fill from the first pin to the current pin; four steps are evenly spaced.
+  const fillPct = ((stage - 1) / (steps.length - 1)) * 75;
 
   const pins = steps.map(s => {
     const state = s.n < stage ? "done" : s.n === stage ? "current" : "upcoming";
@@ -97,7 +98,7 @@ function stageBar(stage){
   }).join("");
 
   return `
-    <div class="glass-card lp-stage-bar" aria-label="Project stage: ${escapeHtml(steps[stage-1].label)}">
+    <div class="glass-card lp-stage-bar" aria-label="Project stage: ${escapeHtml((steps[stage-1] || steps[0]).label)}">
       <div class="stage-road">
         <div class="stage-road-track"></div>
         <div class="stage-road-fill stage-${stage}" style="width:${fillPct}%"></div>
