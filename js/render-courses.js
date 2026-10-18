@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content" aria-hidden="true">
             <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
+            <span class="course-domain-card__count">${count} ${count === 1 ? "course" : "courses"}</span>
             <span class="course-domain-card__title">${escapeHtml(domain)}</span>
             <span class="course-domain-card__summary">${escapeHtml(description)}</span>
             <span class="course-domain-card__action">Explore <span aria-hidden="true">↗</span></span>
