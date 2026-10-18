@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const stageShort = { 1: "Applications open", 2: "Selection in progress", 3: "Project ongoing" };
+    const stageShort = { 1: "Applications open", 2: "Selection in progress", 3: "Project ongoing", 4: "Completed" };
     let activeStage = "all";
     const searchableText = p => [p.company, p.tagline, p.aboutCompany, p.location, p.duration,
       p.stageLabel, ...p.roles.flatMap(role => [role.title, role.responsibilities.join(" "), role.takeaway]),
@@ -23,15 +23,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? `<img class="lp-file-logo" src="${escapeHtml(p.companyLogo)}" alt="${escapeHtml(p.company)} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">`
         : "";
       return `
-        <a class="lp-project-item" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
-          <span class="lp-file-card">
+        <article class="lp-project-item">
+          <a class="lp-file-card" href="live-project.html?id=${encodeURIComponent(p.id)}" aria-label="View ${escapeHtml(p.company)} live project">
             <span class="lp-file-brand">${logo}</span>
             <span class="lp-file-company">${escapeHtml(p.company)}</span>
-          </span>
-          <span class="lp-file-meta">
+          </a>
+          <div class="lp-file-meta">
             <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span>${escapeHtml(stageShort[p.stage] || "Live project")}</span>
-          </span>
-        </a>`;
+          </div>
+        </article>`;
     };
 
     const render = () => {
