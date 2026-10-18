@@ -958,5 +958,6 @@ body[data-page="live-projects"] .lp-file-card{ max-width:none; }
     width:6px;
     height:6px;
     flex-basis:6px;
+    transform:translateX(6px);
   }
 }
