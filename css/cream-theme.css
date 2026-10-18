@@ -108,17 +108,13 @@ h1,h2,h3,h4,h5,h6,.section-heading,.hero-tagline,.gallery-heading .section-headi
 .home-index-title{ text-transform:uppercase!important; }
 body[data-page="resources"] .page-header,
 body[data-page="competitions"] .page-header,
-body[data-page="live-projects"] .page-header{ max-width:none; text-align:center; }
-body[data-page="resources"] .page-header p{ margin-inline:auto; text-align:center; }
-body[data-page="competitions"] .page-header p{ margin-inline:auto; text-align:center; }
-body[data-page="live-projects"] .page-header p{ margin-inline:auto; text-align:center; }
+body[data-page="live-projects"] .page-header{ max-width:52vw; text-align:left; }
+body[data-page="resources"] .page-header p,
+body[data-page="competitions"] .page-header p,
+body[data-page="live-projects"] .page-header p{ margin-inline:0; text-align:left; }
 body[data-page="resources"] .page-header .section-heading,
-<<<<<<< HEAD
-body[data-page="live-projects"] .page-header .section-heading{ max-width:13ch; text-align:left; }
-=======
 body[data-page="competitions"] .page-header .section-heading,
-body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; text-transform:none!important; }
->>>>>>> 0465f2600c64c04f9f0b2a3063840415a56ff7a3
+body[data-page="live-projects"] .page-header .section-heading{ max-width:100%; text-align:left; }
 body[data-page="competitions"] .filter-field input[type="date"]{ color-scheme:light!important; cursor:pointer!important; }
 body[data-page="competitions"] .filter-field input[type="date"]::-webkit-calendar-picker-indicator{ cursor:pointer!important; opacity:.78; }
 p{ color:var(--text-secondary); }

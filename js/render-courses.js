@@ -21,19 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     "Business Analytics": "assets/domain-business-analytics.jpg",
     "Operations Management": "assets/domain-operations-management.jpg"
   };
-  const expandedArtwork = {
-    "All Courses": "assets/domain-all-courses-expanded.jpg",
-    "Finance": "assets/domain-finance-expanded.jpg",
-    "Marketing": "assets/domain-marketing-expanded.jpg",
-    "Consulting": "assets/domain-consulting-expanded.jpg",
-    "Entrepreneurship": "assets/domain-entrepreneurship-expanded.jpg",
-    "Leadership": "assets/domain-leadership-expanded.jpg",
-    "Data Analytics": "assets/domain-data-analytics-expanded.jpg",
-    "Business Analytics": "assets/domain-business-analytics-expanded.jpg",
-    "Operations Management": "assets/domain-operations-management-expanded.jpg"
-  };
   const defaultArtwork = artwork["All Courses"];
-  const defaultExpandedArtwork = "assets/domain-default-expanded.jpg";
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let courses = [];
   let domains = [];
@@ -84,11 +72,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? courses.length
         : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
       const image = artwork[domain] || defaultArtwork;
-      const expandedImage = expandedArtwork[domain] || defaultExpandedArtwork;
       return `
-        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-expanded-image="${expandedImage}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
-          <img class="course-domain-card__image course-domain-card__image--collapsed" src="${image}" alt="" loading="lazy">
-          <img class="course-domain-card__image course-domain-card__image--expanded" data-src="${expandedImage}" alt="" loading="lazy">
+        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-artwork="${image}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
+          <img class="course-domain-card__image" src="${image}" alt="" loading="lazy">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content" aria-hidden="true">
             <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
@@ -102,12 +88,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     paths.querySelectorAll(".course-domain-card").forEach(card => {
       card.addEventListener("click", () => openDomain(card.dataset.domain, card));
-      const expandedImage = card.querySelector(".course-domain-card__image--expanded");
-      const loadExpandedImage = () => {
-        if (expandedImage && !expandedImage.hasAttribute("src")) expandedImage.src = expandedImage.dataset.src;
-      };
-      card.addEventListener("pointerenter", loadExpandedImage, { once: true });
-      card.addEventListener("focus", loadExpandedImage, { once: true });
     });
     paths.querySelectorAll(".course-domain-card__image").forEach(image => {
       image.addEventListener("error", () => { image.hidden = true; }, { once: true });
@@ -142,10 +122,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const actualDomain = domains.find(item => item.toLocaleLowerCase() === String(domain || "").toLocaleLowerCase());
     if (!actualDomain) return;
 
-    const image = card?.querySelector(".course-domain-card__image--expanded") || null;
-    const imageSrc = card?.dataset.expandedImage || image?.currentSrc || image?.src || expandedArtwork[actualDomain] || defaultExpandedArtwork;
+    const image = card?.querySelector(".course-domain-card__image") || null;
+    const imageSrc = card?.dataset.artwork || image?.currentSrc || image?.src || artwork[actualDomain] || defaultArtwork;
     originatingCard = card || findDomainCard(actualDomain);
-    originatingImage = originatingCard?.querySelector(".course-domain-card__image--expanded") || null;
+    originatingImage = originatingCard?.querySelector(".course-domain-card__image") || null;
     if (originatingImage) originatingImage.style.viewTransitionName = "course-domain-cover";
 
     const update = () => {
@@ -176,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="course-domain-list" id="course-domain-courses" role="list" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}" data-count="${collection.length}">${collection.length ? courseRows(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
           <footer class="site-footer">
             <span>&copy; Internship Committee, IIM Rohtak</span>
-            <span class="footer-built"><img class="footer-logo" data-ic-logo src="assets/logo.png" alt="Internship Committee logo"></span>
+            <span class="footer-built"><img class="footer-logo" src="assets/logo-footer.png" alt="Internship Committee logo"></span>
           </footer>
         </div>
       `;
