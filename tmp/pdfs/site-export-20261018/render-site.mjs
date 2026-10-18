@@ -89,7 +89,16 @@ await printRoute("index.html", "Home", "01-home.pdf", async () => {
 });
 
 await page.goto(`${baseUrl}/courses.html`, { waitUntil: "load" });
-await waitFor(() => document.querySelectorAll("#course-paths .course-domain-card").length > 0);
+let domainCards = 0;
+for (let attempt = 0; attempt < 3 && !domainCards; attempt += 1) {
+  try {
+    await page.waitForFunction(() => document.querySelectorAll("#course-paths .course-domain-card").length > 0, null, { timeout: 20000 });
+    domainCards = await page.locator("#course-paths .course-domain-card").count();
+  } catch (error) {
+    if (attempt === 2) throw new Error(`Course data did not load after three tries: ${error.message}`);
+    await page.reload({ waitUntil: "load" });
+  }
+}
 await settle(page);
 const domains = await page.locator(".course-domain-card").evaluateAll(cards => cards.map(card => ({
   name: card.dataset.domain,
