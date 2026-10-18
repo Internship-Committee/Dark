@@ -101,16 +101,16 @@ h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-headin
   letter-spacing:-.025em;
 }
 body[data-page="resources"] .page-header,
-body[data-page="live-projects"] .page-header{ max-width:900px; margin-inline:0; text-align:left; }
-body[data-page="resources"] .page-header p,
-body[data-page="live-projects"] .page-header p{ margin-inline:0; text-align:left; }
+body[data-page="competitions"] .page-header,
+body[data-page="live-projects"] .page-header{ max-width:none; text-align:center; }
+body[data-page="resources"] .page-header p{ margin-inline:auto; text-align:center; }
+body[data-page="competitions"] .page-header p{ margin-inline:auto; text-align:center; }
+body[data-page="live-projects"] .page-header p{ margin-inline:auto; text-align:center; }
 body[data-page="resources"] .page-header .section-heading,
-body[data-page="live-projects"] .page-header .section-heading{ max-width:13ch; text-align:left; text-transform:none!important; }
+body[data-page="competitions"] .page-header .section-heading,
+body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; text-transform:none!important; }
 body[data-page="competitions"] .filter-field input[type="date"]{ color-scheme:light!important; cursor:pointer!important; }
 body[data-page="competitions"] .filter-field input[type="date"]::-webkit-calendar-picker-indicator{ cursor:pointer!important; opacity:.78; }
-body[data-page="competitions"] .page-header{ max-width:900px; text-align:left; }
-body[data-page="competitions"] .page-header .section-heading{ max-width:13ch; text-align:left; }
-body[data-page="competitions"] .page-header p{ margin-inline:0; text-align:left; }
 p{ color:var(--text-secondary); }
 .sidebar,.mobile-topbar,.hero,.nav-submenu,.menu-btn,.main,.home-stage,
 .calendar-panel,.deadline-agenda,.competition-day-dialog,.list-card,.course-card,
@@ -193,7 +193,8 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
 .ic-gate-card p,.ic-gate-status,.ic-gate-back{ color:var(--text-secondary)!important; }
 .ic-gate-btn{ background:var(--accent)!important; color:#fff!important; border-radius:3px!important; }
 .ic-gate-btn:hover{ background:var(--accent-2)!important; color:#fff!important; }
-.showcase-card a.showcase-link:hover{ color:var(--accent)!important; border-bottom-color:var(--accent)!important; }
+.showcase-card:hover .showcase-link,
+.showcase-card:focus-visible .showcase-link{ color:var(--accent)!important; border-bottom-color:var(--accent)!important; }
 
 /* Keep small controls and metadata readable on the cream palette. */
 .domain-pill,.meta-chip,.price-chip,.domain-tag,.deadline-pill,.resource-type-badge{
