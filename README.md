@@ -101,9 +101,9 @@ code change. The "All" pill is always added automatically.
 whatever the course provider lists. Numeric values are displayed as hours;
 values with an existing unit keep that unit.
 
-The repository displays courses in a compact comparison list with serial
-number, name, rating, duration, and an external-link icon. Numeric durations
-are displayed in hours; durations that already include a unit keep that unit.
+The repository displays each course as a ruled row with its serial number,
+name, rating, duration, and an external-link icon. Numeric durations are
+displayed in hours; durations that already include a unit keep that unit.
 
 **Case Studies**
 ```
@@ -139,14 +139,6 @@ under the institute name in the picks panel. These columns can be added to the
 existing Case Competitions tab; no new tab is needed. Selecting any calendar
 date opens a day view with all competition deadlines on that date, subject to
 the active institute and date-range filters.
-
-**Case'd It**
-```
-Post Link
-```
-Add one row with the current LinkedIn post URL. The image shown in the feature
-card is the local file `assets/cased-it-feature.png`; replace that file when
-the weekly post image changes.
 
 **Scraper-fed deadlines (optional):** if a tab's `Deadline` column instead
 gets a relative, human string from an automated scraper — like
@@ -203,11 +195,10 @@ per tab.
 1. **Share the sheet.** Open the sheet → **Share** (top right) → under
    "General access" choose **Anyone with the link**, role **Viewer**.
    This is required — without it, the site can't read the tabs at all.
-2. **Rename the tabs** at the bottom of the sheet to exactly:
+2. **Rename the five tabs** at the bottom of the sheet to exactly:
    `Courses`, `Case Studies`, `IIMR Resources`,
-   `Case Competitions`, `Live Projects`, and `Case'd It` (matching
-   `IC_CONFIG.sheetTabs` in `js/config.js` — spelling and spacing must match
-   exactly).
+   `Case Competitions`, `Live Projects` (matching `IC_CONFIG.sheetTabs` in
+   `js/config.js` — spelling and spacing must match exactly).
 3. **Set up the column headers** in each tab per "Spreadsheet schemas"
    above.
 4. In `js/config.js`, flip that tab's flag to `false`, e.g.:
@@ -331,10 +322,46 @@ above as a future step, not missing functionality.
 
 ---
 
-## 8. Homepage editorial layout
+## 8. Homepage circular gallery (React island)
 
-The home page uses plain HTML, CSS, and JavaScript. Its opening title moves
-from the centered introduction into the left-aligned masthead; the four
-image-led entry points are in `index.html` and styled in
-`css/editorial-home.css`. The intro timing and skip behavior are in
-`js/home-intro.js`. No React build step is required.
+The five cards on the home page — Live Projects, Course Repository, Case
+Competitions, Case Studies and IIMR Student Resources —
+are rendered by a small React component as a 3D ring that rotates with page
+scroll (and drifts slowly on its own). Everything else on the site stays plain
+HTML/CSS/JS.
+
+```
+/gallery
+  package.json  tsconfig.json  tailwind.config.ts  components.json  build.mjs
+  /src
+    main.tsx                         mounts the gallery into #circular-gallery-root
+    index.css                        Tailwind + scoped shadcn design tokens
+    demo.tsx                         the original animal-gallery demo (reference only, not shipped)
+    /components
+      home-gallery.tsx               the five portal cards, images, live-status badge, responsive fit
+      /ui/circular-gallery.tsx       the CircularGallery component (shadcn path: @/components/ui)
+    /lib/utils.ts                    shadcn `cn()` helper (for components added later)
+```
+
+**You do not need to rebuild** unless you change something in `/gallery`. The
+site loads the already-built `assets/circular-gallery.js` and
+`assets/circular-gallery.css`.
+
+To change a card's title, blurb, link or photo, edit `buildItems()` in
+`gallery/src/components/home-gallery.tsx`, then rebuild:
+
+```bash
+cd gallery
+npm install
+npm run build        # writes ../assets/circular-gallery.js and .css
+```
+
+Notes:
+- Tailwind is **scoped** to `#circular-gallery-root` and its global reset is
+  turned off, so it can't affect any other part of the site.
+- Card photos are hot-linked from Unsplash (`images.unsplash.com`). If a photo
+  is ever unreachable the card falls back to a plain gradient with its text.
+- With JavaScript disabled, or if the bundle fails to load, the home page
+  shows the same five sections as ordinary cards (the fallback in `index.html`).
+- The Live Projects card's "Applications open / closed" badge is driven by
+  `ICData.getLiveProjects()`, exactly like the old home-page badge.

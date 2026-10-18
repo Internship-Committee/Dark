@@ -150,12 +150,6 @@ const ICData = (() => {
     };
   }
 
-  function normCaseFeature(row){
-    return {
-      postLink: pick(row, "Post Link", "LinkedIn Post URL", "Post URL", "Link", "url")
-    };
-  }
-
   function parseBoolean(value){
     const normalized = String(value == null ? "" : value).trim().toLowerCase();
     return ["yes", "true", "1", "y"].includes(normalized);
@@ -348,14 +342,9 @@ const ICData = (() => {
     return all.find(p => p.id === id) || null;
   }
 
-  async function getCaseFeature(){
-    const rows = await fetchSource("caseFeature");
-    return rows.map(normCaseFeature).find(item => item.postLink) || null;
-  }
-
   return {
     getCourses, getCaseStudies, getResources,
-    getCompetitions, getLiveProjects, getLiveProjectById, getCaseFeature,
+    getCompetitions, getLiveProjects, getLiveProjectById,
     slugify
   };
 })();

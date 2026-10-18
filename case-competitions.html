@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/case-competitions.css">
 <link rel="stylesheet" href="css/cream-theme.css">
-<link rel="stylesheet" href="css/cased-it.css">
 </head>
 <body data-page="competitions">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -54,25 +53,19 @@
 
   <main class="main" id="main-content">
     <div class="page-header-row">
-      <header class="page-header competition-page-title">
-        <h1 class="section-heading case-competition-title"><span>Case</span><span>Competitions</span></h1>
-      </header>
+      <div class="page-header">
+        <h1 class="section-heading">Case Competitions</h1>
+        <p>Explore upcoming competitions, deadlines, and committee picks.</p>
+      </div>
 
-      <aside class="cased-it-rail" aria-label="Featured Case'd It post">
-        <a class="cased-it-post" id="cased-it-post" aria-disabled="true" tabindex="-1">
-          <span class="cased-it-account">
-            <img src="assets/logo.png" alt="">
-            <span><strong>Internship Committee</strong><small>IIM Rohtak · Case'd It</small></span>
-            <span class="cased-it-post-mark" aria-hidden="true">↗</span>
-          </span>
-          <img class="cased-it-poster" src="assets/cased-it-feature.png" alt="Case'd It victory post: Team The Final Draft, second runner-up at Corporate Conquest 4.0, IIM Bangalore." fetchpriority="high" decoding="async">
-          <span class="cased-it-post-footer"><span>CASE'D IT / WEEKLY FEATURE</span><span>VIEW POST ↗</span></span>
-        </a>
-        <a class="cased-it-submit" href="https://docs.google.com/forms/d/e/1FAIpQLSfdgL86jL5TLTRlCx_57uuHmrdBQZzka-bVRXTr77lzSAKpxg/viewform?usp=dialog" target="_blank" rel="noopener">
-          <span>You can be the next feature on the IC LinkedIn page.</span>
-          <span class="cased-it-submit-link">Submit your victories here <span aria-hidden="true">↗</span></span>
-        </a>
-      </aside>
+      <a class="showcase-card" href="https://docs.google.com/forms/d/e/1FAIpQLSfdgL86jL5TLTRlCx_57uuHmrdBQZzka-bVRXTr77lzSAKpxg/viewform?usp=dialog" target="_blank" rel="noopener" aria-label="Submit your competition win">
+        <p>
+          <span class="showcase-link">Showcase your victories with the IC</span>
+        </p>
+        <span class="showcase-btn" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </span>
+      </a>
     </div>
 
     <section class="competitions-board" id="competitions-board" aria-label="Case competition deadlines">
@@ -176,7 +169,6 @@
 <script src="js/icons.js"></script>
 <script src="js/data-adapter.js"></script>
 <script src="js/sidebar.js"></script>
-<script src="js/case-feature.js"></script>
 <script src="js/render-competitions.js"></script>
 </body>
 </html>
