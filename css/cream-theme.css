@@ -921,42 +921,42 @@ body[data-page="live-projects"] .lp-file-card{ max-width:none; }
 /* Keep Live Projects cards compact on phones; desktop sizing is unchanged. */
 @media(max-width:640px){
   body[data-page="live-projects"] #lp-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
     justify-items:stretch;
     gap:14px 9px;
   }
   body[data-page="live-projects"] .lp-project-item{ width:100%; min-width:0; }
   body[data-page="live-projects"] .lp-file-card{
     width:100%;
-    max-width:160px;
+    max-width:220px;
     aspect-ratio:1/1;
     margin:0 auto;
     padding:6px 5px 15%;
   }
   body[data-page="live-projects"] .lp-file-card .lp-file-brand{
-    flex-basis:clamp(34px,10vw,48px);
-    width:clamp(34px,10vw,48px);
-    height:clamp(34px,10vw,48px);
-    margin:0 0 5px;
+    flex-basis:clamp(48px,14vw,62px);
+    width:clamp(48px,14vw,62px);
+    height:clamp(48px,14vw,62px);
+    margin:0 0 7px;
   }
-  body[data-page="live-projects"] .lp-file-card .lp-file-logo{ padding:4px; }
+  body[data-page="live-projects"] .lp-file-card .lp-file-logo{ padding:5px; }
   body[data-page="live-projects"] .lp-file-card .lp-file-company{
     max-width:98%;
-    font-size:clamp(10px,3.2vw,15px);
+    font-size:clamp(14px,4vw,18px);
     line-height:1.05;
     overflow-wrap:anywhere;
   }
-  body[data-page="live-projects"] .lp-file-meta{ right:2px; bottom:2px; }
+  body[data-page="live-projects"] .lp-file-meta{ right:4px; bottom:3px; }
   body[data-page="live-projects"] .lp-file-status{
-    width:42px;
-    grid-template-columns:5px 35px;
-    gap:2px;
-    font-size:5px;
+    width:62px;
+    grid-template-columns:6px 52px;
+    gap:4px;
+    font-size:7px;
     line-height:1.05;
   }
   body[data-page="live-projects"] .lp-file-status .pulse-dot{
-    width:5px;
-    height:5px;
-    flex-basis:5px;
+    width:6px;
+    height:6px;
+    flex-basis:6px;
   }
 }
