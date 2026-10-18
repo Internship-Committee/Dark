@@ -35,6 +35,8 @@ html,html *,html *::before,html *::after{ cursor:url("../assets/site-cursor.svg"
   padding:9px clamp(18px,4vw,64px) 10px;
 }
 .sidebar-brand{ grid-area:brand; width:max-content; max-width:100%; min-width:0; gap:13px; white-space:nowrap; }
+.sidebar-home-link,.mobile-home-link{ display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; line-height:0; text-decoration:none; }
+.sidebar-home-link:focus-visible,.mobile-home-link:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:50%; }
 .sidebar-brand img{ width:42px; height:42px; flex:0 0 42px; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%); }
 .sidebar-brand .brand-text{ display:flex; flex:none; min-width:max-content; overflow:visible; padding-right:0; }
 .sidebar-brand .brand-text strong{ white-space:nowrap; font-size:20px; }
@@ -85,12 +87,13 @@ html,html *,html *::before,html *::after{ cursor:url("../assets/site-cursor.svg"
 }
 /* Keep the homepage's existing compact nav sizing at laptop widths. */
 @media (min-width:1101px) and (max-width:1400px){
-  .sidebar{ grid-template-columns:max-content minmax(0,1fr)!important; grid-template-rows:auto auto!important; grid-template-areas:"brand nav" ". footer"!important; column-gap:18px!important; padding-inline:24px!important; }
-  .sidebar-footer{ display:flex!important; gap:18px!important; }
-  .sidebar-footer a span{ display:inline!important; }
-  .sidebar-nav{ justify-content:flex-start!important; gap:0!important; flex-wrap:nowrap!important; }
-  .nav-link{ padding-inline:7px!important; font-size:9px!important; letter-spacing:0!important; }
-  .sidebar-brand .brand-text strong{ font-size:18px; }
+  .sidebar{ grid-template-columns:30px minmax(0,1fr) auto!important; grid-template-rows:1fr!important; grid-template-areas:"brand nav footer"!important; column-gap:18px!important; padding-inline:24px!important; }
+  .sidebar-brand{ width:30px!important; min-width:30px!important; }
+  .sidebar-brand .brand-text{ display:none!important; }
+  .sidebar-footer{ display:flex!important; gap:5px!important; }
+  .sidebar-footer a span{ display:none!important; }
+  .sidebar-nav{ display:grid!important; grid-template-columns:repeat(5,minmax(0,1fr)); justify-content:stretch!important; gap:0!important; flex-wrap:nowrap!important; }
+  .sidebar-nav .nav-link{ width:100%; padding-inline:4px!important; font-size:clamp(9px,.72vw,13px)!important; letter-spacing:.015em!important; }
 }
 h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-heading,
 .section-heading,.page-header .section-heading,.page-header h1,.calendar-month-label,.agenda-heading h2,
@@ -104,25 +107,31 @@ h1,h2,h3,h4,h5,h6,.section-heading,.hero-tagline,.gallery-heading .section-headi
 .calendar-month-label,.agenda-heading h2,.day-dialog-header h2,.home-intro-reveal strong,
 .home-index-title{ text-transform:uppercase!important; }
 body[data-page="resources"] .page-header,
-body[data-page="live-projects"] .page-header{ max-width:900px; margin-inline:0; text-align:left; }
-body[data-page="resources"] .page-header p,
-body[data-page="live-projects"] .page-header p{ margin-inline:0; text-align:left; }
+body[data-page="competitions"] .page-header,
+body[data-page="live-projects"] .page-header{ max-width:none; text-align:center; }
+body[data-page="resources"] .page-header p{ margin-inline:auto; text-align:center; }
+body[data-page="competitions"] .page-header p{ margin-inline:auto; text-align:center; }
+body[data-page="live-projects"] .page-header p{ margin-inline:auto; text-align:center; }
 body[data-page="resources"] .page-header .section-heading,
+<<<<<<< HEAD
 body[data-page="live-projects"] .page-header .section-heading{ max-width:13ch; text-align:left; }
+=======
+body[data-page="competitions"] .page-header .section-heading,
+body[data-page="live-projects"] .page-header .section-heading{ max-width:none; text-align:center; text-transform:none!important; }
+>>>>>>> 0465f2600c64c04f9f0b2a3063840415a56ff7a3
 body[data-page="competitions"] .filter-field input[type="date"]{ color-scheme:light!important; cursor:pointer!important; }
 body[data-page="competitions"] .filter-field input[type="date"]::-webkit-calendar-picker-indicator{ cursor:pointer!important; opacity:.78; }
-body[data-page="competitions"] .page-header{ max-width:900px; text-align:left; }
-body[data-page="competitions"] .page-header .section-heading{ max-width:13ch; text-align:left; }
-body[data-page="competitions"] .page-header p{ margin-inline:0; text-align:left; }
 p{ color:var(--text-secondary); }
 .sidebar,.mobile-topbar,.hero,.nav-submenu,.menu-btn,.main,.home-stage,
 .calendar-panel,.deadline-agenda,.competition-day-dialog,.list-card,.course-card,
-.lp-card,.showcase-card,.state-msg,.home-card,.subtile,.filter-field input,
+.lp-card,.showcase-card,.selected-interns-card,.state-msg,.home-card,.subtile,.filter-field input,
 .filter-field select,.ic-gate-card,.ic-gate-status{
   background-color:var(--surface)!important;
   color:var(--text-primary)!important;
   border-color:var(--surface-border)!important;
 }
+.selected-interns-card{ border:1.5px solid var(--accent)!important; }
+.selected-interns-card h2{ text-align:center; }
 .sidebar,.mobile-topbar,.hero,.main,.home-stage{ background-color:var(--bg)!important; }
 .sidebar{ border-bottom:1px solid var(--surface-border)!important; }
 .sidebar-brand .brand-text strong,.mobile-topbar .brand-text strong,
@@ -196,7 +205,8 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
 .ic-gate-card p,.ic-gate-status,.ic-gate-back{ color:var(--text-secondary)!important; }
 .ic-gate-btn{ background:var(--accent)!important; color:#fff!important; border-radius:3px!important; }
 .ic-gate-btn:hover{ background:var(--accent-2)!important; color:#fff!important; }
-.showcase-card a.showcase-link:hover{ color:var(--accent)!important; border-bottom-color:var(--accent)!important; }
+.showcase-card:hover .showcase-link,
+.showcase-card:focus-visible .showcase-link{ color:var(--accent)!important; border-bottom-color:var(--accent)!important; }
 
 /* Keep small controls and metadata readable on the cream palette. */
 .domain-pill,.meta-chip,.price-chip,.domain-tag,.deadline-pill,.resource-type-badge{
@@ -228,6 +238,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
 @media (max-width:700px){
   .mobile-topbar{ background:var(--bg)!important; }
   .mobile-brand{ display:flex; min-width:0; align-items:center; gap:10px; }
+  .mobile-home-link{ display:inline-flex; flex:0 0 auto; }
   .mobile-brand img{ width:38px!important; height:38px!important; filter:brightness(0) saturate(100%) invert(13%) sepia(37%) saturate(1428%) hue-rotate(176deg) brightness(91%) contrast(97%)!important; }
   .mobile-brand .brand-text{ display:flex; min-width:0; flex-direction:column; white-space:nowrap; }
   .mobile-brand .brand-text strong{ font:700 16px/1.1 var(--font-heavy)!important; color:var(--text-primary)!important; }
@@ -277,11 +288,12 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .sidebar-brand img{ width:28px; height:28px; flex:0 0 28px; }
   .sidebar-brand .brand-text,.sidebar-brand .sidebar-pin-btn{ display:none!important; }
   .sidebar-nav{
-    display:flex!important;
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr));
     grid-area:nav;
     align-items:center;
-    justify-content:space-between;
-    gap:clamp(10px,1.25vw,22px);
+    justify-content:stretch;
+    gap:0;
     width:100%;
     min-width:0;
     padding:0;
@@ -290,6 +302,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .sidebar-nav .nav-link{
     display:flex;
     flex:0 0 auto;
+    width:100%;
     justify-content:center;
     min-height:42px;
     max-width:none!important;
@@ -898,3 +911,60 @@ body[data-page="live-projects"] .lp-file-meta{ right:4px; bottom:3px; }
 body[data-page="live-projects"] .lp-file-status{ display:grid; width:62px; grid-template-columns:6px 52px; align-items:start; justify-content:end; gap:4px; white-space:normal; text-align:right; line-height:1.05; }
 body[data-page="live-projects"] .lp-file-status .pulse-dot{ align-self:center; margin-top:0; }
 body[data-page="live-projects"] .lp-status-copy{ display:block; width:52px; text-align:right; }
+
+/* Five live-project cards per row on wide screens, with fewer columns as
+   the available width shrinks. */
+body[data-page="live-projects"] #lp-grid{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:28px 16px;
+  max-width:none;
+}
+body[data-page="live-projects"] .lp-file-card{ max-width:none; }
+@media(max-width:1100px){ body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:26px 14px; } }
+@media(max-width:900px){ body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:640px){ body[data-page="live-projects"] #lp-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 14px; } }
+@media(max-width:420px){ body[data-page="live-projects"] #lp-grid{ grid-template-columns:minmax(0,1fr); } }
+
+/* Keep Live Projects cards compact on phones; desktop sizing is unchanged. */
+@media(max-width:767px){
+  body[data-page="live-projects"] #lp-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    justify-items:stretch;
+    gap:14px 9px;
+  }
+  body[data-page="live-projects"] .lp-project-item{ width:100%; min-width:0; }
+  body[data-page="live-projects"] .lp-file-card{
+    width:100%;
+    max-width:220px;
+    aspect-ratio:1/1;
+    margin:0 auto;
+    padding:6px 5px 15%;
+  }
+  body[data-page="live-projects"] .lp-file-card .lp-file-brand{
+    flex-basis:clamp(48px,14vw,62px);
+    width:clamp(48px,14vw,62px);
+    height:clamp(48px,14vw,62px);
+    margin:0 0 7px;
+  }
+  body[data-page="live-projects"] .lp-file-card .lp-file-logo{ padding:5px; }
+  body[data-page="live-projects"] .lp-file-card .lp-file-company{
+    max-width:98%;
+    font-size:clamp(14px,4vw,18px);
+    line-height:1.05;
+    overflow-wrap:anywhere;
+  }
+  body[data-page="live-projects"] .lp-file-meta{ right:4px; bottom:3px; }
+  body[data-page="live-projects"] .lp-file-status{
+    width:62px;
+    grid-template-columns:6px 52px;
+    gap:4px;
+    font-size:7px;
+    line-height:1.05;
+  }
+  body[data-page="live-projects"] .lp-file-status .pulse-dot{
+    width:6px;
+    height:6px;
+    flex-basis:6px;
+    transform:translateX(6px);
+  }
+}

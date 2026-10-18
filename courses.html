@@ -19,7 +19,7 @@
 
   <aside class="sidebar" aria-label="Primary">
     <div class="sidebar-brand">
-      <img data-ic-logo src="assets/logo.png" alt="Internship Committee, IIM Rohtak logo">
+      <a class="sidebar-home-link" href="index.html" aria-label="Go to home page"><img data-ic-logo src="assets/logo.png" alt="Internship Committee, IIM Rohtak logo"></a>
       <div class="brand-text">
         <strong>Internship Committee</strong>
         <span>IIM Rohtak</span>
@@ -43,7 +43,7 @@
 
   <div class="mobile-topbar">
     <div class="mobile-brand">
-      <img data-ic-logo src="assets/logo.png" alt="">
+      <a class="mobile-home-link" href="index.html" aria-label="Go to home page"><img data-ic-logo src="assets/logo.png" alt=""></a>
       <span class="brand-text"><strong>Internship Committee</strong><span>IIM Rohtak</span></span>
     </div>
     <span class="mobile-current-page" aria-current="page"></span>
@@ -52,10 +52,10 @@
   </div>
 
   <main class="main" id="main-content">
+    <header class="course-page-heading">
+      <h1>Course Repository</h1>
+    </header>
     <section class="course-exploration" id="course-exploration" aria-label="Course domains" hidden>
-      <header class="course-background-wordmark">
-        <h1 id="course-page-title"><span>Course</span><span>Repository</span></h1>
-      </header>
       <div class="course-domain-gallery" id="course-paths" aria-label="Course domains"></div>
     </section>
 
@@ -65,7 +65,7 @@
     </footer>
   </main>
 
-  <section class="course-domain-view" id="course-domain-view" aria-label="Course domain" role="dialog" aria-modal="false" aria-labelledby="course-domain-title" hidden></section>
+  <section class="course-domain-view" id="course-domain-view" aria-label="Course domain" role="dialog" aria-modal="true" aria-labelledby="course-domain-title" hidden></section>
 </div>
 
 <script src="js/config.js"></script>
