@@ -44,6 +44,8 @@ const printCss = `
   body[data-page="home"] .home-values { margin-top: 3mm !important; }
   body[data-page="home"] .home-index-row { min-height: 18mm !important; }
   body[data-page="home"] footer.site-footer { margin-top: 8mm !important; padding-top: 4mm !important; }
+  body[data-page="home"] [data-scroll-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; visibility: visible !important; }
+  body[data-page="home"] .home-index-heading h2 { color: #142B48 !important; opacity: 1 !important; -webkit-text-fill-color: #142B48 !important; }
   body[data-page="courses"] .course-domain-card { transition: none !important; }
   body[data-page="courses"].pdf-domain-export #main-content { display: none !important; }
   body[data-page="courses"] #course-domain-view[hidden] { display: block !important; }
@@ -87,6 +89,10 @@ const waitFor = async expression => page.waitForFunction(expression, null, { tim
 await printRoute("index.html", "Home", "01-home.pdf", async () => {
   await page.waitForFunction(() => document.readyState === "complete", null, { timeout: 30000 });
 });
+if (process.argv.includes("--home-only")) {
+  await browser.close();
+  process.exit(0);
+}
 
 await page.goto(`${baseUrl}/courses.html`, { waitUntil: "load" });
 let domainCards = 0;

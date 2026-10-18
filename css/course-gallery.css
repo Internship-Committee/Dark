@@ -20,12 +20,12 @@ body[data-page="courses"] .course-background-wordmark h1{
   flex-direction:column;
   align-items:center;
   margin:0;
-  color:#F5F1E8!important;
+  color:#142B48!important;
   font:900 clamp(2rem,8vw,8rem)/.78 Impact,Haettenschweiler,"Arial Narrow",sans-serif;
   font-family:Impact,Haettenschweiler,"Arial Narrow",sans-serif!important;
   letter-spacing:.1em;
-  opacity:.38;
-  mix-blend-mode:soft-light;
+  opacity:.2;
+  mix-blend-mode:multiply;
   text-align:center;
   text-transform:uppercase;
   text-shadow:0 1px 12px rgba(20,43,72,.12);
