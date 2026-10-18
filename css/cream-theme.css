@@ -120,6 +120,8 @@ p{ color:var(--text-secondary); }
   color:var(--text-primary)!important;
   border-color:var(--surface-border)!important;
 }
+.selected-interns-card{ border:1.5px solid var(--accent)!important; }
+.selected-interns-card h2{ text-align:center; }
 .sidebar,.mobile-topbar,.hero,.main,.home-stage{ background-color:var(--bg)!important; }
 .sidebar{ border-bottom:1px solid var(--surface-border)!important; }
 .sidebar-brand .brand-text strong,.mobile-topbar .brand-text strong,
