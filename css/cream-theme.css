@@ -114,7 +114,7 @@ body[data-page="competitions"] .filter-field input[type="date"]::-webkit-calenda
 p{ color:var(--text-secondary); }
 .sidebar,.mobile-topbar,.hero,.nav-submenu,.menu-btn,.main,.home-stage,
 .calendar-panel,.deadline-agenda,.competition-day-dialog,.list-card,.course-card,
-.lp-card,.showcase-card,.state-msg,.home-card,.subtile,.filter-field input,
+.lp-card,.showcase-card,.selected-interns-card,.state-msg,.home-card,.subtile,.filter-field input,
 .filter-field select,.ic-gate-card,.ic-gate-status{
   background-color:var(--surface)!important;
   color:var(--text-primary)!important;
