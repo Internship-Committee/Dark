@@ -122,14 +122,14 @@
 }
 .stage-road-track{
   position: absolute;
-  top: 20px; left: 12.5%; right: 12.5%;
+  top: 20px; left: 2%; right: 2%;
   height: 4px;
   border-radius: 4px;
   background: var(--surface-border);
 }
 .stage-road-fill{
   position: absolute;
-  top: 20px; left: 12.5%;
+  top: 20px; left: 2%;
   height: 4px;
   border-radius: 4px;
   transition: width .4s var(--ease);
@@ -137,19 +137,18 @@
 .stage-road-fill.stage-1{ background: var(--stage-1); }
 .stage-road-fill.stage-2{ background: linear-gradient(90deg, var(--stage-1), var(--stage-2)); }
 .stage-road-fill.stage-3{ background: linear-gradient(90deg, var(--stage-1), var(--stage-2), var(--stage-3)); }
-.stage-road-fill.stage-4{ background: linear-gradient(90deg, var(--stage-1), var(--stage-2), var(--stage-3), var(--stage-4)); }
 
 .stage-pins{
   position: relative;
   display: flex;
   justify-content: space-between;
-  padding: 0;
+  padding: 0 2%;
 }
 .stage-pin{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25%;
+  width: 33%;
   text-align: center;
 }
 .stage-pin-icon{
@@ -190,9 +189,6 @@
 .stage-pins .stage-pin--current:nth-child(1) .stage-pin-icon{ background: var(--stage-1); box-shadow: 0 0 0 5px rgba(var(--stage-1-rgb),0.18); }
 .stage-pins .stage-pin--current:nth-child(2) .stage-pin-icon{ background: var(--stage-2); box-shadow: 0 0 0 5px rgba(var(--stage-2-rgb),0.18); }
 .stage-pins .stage-pin--current:nth-child(3) .stage-pin-icon{ background: var(--stage-3); box-shadow: 0 0 0 5px rgba(var(--stage-3-rgb),0.18); }
-.stage-pins .stage-pin--current:nth-child(4) .stage-pin-icon{ background: var(--stage-4); box-shadow: 0 0 0 5px rgba(var(--stage-4-rgb),0.18); }
-.lp-header .live-flag.stage-4{ color:var(--stage-4); }
-.lp-header .live-flag.stage-4 .pulse-dot{ background:var(--stage-4); }
 
 .stage-pin--upcoming .stage-pin-icon{ opacity: .55; }
 
@@ -209,8 +205,6 @@
   --stage-2-rgb:49,89,131;
   --stage-3:#456B96;
   --stage-3-rgb:69,107,150;
-  --stage-4:#5D7896;
-  --stage-4-rgb:93,120,150;
 }
 .lp-header{
   border:1px solid var(--surface-border);
@@ -240,7 +234,7 @@
 .info-row{ border-bottom-color:var(--surface-border); }
 .info-row svg{ color:var(--accent); }
 .stage-road-track{ background:var(--surface-border); }
-.stage-road-fill.stage-2,.stage-road-fill.stage-3,.stage-road-fill.stage-4{ background:var(--accent); }
+.stage-road-fill.stage-2,.stage-road-fill.stage-3{ background:var(--accent); }
 .stage-pin-icon{ border-color:var(--surface-border); background:#F5F1E8; color:var(--text-muted); }
 .stage-pin--done .stage-pin-icon,.stage-pin--current .stage-pin-icon{ color:#fff; }
 .stage-pin--upcoming .stage-pin-icon{ opacity:.85; }
