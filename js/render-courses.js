@@ -34,6 +34,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
   const defaultArtwork = artwork["All Courses"];
   const defaultExpandedArtwork = "assets/domain-default-expanded.jpg";
+  const descriptions = {
+    "All Courses": "Browse every course in one place, across all learning domains.",
+    "Finance": "Build confidence with courses in financial analysis, markets, and valuation.",
+    "Marketing": "Explore the ideas and tools behind strong brands, campaigns, and customer insight.",
+    "Consulting": "Strengthen structured problem solving, communication, and case interview skills.",
+    "Entrepreneurship": "Learn how to shape, test, and grow ideas into sustainable ventures.",
+    "Leadership": "Develop the people, decision making, and organizational skills to lead well.",
+    "Data Analytics": "Turn data into clear analysis and practical decisions with focused technical courses.",
+    "Business Analytics": "Use analytical tools to understand business performance and solve real problems.",
+    "Operations Management": "Improve the systems, processes, and quality that keep organizations moving."
+  };
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let courses = [];
   let domains = [];
@@ -85,6 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
       const image = artwork[domain] || defaultArtwork;
       const expandedImage = expandedArtwork[domain] || defaultExpandedArtwork;
+      const description = descriptions[domain] || `Browse courses selected for ${domain.toLocaleLowerCase()}.`;
       return `
         <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-expanded-image="${expandedImage}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
           <img class="course-domain-card__image course-domain-card__image--collapsed" src="${image}" alt="" loading="lazy">
@@ -92,8 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content" aria-hidden="true">
             <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
-            <span class="course-domain-card__count">${count} ${count === 1 ? "course" : "courses"}</span>
             <span class="course-domain-card__title">${escapeHtml(domain)}</span>
+            <span class="course-domain-card__summary">${escapeHtml(description)}</span>
             <span class="course-domain-card__action">Explore <span aria-hidden="true">↗</span></span>
           </span>
         </button>
@@ -118,13 +130,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return list.map((course, index) => {
       const rating = course.rating ? course.rating.toFixed(1) : "Not rated";
       const duration = formatCourseDuration(course.duration) || "Not listed";
-      const href = String(course.link || "").trim();
-      const wrapper = href ? "a" : "article";
-      const linkAttributes = href
-        ? `href="${escapeHtml(href)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab"`
-        : "";
       return `
-        <${wrapper} class="glass-card course-card" role="listitem" ${linkAttributes}>
+        <article class="glass-card course-card" role="listitem">
           <span class="course-number">${String(index + 1).padStart(2, "0")}</span>
           <div class="course-name-cell">
             <span class="domain-tag">${escapeHtml(course.domain || "Uncategorized")}</span>
@@ -132,8 +139,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
           <div class="course-rating" data-label="Rating">${course.rating ? `<span class="rating">★ ${escapeHtml(rating)}</span>` : "—"}</div>
           <div class="course-duration" data-label="Duration">${course.duration ? escapeHtml(duration) : "—"}</div>
-          ${href ? `<span class="card-link icon-link" aria-hidden="true" title="Open course">${ICIcons.externalLink}</span>` : ""}
-        </${wrapper}>
+          <a class="card-link icon-link" href="${escapeHtml(course.link)}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(course.name)} course in a new tab" title="Open course">${ICIcons.externalLink}</a>
+        </article>
       `;
     }).join("");
   }
@@ -154,6 +161,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const collection = actualDomain === "All Courses"
         ? courses
         : courses.filter(course => (course.domain || "Uncategorized") === actualDomain);
+      const description = descriptions[actualDomain] || `Browse courses selected for ${actualDomain.toLocaleLowerCase()}.`;
       domainView.innerHTML = `
         <div class="course-domain-view__cover">
           <img class="course-domain-view__image" src="${imageSrc}" alt="" style="view-transition-name:course-domain-cover">
@@ -163,6 +171,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="course-domain-view__title-block">
               <span class="course-domain-view__eyebrow">${collection.length} ${collection.length === 1 ? "course" : "courses"}</span>
               <h1 id="course-domain-title">${escapeHtml(actualDomain)}</h1>
+              <p>${escapeHtml(description)}</p>
             </div>
           </div>
         </div>
@@ -184,6 +193,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       coverImage?.addEventListener("error", () => { coverImage.hidden = true; }, { once: true });
       domainView.hidden = false;
       main.inert = true;
+      if (sidebar) sidebar.inert = true;
+      if (mobileTopbar) mobileTopbar.inert = true;
       document.body.classList.add("course-domain-open");
       if (exploration) exploration.hidden = true;
       if (options.animate !== false && !document.startViewTransition && !prefersReducedMotion.matches){
@@ -230,6 +241,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       domainView.innerHTML = "";
       currentDomain = null;
       main.inert = false;
+      if (sidebar) sidebar.inert = false;
+      if (mobileTopbar) mobileTopbar.inert = false;
       document.body.classList.remove("course-domain-open");
       if (exploration) exploration.hidden = false;
     };
@@ -293,19 +306,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     if (event.key !== "Tab") return;
-    const focusSelector = 'button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])';
-    const headerFocusables = [];
-    const mobileHeaderVisible = mobileTopbar && window.getComputedStyle(mobileTopbar).display !== "none";
-    if (mobileHeaderVisible){
-      headerFocusables.push(...mobileTopbar.querySelectorAll(focusSelector));
-      if (sidebar && document.querySelector(".app-shell")?.classList.contains("nav-open")){
-        headerFocusables.push(...sidebar.querySelectorAll(focusSelector));
-      }
-    }else if (sidebar){
-      headerFocusables.push(...sidebar.querySelectorAll(focusSelector));
-    }
-    const focusable = [...new Set([...headerFocusables, ...domainView.querySelectorAll(focusSelector)])]
-      .filter(element => element.getClientRects().length && !element.closest("[inert]"));
+    const focusable = Array.from(domainView.querySelectorAll('button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])'));
     if (!focusable.length) return;
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
