@@ -53,9 +53,7 @@
 
   <main class="main" id="main-content">
     <header class="page-header course-page-header">
-      <p class="eyebrow">Learning resources</p>
       <h1 class="section-heading" id="course-page-title">Course Repository</h1>
-      <p>Explore courses by academic domain and browse details for each offering.</p>
     </header>
 
     <section class="course-exploration" id="course-exploration" aria-labelledby="course-page-title" hidden>
@@ -63,6 +61,7 @@
         <div class="course-background-text"><span>COURSE</span><span>REPOSITORY</span></div>
       </div>
       <div class="course-domain-gallery" id="course-paths" aria-label="Course domains"></div>
+      <nav class="course-domain-filters" id="course-domain-filters" aria-label="Browse courses by domain"></nav>
     </section>
 
     <footer class="site-footer">
@@ -72,6 +71,17 @@
   </main>
 
   <section class="course-domain-view" id="course-domain-view" aria-label="Course domain" role="dialog" aria-modal="true" aria-labelledby="course-domain-title" hidden></section>
+
+  <dialog class="course-gallery-lightbox" id="course-gallery-lightbox" aria-label="Course image gallery">
+    <button class="course-lightbox-close" type="button" data-gallery-close aria-label="Close image gallery">×</button>
+    <button class="course-lightbox-arrow course-lightbox-arrow--previous" type="button" data-gallery-previous aria-label="Previous image">‹</button>
+    <figure class="course-lightbox-figure">
+      <img id="course-lightbox-image" src="" alt="">
+      <figcaption id="course-lightbox-caption"></figcaption>
+    </figure>
+    <button class="course-lightbox-arrow course-lightbox-arrow--next" type="button" data-gallery-next aria-label="Next image">›</button>
+    <p class="course-lightbox-count" id="course-lightbox-count" aria-live="polite"></p>
+  </dialog>
 </div>
 
 <script src="js/config.js"></script>
