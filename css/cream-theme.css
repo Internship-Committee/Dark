@@ -898,25 +898,3 @@ body[data-page="live-projects"] .lp-file-meta{ right:4px; bottom:3px; }
 body[data-page="live-projects"] .lp-file-status{ display:grid; width:62px; grid-template-columns:6px 52px; align-items:start; justify-content:end; gap:4px; white-space:normal; text-align:right; line-height:1.05; }
 body[data-page="live-projects"] .lp-file-status .pulse-dot{ align-self:center; margin-top:0; }
 body[data-page="live-projects"] .lp-status-copy{ display:block; width:52px; text-align:right; }
-
-/* Linked rows use the entire card as the hit area. */
-body[data-page="courses"] a.course-card,
-body[data-page="resources"] a.list-card{ color:inherit; text-decoration:none; cursor:pointer; }
-body[data-page="courses"] a.course-card:hover,
-body[data-page="resources"] a.list-card:hover{ filter:brightness(.97); }
-body[data-page="courses"] a.course-card:focus-visible,
-body[data-page="resources"] a.list-card:focus-visible{ outline:2px solid var(--accent)!important; outline-offset:3px; }
-body[data-page="live-projects"] a.lp-project-item{ position:relative; display:block; width:100%; color:inherit; text-decoration:none; }
-body[data-page="live-projects"] a.lp-project-item:focus-visible{ outline:2px solid var(--accent)!important; outline-offset:4px; }
-
-/* Keep company marks in proportion to the narrower mobile project tiles. */
-@media(max-width:600px){
-  body[data-page="live-projects"] .lp-file-card .lp-file-brand{
-    flex:0 0 clamp(52px,16vw,66px);
-    width:clamp(52px,16vw,66px);
-    height:clamp(52px,16vw,66px);
-    margin:0 0 8px;
-  }
-  body[data-page="live-projects"] .lp-file-card .lp-file-logo{ padding:6px; }
-  body[data-page="live-projects"] .lp-file-card .lp-file-company{ font-size:clamp(19px,6vw,25px); }
-}
