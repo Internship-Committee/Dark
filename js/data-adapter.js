@@ -247,6 +247,7 @@ const ICData = (() => {
       aboutCompany: pick(row, "About the Company", "about"),
       roles: parseRoles(row),
       selectionCriteria: splitLines(pick(row, "Selection Criteria", "selection criteria")),
+      selectedInterns: splitLines(pick(row, "Selected Interns", "Selected Intern Names")),
       location: pick(row, "Location", "location") || "Remote",
       duration: pick(row, "Project Duration", "duration"),
       applyUrl: pick(row, "Apply URL", "apply link", "application link"),

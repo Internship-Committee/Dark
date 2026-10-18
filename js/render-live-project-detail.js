@@ -34,6 +34,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   const deadlineText = project.deadline ? formatDate(project.deadline) : "Rolling";
   const applyButton = applyBtn(project.applyUrl);
   const stage = project.stage; // 1, 2, or 3 (0/"Closed" rows never reach this page)
+  const isOngoing = stage === 3;
+  const selectedInterns = Array.isArray(project.selectedInterns) ? project.selectedInterns : [];
+  const headerAction = isOngoing
+    ? `<section class="glass-card selected-interns-card" aria-labelledby="selected-interns-heading">
+        <h2 id="selected-interns-heading">Selected Interns</h2>
+        ${selectedInterns.length
+          ? `<ul>${selectedInterns.map(name => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`
+          : `<p>Names will be announced soon.</p>`}
+      </section>`
+    : `<div class="lp-header-cta">
+        ${applyButton}
+        <span class="deadline-note">${ICIcons.calendar} Apply by ${escapeHtml(deadlineText)}</span>
+      </div>`;
+  const sidebarApplicationCard = isOngoing ? "" : `
+        <div class="glass-card apply-card">
+          <span class="deadline-label">Application Deadline</span>
+          <div class="deadline-big">${escapeHtml(deadlineText)}</div>
+          ${applyButton}
+        </div>`;
 
   root.innerHTML = `
     <div class="lp-header">
@@ -42,10 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <h1>${escapeHtml(project.company)}</h1>
         ${project.tagline ? `<p class="lp-tagline">${escapeHtml(project.tagline)}</p>` : ""}
       </div>
-      <div class="lp-header-cta">
-        ${applyButton}
-        <span class="deadline-note">${ICIcons.calendar} Apply by ${escapeHtml(deadlineText)}</span>
-      </div>
+      ${headerAction}
     </div>
 
     ${stageBar(stage)}
@@ -58,11 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
 
       <aside class="lp-sidebar">
-        <div class="glass-card apply-card">
-          <span class="deadline-label">Application Deadline</span>
-          <div class="deadline-big">${escapeHtml(deadlineText)}</div>
-          ${applyButton}
-        </div>
+        ${sidebarApplicationCard}
         <div class="glass-card">
           <div class="info-row">${ICIcons.pin}<div><div class="info-label">Location</div><div class="info-value">${escapeHtml(project.location)}</div></div></div>
           ${project.duration ? `<div class="info-row">${ICIcons.clock}<div><div class="info-label">Project Duration</div><div class="info-value">${escapeHtml(project.duration)}</div></div></div>` : ""}
