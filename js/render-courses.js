@@ -74,7 +74,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           <img class="course-domain-card__image course-domain-card__image--thumbnail" src="${image.gallery}" alt="" loading="lazy" decoding="async">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content">
-            <span class="course-domain-card__title">${escapeHtml(domain)}</span>
+            <span class="course-domain-card__title" aria-hidden="true">
+              <span class="course-domain-card__title-vertical">${escapeHtml(domain)}</span>
+              <span class="course-domain-card__title-horizontal">${escapeHtml(domain)}</span>
+            </span>
             <span class="course-domain-card__action" aria-hidden="true">Explore <span>↗</span></span>
           </span>
         </button>

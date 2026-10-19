@@ -327,16 +327,15 @@ a.deadline-item:focus-visible{ outline:2px solid var(--accent); outline-offset:3
 .day-dialog-close svg{ width:16px; height:16px; }
 .day-dialog-events{ max-height:min(580px,calc(100dvh - 180px)); overflow-y:auto; padding:4px 26px 18px; }
 .day-dialog-events .deadline-item{
-  grid-template-columns:48px minmax(0,1fr);
-  align-items:start;
-  column-gap:14px;
+  display:flex;
+  align-items:flex-start;
+  gap:1rem;
 }
-.day-dialog-events .deadline-date-block{ width:46px; align-self:start; }
+.day-dialog-events .deadline-date-block{ width:48px; flex:0 0 48px; align-self:flex-start; }
 .day-dialog-events .deadline-item-copy{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; }
 .day-dialog-events .deadline-item h3{ max-width:100%; overflow-wrap:anywhere; text-wrap:pretty; }
-.day-dialog-events .deadline-item{ align-items:start; }
 .day-dialog-events .deadline-date-block{ width:48px; height:48px; margin:0; }
-.day-dialog-events .deadline-item-copy{ align-self:start; padding-top:1px; }
+.day-dialog-events .deadline-item-copy{ flex:1 1 auto; align-self:flex-start; padding-top:0; }
 .day-dialog-events .deadline-item .deadline-institute,
 .day-dialog-events .deadline-item .deadline-exact{ max-width:100%; margin-inline:0; overflow-wrap:anywhere; }
 .day-dialog-empty{ margin:22px 0 26px; color:var(--text-secondary); font-size:14px; line-height:1.55; }
