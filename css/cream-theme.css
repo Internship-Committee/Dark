@@ -17,7 +17,7 @@
   --text-primary:#142B48;
   --text-secondary:#344A63;
   --text-muted:#657488;
-  --font-display:'Abril Fatface',Georgia,serif;
+  --font-display:'Acthirey','Acthirey Demo','Cormorant Garamond','Baskerville',Georgia,serif;
 }
 body[data-page]{ background:var(--bg)!important; color:var(--text-primary)!important; }
 html{ color-scheme:light; }
@@ -95,7 +95,7 @@ html,html *,html *::before,html *::after{ cursor:url("../assets/site-cursor.svg"
   .sidebar-nav{ display:grid!important; grid-template-columns:repeat(5,minmax(0,1fr)); justify-content:stretch!important; gap:0!important; flex-wrap:nowrap!important; }
   .sidebar-nav .nav-link{ width:100%; padding-inline:4px!important; font-size:clamp(9px,.72vw,13px)!important; letter-spacing:.015em!important; }
 }
-h1,h2,h3,h4,h5,h6,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-heading,
+h1,h2,h3,h4,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-heading,
 .section-heading,.page-header .section-heading,.page-header h1,.calendar-month-label,.agenda-heading h2,
 .day-dialog-header h2{
   color:var(--text-primary)!important;
@@ -103,11 +103,12 @@ h1,h2,h3,h4,h5,h6,.hero-tagline,.gallery-card-body h2,.gallery-heading .section-
   font-weight:500;
   letter-spacing:-.025em;
 }
-h1,h2,h3,h4,h5,h6,.section-heading,.hero-tagline,.gallery-heading .section-heading,
+h1,h2,h3,h4,.section-heading,.hero-tagline,.gallery-heading .section-heading,
 .calendar-month-label,.agenda-heading h2,.day-dialog-header h2,.home-intro-reveal strong,
 .home-index-title{ text-transform:uppercase!important; }
 .page-header{ width:100%; margin-inline:0; text-align:left; }
 .page-header .section-heading,.page-header h1{
+  font-family:'Abril Fatface',Georgia,serif!important;
   max-width:none;
   margin-inline:0;
   font-size:clamp(2.1rem,5.3vw,5rem);

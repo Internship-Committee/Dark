@@ -114,6 +114,7 @@ body[data-page="courses"] .course-domain-card__title{
   inset:0;
   color:#fff;
   font:500 clamp(16px,1.55vw,23px)/1 var(--font-display);
+  font-family:'Abril Fatface',Georgia,serif;
   letter-spacing:.015em;
   text-transform:uppercase;
   text-shadow:0 2px 14px rgba(0,0,0,.3);
@@ -275,6 +276,7 @@ body[data-page="courses"] .course-domain-view__title-block h1{
   margin:0;
   color:#fff!important;
   font:500 clamp(3.5rem,11vw,9.5rem)/.82 var(--font-display);
+  font-family:'Abril Fatface',Georgia,serif!important;
   letter-spacing:-.045em;
   text-wrap:balance;
   text-shadow:0 2px 30px rgba(0,0,0,.14);

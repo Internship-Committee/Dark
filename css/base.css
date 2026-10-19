@@ -41,8 +41,8 @@
   --radius-m:  12px;
   --radius-l:  20px;
 
-  /* Abril Fatface is the shared display face; Space Mono is reserved for labels. */
-  --font-display: 'Abril Fatface', Georgia, serif;
+  /* Anton carries editorial headlines; Space Mono is reserved for labels. */
+  --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
   --font-heavy:   'Manrope', -apple-system, sans-serif;
   --font-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono:    'Space Mono', 'Courier New', monospace;
@@ -70,7 +70,7 @@ body{
   line-height: 1.5;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4{
   font-family: var(--font-display);
   font-weight: 400;
   line-height: 0.98;
