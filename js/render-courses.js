@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!paths || !domainView) return;
 
   const artwork = {
-    "All Courses": { gallery: "assets/domain-all-courses.jpg", expanded: "assets/domain-all-courses-expanded.jpg" },
-    "Finance": { gallery: "assets/domain-finance.jpg", expanded: "assets/domain-finance-expanded.jpg" },
-    "Marketing": { gallery: "assets/domain-marketing.jpg", expanded: "assets/domain-marketing-expanded.jpg" },
-    "Consulting": { gallery: "assets/domain-consulting.jpg", expanded: "assets/domain-consulting-expanded.jpg" },
-    "Entrepreneurship": { gallery: "assets/domain-entrepreneurship.jpg", expanded: "assets/domain-entrepreneurship-expanded.jpg" },
-    "Leadership": { gallery: "assets/domain-leadership.jpg", expanded: "assets/domain-leadership-expanded.jpg" },
-    "Data Analytics": { gallery: "assets/domain-data-analytics.jpg", expanded: "assets/domain-data-analytics-expanded.jpg" },
-    "Business Analytics": { gallery: "assets/domain-business-analytics.jpg", expanded: "assets/domain-business-analytics-expanded.jpg" },
-    "Operations Management": { gallery: "assets/domain-operations-management.jpg", expanded: "assets/domain-operations-management-expanded.jpg" }
+    "All Courses": "assets/domain-all-courses-expanded.jpg",
+    "Finance": "assets/domain-finance-expanded.jpg",
+    "Marketing": "assets/domain-marketing-expanded.jpg",
+    "Consulting": "assets/domain-consulting-expanded.jpg",
+    "Entrepreneurship": "assets/domain-entrepreneurship-expanded.jpg",
+    "Leadership": "assets/domain-leadership-expanded.jpg",
+    "Data Analytics": "assets/domain-data-analytics-expanded.jpg",
+    "Business Analytics": "assets/domain-business-analytics-expanded.jpg",
+    "Operations Management": "assets/domain-operations-management-expanded.jpg"
   };
   const defaultArtwork = artwork["All Courses"];
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     paths.innerHTML = domains.map(domain => {
       const image = artwork[domain] || defaultArtwork;
       return `
-        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-expanded-artwork="${image.expanded}" aria-label="Explore ${escapeHtml(domain)}">
-          <img class="course-domain-card__image course-domain-card__image--thumbnail" src="${image.gallery}" alt="" loading="lazy" decoding="async">
+        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-expanded-artwork="${image}" aria-label="Explore ${escapeHtml(domain)}">
+          <img class="course-domain-card__image" src="${image}" alt="" loading="lazy" decoding="async">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
           <span class="course-domain-card__content">
             <span class="course-domain-card__title" aria-hidden="true">
@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const actualDomain = domains.find(item => item.toLocaleLowerCase() === String(domain || "").toLocaleLowerCase());
     if (!actualDomain) return;
 
-    const image = card?.querySelector(".course-domain-card__image--thumbnail") || null;
-    const imageSrc = card?.dataset.expandedArtwork || artwork[actualDomain]?.expanded || defaultArtwork.expanded || image?.currentSrc || image?.src;
+    const image = card?.querySelector(".course-domain-card__image") || null;
+    const imageSrc = card?.dataset.expandedArtwork || artwork[actualDomain] || defaultArtwork || image?.currentSrc || image?.src;
     originatingCard = card || findDomainCard(actualDomain);
     originatingImage = image;
     if (originatingImage) originatingImage.style.viewTransitionName = "course-domain-cover";
