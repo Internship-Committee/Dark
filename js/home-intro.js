@@ -12,5 +12,5 @@
 
   intro.querySelector(".home-intro-skip")?.addEventListener("click", finish);
   document.addEventListener("keydown", onKeydown);
-  window.setTimeout(finish, 7100);
+  window.setTimeout(finish, 5800);
 })();
