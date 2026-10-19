@@ -47,8 +47,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const courseDomains = Array.from(new Set(courses.map(course => course.domain || "Uncategorized")))
-    .filter(domain => domain.toLocaleLowerCase() !== "all courses");
+  const courseDomains = Array.from(new Set(courses.map(courseDomain)))
+    .filter(domain => domain.toLocaleLowerCase() !== "all courses")
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
   domains = ["All Courses", ...courseDomains];
   renderDomainTiles();
 
@@ -66,48 +67,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderDomainTiles(){
     paths.removeAttribute("aria-busy");
-    paths.dataset.count = String(domains.length);
-    paths.innerHTML = domains.map((domain, index) => {
-      const count = domain === "All Courses"
-        ? courses.length
-        : courses.filter(course => (course.domain || "Uncategorized") === domain).length;
+    paths.innerHTML = domains.map(domain => {
       const image = artwork[domain] || defaultArtwork;
       return `
-        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-index="${index + 1}" data-artwork="${image.gallery}" data-expanded-artwork="${image.expanded}" aria-label="Explore ${escapeHtml(domain)}, ${count} ${count === 1 ? "course" : "courses"}">
-          <img class="course-domain-card__image course-domain-card__image--thumbnail" src="${image.gallery}" alt="" loading="lazy">
-          <img class="course-domain-card__image course-domain-card__image--expanded" data-source="${image.expanded}" alt="" aria-hidden="true">
+        <button class="course-domain-card" type="button" data-domain="${escapeHtml(domain)}" data-expanded-artwork="${image.expanded}" aria-label="Explore ${escapeHtml(domain)}">
+          <img class="course-domain-card__image course-domain-card__image--thumbnail" src="${image.gallery}" alt="" loading="lazy" decoding="async">
           <span class="course-domain-card__shade" aria-hidden="true"></span>
-          <span class="course-domain-card__content" aria-hidden="true">
-            <span class="course-domain-card__index">${String(index + 1).padStart(2, "0")}</span>
-            <span class="course-domain-card__count">${count} ${count === 1 ? "course" : "courses"}</span>
+          <span class="course-domain-card__content">
             <span class="course-domain-card__title">${escapeHtml(domain)}</span>
-            <span class="course-domain-card__action">Explore <span aria-hidden="true">↗</span></span>
+            <span class="course-domain-card__action" aria-hidden="true">Explore <span>↗</span></span>
           </span>
         </button>
       `;
     }).join("");
 
     paths.querySelectorAll(".course-domain-card").forEach(card => {
-      const expandedImage = card.querySelector(".course-domain-card__image--expanded");
-      const revealExpandedImage = () => {
-        if (!expandedImage) return;
-        if (expandedImage.dataset.ready === "true"){
-          card.classList.add("is-expanded");
-          return;
-        }
-        if (expandedImage.dataset.loading === "true") return;
-        expandedImage.dataset.loading = "true";
-        expandedImage.addEventListener("load", () => {
-          expandedImage.dataset.ready = "true";
-          if (card.matches(":hover, :focus-visible")) card.classList.add("is-expanded");
-        }, { once: true });
-        expandedImage.addEventListener("error", () => { expandedImage.hidden = true; }, { once: true });
-        expandedImage.src = expandedImage.dataset.source;
-      };
-      card.addEventListener("mouseenter", revealExpandedImage);
-      card.addEventListener("focus", revealExpandedImage);
-      card.addEventListener("mouseleave", () => card.classList.remove("is-expanded"));
-      card.addEventListener("blur", () => card.classList.remove("is-expanded"));
       card.addEventListener("click", () => openDomain(card.dataset.domain, card));
     });
     paths.querySelectorAll(".course-domain-card__image").forEach(image => {
@@ -128,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <${wrapper} class="glass-card course-card" role="listitem" ${linkAttributes}>
           <span class="course-number">${String(index + 1).padStart(2, "0")}</span>
           <div class="course-name-cell">
-            <span class="domain-tag">${escapeHtml(course.domain || "Uncategorized")}</span>
+            <span class="domain-tag">${escapeHtml(courseDomain(course))}</span>
             <h3>${escapeHtml(course.name)}</h3>
           </div>
           <div class="course-rating" data-label="Rating">${course.rating ? `<span class="rating">★ ${escapeHtml(rating)}</span>` : "—"}</div>
@@ -144,10 +118,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!actualDomain) return;
 
     const image = card?.querySelector(".course-domain-card__image--thumbnail") || null;
-    const expandedImage = card?.querySelector(".course-domain-card__image--expanded") || null;
     const imageSrc = card?.dataset.expandedArtwork || artwork[actualDomain]?.expanded || defaultArtwork.expanded || image?.currentSrc || image?.src;
     originatingCard = card || findDomainCard(actualDomain);
-    originatingImage = expandedImage?.dataset.ready === "true" ? expandedImage : null;
+    originatingImage = image;
     if (originatingImage) originatingImage.style.viewTransitionName = "course-domain-cover";
 
     const update = () => {
@@ -155,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       domainView.classList.remove("is-entering", "is-leaving");
       const collection = actualDomain === "All Courses"
         ? courses
-        : courses.filter(course => (course.domain || "Uncategorized") === actualDomain);
+        : courses.filter(course => courseDomain(course) === actualDomain);
       domainView.innerHTML = `
         <div class="course-domain-view__cover">
           <img class="course-domain-view__image" src="${imageSrc}" alt="" style="view-transition-name:course-domain-cover">
@@ -163,19 +136,17 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="course-domain-view__cover-content">
             <button class="course-domain-view__back" type="button" data-close-domain><span aria-hidden="true">←</span> All domains</button>
             <div class="course-domain-view__title-block">
-              <span class="course-domain-view__eyebrow">${collection.length} ${collection.length === 1 ? "course" : "courses"}</span>
               <h1 id="course-domain-title">${escapeHtml(actualDomain)}</h1>
             </div>
           </div>
         </div>
         <div class="course-domain-view__content">
-          <p class="course-domain-view__collection-meta">${String(collection.length).padStart(2, "0")} ${collection.length === 1 ? "course" : "courses"}</p>
           ${collection.length ? `
             <div class="course-list-heading editorial-list-heading">
               <span>No.</span><span>Course</span><span>Rating</span><span>Duration</span><span>Open</span>
             </div>
           ` : ""}
-          <div class="course-domain-list" id="course-domain-courses" role="list" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}" data-count="${collection.length}">${collection.length ? courseRows(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
+          <div class="course-domain-list" id="course-domain-courses" role="list" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}">${collection.length ? courseRows(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
           <footer class="site-footer">
             <span>&copy; Internship Committee, IIM Rohtak</span>
             <span class="footer-built"><img class="footer-logo" src="assets/logo-footer.png" alt="Internship Committee logo"></span>
@@ -320,6 +291,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 });
+
+function courseDomain(course){
+  return String(course?.domain || "").trim() || "Uncategorized";
+}
 
 function formatCourseDuration(duration){
   const value = String(duration || "").trim();
