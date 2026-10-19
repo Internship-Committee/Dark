@@ -995,3 +995,74 @@ body[data-page="live-projects"] .lp-file-card{ max-width:none; }
     transform:translateX(6px);
   }
 }
+
+/* Keep the phone drawer inside the visual viewport and let every label use its full line. */
+@media (max-width:1100px){
+  .sidebar{
+    box-sizing:border-box;
+    width:min(340px,calc(100vw - 28px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));
+    max-width:100vw;
+    height:100vh;
+    height:100dvh;
+    max-height:100dvh;
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    overflow-x:hidden;
+  }
+  .sidebar-brand{
+    box-sizing:border-box;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    gap:clamp(10px,3vw,16px);
+    padding-left:calc(clamp(16px,5vw,22px) + env(safe-area-inset-left,0px));
+    padding-right:calc(clamp(16px,5vw,22px) + env(safe-area-inset-right,0px));
+    white-space:normal;
+  }
+  .sidebar-brand .brand-text{
+    flex:1 1 auto;
+    min-width:0;
+    max-width:100%;
+    overflow:hidden;
+    white-space:normal;
+  }
+  .sidebar-brand .brand-text strong{
+    max-width:100%;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    font-size:clamp(14px,4vw,18px);
+    line-height:1.15;
+  }
+  .sidebar-brand .brand-text span{ white-space:normal; }
+  .sidebar-nav{
+    box-sizing:border-box;
+    width:100%;
+    min-width:0;
+    padding-left:calc(clamp(12px,4vw,18px) + env(safe-area-inset-left,0px));
+    padding-right:calc(clamp(12px,4vw,18px) + env(safe-area-inset-right,0px));
+    overflow-x:hidden;
+    overscroll-behavior:contain;
+  }
+  .sidebar-nav .nav-link,
+  .sidebar-nav .nav-link:nth-child(n){
+    box-sizing:border-box;
+    width:100%;
+    max-width:none!important;
+    min-width:0;
+    gap:14px;
+    white-space:normal;
+  }
+  .sidebar-nav .nav-link .nav-icon{ flex:0 0 24px; width:24px; height:24px; }
+  .sidebar-nav .nav-link .nav-label{
+    flex:1 1 auto;
+    min-width:0;
+    overflow:visible;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    text-overflow:clip;
+    line-height:1.35;
+  }
+  .mobile-topbar{
+    padding-left:calc(12px + env(safe-area-inset-left,0px));
+    padding-right:calc(12px + env(safe-area-inset-right,0px));
+  }
+}
