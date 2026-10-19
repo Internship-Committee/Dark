@@ -142,7 +142,8 @@ body[data-page="home"] .main{
   position:relative;
   isolation:isolate;
   display:flex;
-  min-height:clamp(390px,38vw,520px);
+  min-height:calc(100vh - var(--header-h,36px));
+  min-height:calc(100svh - var(--header-h,36px));
   flex-direction:column;
   align-items:center;
   justify-content:center;
@@ -160,7 +161,7 @@ body[data-page="home"] .main{
   left:50%;
   width:100vw;
   transform:translateX(-50%);
-  background:url("../assets/campus-outline.png") center/100% 100% no-repeat;
+  background:url("../assets/campus-outline.png") center/cover no-repeat;
   mix-blend-mode:multiply;
   opacity:.14;
   pointer-events:none;
@@ -399,8 +400,13 @@ html.home-scroll-ready [data-scroll-reveal].is-visible{ opacity:1; transform:tra
 
 @media(max-width:760px){
   .home-index{ padding:0 18px; }
-  .home-index-heading{ min-height:clamp(360px,100vw,430px); margin-bottom:42px; padding:28px 0; }
-  .home-index-heading::before{ background-position:center; background-size:100% 100%; opacity:.14; }
+  .home-index-heading{
+    min-height:calc(100vh - var(--header-h,72px));
+    min-height:calc(100svh - var(--header-h,72px));
+    margin-bottom:42px;
+    padding:28px 0;
+  }
+  .home-index-heading::before{ background-position:center; background-size:cover; opacity:.14; }
   .home-kicker{ max-width:30ch; margin-bottom:14px; font-size:clamp(13px,3.8vw,16px); }
   .home-index-heading .home-page-title{ max-width:10ch; font-size:clamp(2.7rem,13vw,4rem); line-height:.93; }
   .home-values{ max-width:22ch; margin-top:14px; font-size:clamp(1.05rem,5vw,1.3rem); }
