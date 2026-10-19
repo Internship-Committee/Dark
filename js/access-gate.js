@@ -10,7 +10,7 @@
 
 const IC_GATE_FIREBASE_CONFIG = {
   apiKey: "AIzaSyCweC67c-_iEnB6Fjf21jdxrG-ReV2TFTU",
-  authDomain: ""live-projects-login.firebaseapp.com",
+  authDomain: "live-projects-login.firebaseapp.com",
   projectId: "live-projects-login",
 };
 
