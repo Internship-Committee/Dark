@@ -47,7 +47,8 @@ const IC_CONFIG = {
     caseStudies:  "Case Studies",
     resources:    "IIMR Resources",
     competitions: "Case Competitions",
-    liveProjects: "Live Projects"
+    liveProjects: "Live Projects",
+    caseFeature:  "Case'd It"
   },
 
   // While true, the data-adapter reads bundled local JSON files in /data
@@ -58,7 +59,8 @@ const IC_CONFIG = {
     caseStudies: false,
     resources: false,
     competitions: false,
-    liveProjects: false
+    liveProjects: false,
+    caseFeature: false
   },
 
   // Local fallback / demo data (bundled with the site, edited by hand
@@ -68,7 +70,8 @@ const IC_CONFIG = {
     caseStudies:    "data/case-studies.json",
     resources:      "data/resources.json",
     competitions:   "data/competitions.json",
-    liveProjects:   "data/live-projects.json"
+    liveProjects:   "data/live-projects.json",
+    caseFeature:    "data/case-feature.json"
   },
 
   // Optional escape hatch: if you ever want a data source to come from
@@ -81,6 +84,7 @@ const IC_CONFIG = {
     caseStudies:    "",
     resources:      "",
     competitions:   "",
-    liveProjects:   ""
+    liveProjects:   "",
+    caseFeature:    ""
   }
 };

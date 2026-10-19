@@ -1,0 +1,140 @@
+/* Case'd It weekly feature beside a deliberately left-aligned page title. */
+body[data-page="competitions"] .page-header-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(300px,.62fr);
+  align-items:start;
+  gap:clamp(28px,5vw,72px);
+  margin-bottom:clamp(42px,7vw,88px);
+}
+body[data-page="competitions"] .page-header-row .competition-page-title{
+  grid-column:1;
+  grid-row:1;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding-top:clamp(12px,3vw,44px);
+  text-align:left;
+}
+body[data-page="competitions"] .case-competition-title{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  max-width:none;
+  margin:0;
+  font:500 clamp(3.8rem,8vw,9rem)/.76 var(--font-display)!important;
+  letter-spacing:-.055em;
+  text-align:left;
+  text-wrap:initial;
+}
+body[data-page="competitions"] .case-competition-title span{ display:block; }
+body[data-page="competitions"] .cased-it-rail{
+  grid-column:2;
+  grid-row:1;
+  justify-self:end;
+  width:min(100%,430px);
+  min-width:0;
+}
+body[data-page="competitions"] .cased-it-post{
+  position:relative;
+  display:block;
+  overflow:hidden;
+  border:1px solid rgba(20,43,72,.2);
+  border-radius:2px;
+  background:#fffdf8;
+  color:#142b48;
+  text-decoration:none;
+  box-shadow:0 16px 42px rgba(20,43,72,.11);
+  transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;
+}
+body[data-page="competitions"] .cased-it-post[aria-disabled="true"]{ cursor:default; }
+body[data-page="competitions"] .cased-it-post[href]:hover,
+body[data-page="competitions"] .cased-it-post[href]:focus-visible{
+  transform:translateY(-4px);
+  border-color:rgba(20,43,72,.48);
+  box-shadow:0 22px 52px rgba(20,43,72,.17);
+}
+body[data-page="competitions"] .cased-it-post:focus-visible{ outline:3px solid var(--accent); outline-offset:4px; }
+body[data-page="competitions"] .cased-it-account{
+  display:flex;
+  min-height:68px;
+  align-items:center;
+  gap:11px;
+  padding:12px 14px;
+}
+body[data-page="competitions"] .cased-it-account > img{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  border:1px solid rgba(20,43,72,.14);
+  border-radius:50%;
+  object-fit:cover;
+}
+body[data-page="competitions"] .cased-it-account > span:nth-child(2){
+  display:flex;
+  min-width:0;
+  flex:1;
+  flex-direction:column;
+  gap:3px;
+}
+body[data-page="competitions"] .cased-it-account strong{ color:#142b48; font:700 12px/1.2 var(--font-body); }
+body[data-page="competitions"] .cased-it-account small{ color:#657488; font:500 10px/1.2 var(--font-body); }
+body[data-page="competitions"] .cased-it-post-mark{ color:#183b66; font:400 20px/1 var(--font-body); }
+body[data-page="competitions"] .cased-it-poster{
+  display:block;
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  object-position:top center;
+  background:#1b304b;
+}
+body[data-page="competitions"] .cased-it-post-footer{
+  display:flex;
+  min-height:42px;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 14px;
+  border-top:1px solid rgba(20,43,72,.14);
+  color:#183b66;
+  font:700 8px/1.2 var(--font-mono);
+  letter-spacing:.08em;
+}
+body[data-page="competitions"] .cased-it-submit{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-top:15px;
+  padding:15px 2px 0;
+  border-top:1px solid var(--surface-border);
+  color:var(--text-primary);
+  font:500 13px/1.5 var(--font-body);
+  text-decoration:none;
+}
+body[data-page="competitions"] .cased-it-submit-link{
+  display:inline-flex;
+  width:max-content;
+  align-items:center;
+  gap:7px;
+  border-bottom:1px solid rgba(24,59,102,.46);
+  color:var(--accent);
+  font-weight:700;
+  transition:gap .2s ease,border-color .2s ease;
+}
+body[data-page="competitions"] .cased-it-submit:hover .cased-it-submit-link,
+body[data-page="competitions"] .cased-it-submit:focus-visible .cased-it-submit-link{ gap:11px; border-color:var(--accent); }
+body[data-page="competitions"] .cased-it-submit:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+
+@media(max-width:900px){
+  body[data-page="competitions"] .page-header-row{ grid-template-columns:minmax(0,1fr) minmax(270px,.72fr); gap:24px; }
+  body[data-page="competitions"] .case-competition-title{ font-size:clamp(3.8rem,8vw,6.4rem); }
+}
+@media(max-width:760px){
+  body[data-page="competitions"] .page-header-row{ grid-template-columns:minmax(0,1fr); gap:24px; }
+  body[data-page="competitions"] .page-header-row .competition-page-title{ grid-column:1; grid-row:1; padding-top:0; }
+  body[data-page="competitions"] .case-competition-title{ font-size:clamp(3rem,12vw,6rem); }
+  body[data-page="competitions"] .cased-it-rail{ grid-column:1; grid-row:2; justify-self:start; width:min(100%,440px); }
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-page="competitions"] .cased-it-post,
+  body[data-page="competitions"] .cased-it-submit-link{ transition:none; }
+}

@@ -140,6 +140,14 @@ existing Case Competitions tab; no new tab is needed. Selecting any calendar
 date opens a day view with all competition deadlines on that date, subject to
 the active institute and date-range filters.
 
+**Case'd It**
+```
+Post Link
+```
+Put the current LinkedIn feature URL in the first data row. The weekly image
+is the local file `assets/cased-it-feature.png`; replace that image when the
+featured post changes.
+
 **Scraper-fed deadlines (optional):** if a tab's `Deadline` column instead
 gets a relative, human string from an automated scraper — like
 `24 days left`, `1 Month Left`, or `2 Hours Left` — add a `Scraped At`
@@ -195,10 +203,11 @@ per tab.
 1. **Share the sheet.** Open the sheet → **Share** (top right) → under
    "General access" choose **Anyone with the link**, role **Viewer**.
    This is required — without it, the site can't read the tabs at all.
-2. **Rename the five tabs** at the bottom of the sheet to exactly:
+2. **Rename the tabs** at the bottom of the sheet to exactly:
    `Courses`, `Case Studies`, `IIMR Resources`,
-   `Case Competitions`, `Live Projects` (matching `IC_CONFIG.sheetTabs` in
-   `js/config.js` — spelling and spacing must match exactly).
+   `Case Competitions`, `Live Projects`, and `Case'd It` (matching
+   `IC_CONFIG.sheetTabs` in `js/config.js` — spelling and spacing must match
+   exactly).
 3. **Set up the column headers** in each tab per "Spreadsheet schemas"
    above.
 4. In `js/config.js`, flip that tab's flag to `false`, e.g.:
