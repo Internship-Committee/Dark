@@ -9,9 +9,9 @@
    ============================================================ */
 
 const IC_GATE_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBYD2pUNKCT8bo6zwJkmAmXD03cTPg1fG4",
-  authDomain: "test-adi-43d9b.firebaseapp.com",
-  projectId: "test-adi-43d9b",
+  apiKey: "AIzaSyCweC67c-_iEnB6Fjf21jdxrG-ReV2TFTU",
+  authDomain: "live-projects-login.firebaseapp.com",
+  projectId: "live-projects-login",
 };
 
 const IC_GATE_ALLOWED_DOMAIN = "iimrohtak.ac.in";
