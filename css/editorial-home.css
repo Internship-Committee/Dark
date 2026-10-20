@@ -67,7 +67,7 @@ body[data-page="home"] .main{
   clip-path:none;
   opacity:0;
   animation:
-    home-identity-reveal .8s 3.35s ease-out forwards,
+    home-identity-reveal .8s 2.8s ease-out forwards,
     home-identity-exit .6s 5.35s ease-in forwards;
 }
 .home-intro-reveal strong{
