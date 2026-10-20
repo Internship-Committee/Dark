@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           ` : ""}
           <div class="course-domain-list" id="course-domain-courses" role="list" aria-label="${escapeHtml(actualDomain === "All Courses" ? "All courses" : `${actualDomain} courses`)}">${collection.length ? courseRows(collection) : `<p class="course-gallery-state">No courses are listed for this domain yet.</p>`}</div>
           <footer class="site-footer">
-            <span class="footer-brand"><strong>Internship Committee</strong><span>IIM Rohtak</span></span>
+            <span class="footer-brand"><span class="footer-brand-first"><span class="footer-copyright">©</span><strong>Internship Committee</strong></span><span class="footer-brand-second"><strong>IIM Rohtak</strong></span></span>
             <span class="footer-built"><img class="footer-logo" src="assets/logo-footer.png" alt="Internship Committee logo"></span>
           </footer>
         </div>
