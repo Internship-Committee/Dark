@@ -1069,6 +1069,7 @@ body[data-page="live-projects"] .lp-file-card{ max-width:none; }
 }
 
 /* Keep phone status labels readable above the angled card edge. */
+.lp-phone-status-break{ display:none; }
 @media(max-width:767px){
   body[data-page="live-projects"] .lp-file-meta{
     box-sizing:border-box;
@@ -1110,4 +1111,5 @@ body[data-page="live-projects"] .lp-file-card{ max-width:none; }
     word-break:normal;
     text-align:right;
   }
+  body[data-page="live-projects"] .lp-phone-status-break{ display:block; }
 }
