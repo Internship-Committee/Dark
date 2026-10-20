@@ -76,7 +76,8 @@ body[data-page="home"] .main{
   color:var(--accent,#183B66);
   font:700 clamp(1.6rem,6vw,9rem)/1.02 'Playfair Display',Georgia,serif;
   letter-spacing:-.04em;
-  white-space:nowrap;
+  white-space:normal;
+  overflow-wrap:anywhere;
   text-align:center;
 }
 .home-intro-reveal span{
