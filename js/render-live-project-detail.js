@@ -37,11 +37,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const stage = project.stage; // 1, 2, or 3 (0/"Closed" rows never reach this page)
   const isOngoing = stage === 3;
   const selectedInterns = Array.isArray(project.selectedInterns) ? project.selectedInterns : [];
+  const internColumnSize = Math.ceil(selectedInterns.length / 2);
+  const renderInternColumn = (names, offset, side) => `
+    <ol class="selected-interns-list selected-interns-list--${side}">
+      ${names.map((name, index) => `<li><span class="selected-interns-number">${String(offset + index + 1).padStart(2, "0")}</span><span class="selected-interns-name">${escapeHtml(name)}</span></li>`).join("")}
+    </ol>`;
   const headerAction = isOngoing
     ? `<section class="glass-card selected-interns-card" aria-labelledby="selected-interns-heading">
         <h2 id="selected-interns-heading">Selected Interns</h2>
         ${selectedInterns.length
-          ? `<ul>${selectedInterns.map(name => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`
+          ? `<div class="selected-interns-grid${selectedInterns.length > 1 ? " is-two-col" : ""}">${renderInternColumn(selectedInterns.slice(0, internColumnSize), 0, "left")}${renderInternColumn(selectedInterns.slice(internColumnSize), internColumnSize, "right")}</div>`
           : `<p>Names will be announced soon.</p>`}
       </section>`
     : canApply ? `<div class="lp-header-cta">
@@ -56,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>` : "";
 
   root.innerHTML = `
-    <div class="lp-header">
+    <div class="lp-header${isOngoing ? " lp-header--ongoing" : ""}">
       <div>
         <span class="live-flag stage-${stage}"><span class="pulse-dot"></span> ${escapeHtml(project.stageLabel.toUpperCase())}</span>
         <h1>${escapeHtml(project.company)}</h1>
