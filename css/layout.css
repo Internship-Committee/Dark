@@ -266,7 +266,7 @@
 .site-shader-bg{
   position: fixed;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   z-index: -1; /* behind the whole app-shell; sidebar's own background sits on top of it */
   display: block;
@@ -372,14 +372,18 @@ footer.site-footer{
   border-top: 1px solid var(--sidebar-border);
   color: var(--text-muted);
   font-size: 12.5px;
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:nowrap; gap:16px;
 }
+.footer-brand{ display:flex; min-width:0; flex-direction:column; gap:2px; color:var(--text-secondary); font:500 11px/1.4 var(--font-body); }
+.footer-brand strong{ font-weight:700; }
+.footer-brand span{ color:var(--text-muted); }
 .footer-built{
   display:flex;
+  flex:0 0 auto;
   align-items:center;
   justify-content:center;
 }
-.footer-logo{ display:block; width:58px; height:48px; object-fit:contain; }
+.footer-logo{ display:block; width:38px; height:38px; object-fit:contain; }
 
 /* ============================================================
    Editorial portal refresh — The Verge-inspired layout system
@@ -681,5 +685,5 @@ footer.site-footer{
   .page-header-row{ margin-bottom:30px; }
   .showcase-card{ max-width:100%; }
   .card-grid,.card-grid.two-col{ grid-template-columns:1fr; gap:12px; }
-  footer.site-footer{ margin-top:44px; flex-direction:column; }
+  footer.site-footer{ margin-top:44px; flex-direction:row; align-items:center; justify-content:space-between; }
 }

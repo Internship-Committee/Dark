@@ -161,7 +161,7 @@ body[data-page="courses"] .course-domain-card__action{
 body[data-page="courses"] .course-domain-card__action span{ font-size:15px; }
 body[data-page="courses"] .course-domain-card:hover,
 body[data-page="courses"] .course-domain-card:focus-visible{
-  flex-grow:5;
+  flex-grow:3;
   border-color:rgba(255,255,255,.58);
 }
 body[data-page="courses"] .course-domain-card:hover .course-domain-card__image,
@@ -199,14 +199,15 @@ body[data-page="courses"] .course-domain-view{
   color:var(--text-primary);
   scrollbar-gutter:stable;
 }
-body[data-page="courses"] .course-domain-view.is-entering{ animation:course-domain-enter .46s cubic-bezier(.22,1,.36,1) both; }
+body[data-page="courses"].course-domain-open #main-content{ visibility:hidden; }
+body[data-page="courses"] .course-domain-view.is-entering{ animation:course-domain-enter .38s cubic-bezier(.22,1,.36,1) both; }
 body[data-page="courses"] .course-domain-view.is-leaving{ animation:course-domain-leave .24s ease-in both; }
 @keyframes course-domain-enter{
-  from{ opacity:.72; clip-path:inset(0 44% 0 44%); }
-  to{ opacity:1; clip-path:inset(0); }
+  from{ opacity:.72; transform:translateY(8px); }
+  to{ opacity:1; transform:translateY(0); }
 }
 @keyframes course-domain-leave{
-  to{ opacity:.72; clip-path:inset(0 44% 0 44%); }
+  to{ opacity:.72; transform:translateY(8px); }
 }
 body[data-page="courses"] .course-domain-view__cover{
   position:relative;
@@ -358,7 +359,13 @@ body[data-page="courses"] #course-domain-courses{
   body[data-page="courses"] .course-domain-view__cover,
   body[data-page="courses"] .course-domain-view__cover-content{ min-height:clamp(430px,76dvh,640px); }
   body[data-page="courses"] .course-domain-view__cover-content{ gap:46px; padding:18px 20px 34px; }
-  body[data-page="courses"] .course-domain-view__title-block h1{ font-size:clamp(3.5rem,17vw,6rem); }
+  body[data-page="courses"] .course-domain-view__title-block h1{
+    max-width:100%;
+    font-size:clamp(1.7rem,9.5vw,4.25rem);
+    line-height:.94;
+    overflow-wrap:anywhere;
+    hyphens:auto;
+  }
   body[data-page="courses"] .course-domain-view__content{ width:calc(100% - 36px); padding-top:44px; }
 }
 @media(prefers-reduced-motion:reduce){

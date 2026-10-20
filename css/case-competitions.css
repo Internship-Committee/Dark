@@ -66,6 +66,9 @@
   color:var(--text-muted);
   font-size:12.5px;
 }
+.competition-summary{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; margin:16px 0 12px; }
+.competition-summary .competition-filter-status{ margin:0; }
+.competition-summary .page-disclaimer{ max-width:78ch; margin:0; color:var(--text-muted); font-size:11.5px; line-height:1.5; }
 
 .competition-calendar-layout{
   display:grid;

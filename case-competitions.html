@@ -63,7 +63,7 @@
   <main class="main" id="main-content">
     <div class="page-header-row">
       <header class="page-header competition-page-title">
-        <h1 class="section-heading case-competition-title"><span>Case</span><span>Competition</span></h1>
+        <h1 class="section-heading">Case Competitions</h1>
       </header>
     </div>
 
@@ -103,7 +103,10 @@
         <button class="clear-filters" id="clear-competition-filters" type="button" disabled>Clear filters</button>
       </div>
 
-      <p class="competition-filter-status" id="competition-filter-status" aria-live="polite">Loading competition deadlines…</p>
+      <div class="competition-summary">
+        <p class="competition-filter-status" id="competition-filter-status" aria-live="polite">Loading competition deadlines…</p>
+        <p class="page-disclaimer" id="competitions-disclaimer">Deadlines can change. Confirm the exact date on the competition’s official page before applying.</p>
+      </div>
 
       <div class="competition-calendar-layout">
         <section class="calendar-panel" aria-label="Monthly deadline calendar">
@@ -158,7 +161,7 @@
     </dialog>
 
     <footer class="site-footer">
-      <span>&copy; Internship Committee, IIM Rohtak</span>
+      <span class="footer-brand"><strong>Internship Committee</strong><span>IIM Rohtak</span></span>
       <span class="footer-built"><img class="footer-logo" src="assets/logo-footer.png" alt="Internship Committee logo"></span>
     </footer>
   </main>

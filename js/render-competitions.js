@@ -110,7 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     populateInstitutes();
     render();
     renderTopPicks();
-    showDisclaimer(board, "Deadlines can change. Confirm the exact date on the competition’s official page before applying.");
   }catch(err){
     filterStatus.textContent = "Competition deadlines could not be loaded.";
     calendarGrid.innerHTML = `<p class="agenda-empty calendar-load-error">${escapeHtml(err.message)}</p>`;
@@ -395,14 +394,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     return date.toLocaleDateString("en-IN", { weekday:"short", day:"numeric", month:"short", year:"numeric" });
   }
 
-  function showDisclaimer(afterEl, text){
-    let note = document.getElementById("competitions-disclaimer");
-    if (!note){
-      note = document.createElement("p");
-      note.id = "competitions-disclaimer";
-      note.className = "page-disclaimer";
-      afterEl.insertAdjacentElement("afterend", note);
-    }
-    note.textContent = text;
-  }
 });

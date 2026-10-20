@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.title = `${project.company} — Live Project · IC IIM Rohtak`;
 
   const deadlineText = project.deadline ? formatDate(project.deadline) : "Rolling";
-  const applyButton = applyBtn(project.applyUrl);
+  const canApply = project.stageLabel === "Applications Open";
+  const applyButton = canApply ? applyBtn(project.applyUrl) : "";
   const stage = project.stage; // 1, 2, or 3 (0/"Closed" rows never reach this page)
   const isOngoing = stage === 3;
   const selectedInterns = Array.isArray(project.selectedInterns) ? project.selectedInterns : [];
@@ -43,16 +44,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           ? `<ul>${selectedInterns.map(name => `<li>${escapeHtml(name)}</li>`).join("")}</ul>`
           : `<p>Names will be announced soon.</p>`}
       </section>`
-    : `<div class="lp-header-cta">
+    : canApply ? `<div class="lp-header-cta">
         ${applyButton}
         <span class="deadline-note">${ICIcons.calendar} Apply by ${escapeHtml(deadlineText)}</span>
-      </div>`;
-  const sidebarApplicationCard = isOngoing ? "" : `
+      </div>` : "";
+  const sidebarApplicationCard = canApply ? `
         <div class="glass-card apply-card">
           <span class="deadline-label">Application Deadline</span>
           <div class="deadline-big">${escapeHtml(deadlineText)}</div>
           ${applyButton}
-        </div>`;
+        </div>` : "";
 
   root.innerHTML = `
     <div class="lp-header">
