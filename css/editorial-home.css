@@ -123,8 +123,8 @@ body[data-page="home"] .main{
 @keyframes home-intro-exit{
   to{ opacity:0; visibility:hidden; }
 }
-.home-intro-top{ animation:home-intro-top-part 1.35s 2.85s cubic-bezier(.76,0,.24,1) forwards; }
-.home-intro-bottom{ animation:home-intro-bottom-part 1.35s 2.85s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-top{ animation:home-intro-top-part 1.35s 4.15s cubic-bezier(.76,0,.24,1) forwards; }
+.home-intro-bottom{ animation:home-intro-bottom-part 1.35s 4.15s cubic-bezier(.76,0,.24,1) forwards; }
 
 .home-index{
   position:relative;
