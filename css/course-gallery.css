@@ -126,7 +126,8 @@ body[data-page="courses"] .course-domain-card__title-vertical{
   max-height:70%;
   writing-mode:vertical-rl;
   transform:rotate(180deg);
-  white-space:nowrap;
+  white-space:normal;
+  overflow-wrap:anywhere;
   opacity:1;
   transition:opacity .2s ease,transform .38s cubic-bezier(.2,.75,.25,1);
 }
@@ -280,6 +281,7 @@ body[data-page="courses"] .course-domain-view__title-block h1{
   font-family:'Abril Fatface',Georgia,serif!important;
   letter-spacing:-.045em;
   text-wrap:balance;
+  overflow-wrap:anywhere;
   text-shadow:0 2px 30px rgba(0,0,0,.14);
 }
 body[data-page="courses"] .course-domain-view__content{
