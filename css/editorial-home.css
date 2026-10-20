@@ -89,7 +89,6 @@ body[data-page="home"] .main{
   transform:translateY(-7px);
   text-align:center;
 }
-.home-intro-mobile-break{ display:none; }
 .home-intro-skip{
   position:absolute;
   right:clamp(16px,4vw,54px);
@@ -246,7 +245,6 @@ html.home-scroll-ready [data-scroll-reveal].is-visible{ opacity:1; transform:tra
   .home-intro-reveal{ width:98vw; gap:5px; }
   .home-intro-reveal strong{ font-size:clamp(1.05rem,6.2vw,2.5rem); }
   .home-intro-reveal span{ font-size:clamp(.8rem,3.2vw,1.15rem); }
-  .home-intro-mobile-break{ display:block; }
 }
 @media(prefers-reduced-motion:reduce){
   .home-intro{ display:none; animation:none; }
