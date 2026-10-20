@@ -81,6 +81,7 @@ h1,h2,h3,h4{
   line-height: 0.98;
   margin: 0 0 .5em;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 p{ margin: 0 0 1em; color: var(--text-secondary); }
@@ -92,6 +93,9 @@ img{ max-width: 100%; display:block; }
 ul{ margin:0; padding:0; list-style:none; }
 
 button{ font-family: inherit; }
+
+/* Let long words wrap instead of being clipped by narrow layouts. */
+:where(p,a,button,li,label,span,strong,small){ overflow-wrap:anywhere; }
 
 /* --- Focus states (accessibility) --- */
 a:focus-visible,
