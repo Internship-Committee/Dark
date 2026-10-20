@@ -12,7 +12,5 @@
 
   intro.querySelector(".home-intro-skip")?.addEventListener("click", finish);
   document.addEventListener("keydown", onKeydown);
-  intro.addEventListener("animationend", event => {
-    if (event.target === intro && event.animationName === "home-intro-exit") finish();
-  });
+  window.setTimeout(finish, 7100);
 })();
