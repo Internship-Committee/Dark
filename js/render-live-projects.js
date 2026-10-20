@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const stageShort = { 1: "Applications open", 2: "Selection in progress", 3: "Project ongoing" };
+    const statusLabel = stage => stage === 2
+      ? `Selection in<br class="lp-phone-status-break"> progress`
+      : escapeHtml(stageShort[stage] || "Live project");
     let activeStage = "all";
     const searchableText = p => [p.company, p.tagline, p.aboutCompany, p.location, p.duration,
       p.stageLabel, ...p.roles.flatMap(role => [role.title, role.responsibilities.join(" "), role.takeaway]),
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <span class="lp-file-company">${escapeHtml(p.company)}</span>
           </a>
           <div class="lp-file-meta">
-            <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span><span class="lp-status-copy">${escapeHtml(stageShort[p.stage] || "Live project")}</span></span>
+            <span class="lp-file-status stage-${p.stage}"><span class="pulse-dot"></span><span class="lp-status-copy">${statusLabel(p.stage)}</span></span>
           </div>
         </article>`;
     };
