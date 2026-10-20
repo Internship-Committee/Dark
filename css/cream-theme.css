@@ -237,6 +237,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{ outline-color:var
   .mobile-brand .brand-text strong{ font:700 16px/1.1 var(--font-heavy)!important; color:var(--text-primary)!important; }
   .mobile-brand .brand-text span{ margin-top:3px; color:var(--text-muted); font:700 8px/1.2 var(--font-mono); letter-spacing:.08em; text-transform:uppercase; }
   .sidebar-brand .brand-text strong{ font-weight:700!important; }
+  .sidebar-nav .nav-link .nav-label{ font-family:var(--font-display)!important; font-weight:700!important; letter-spacing:.01em; }
 }
 @media (min-width:701px) and (max-width:1100px){
   .sidebar-brand .brand-text strong{ font-size:17px; }
