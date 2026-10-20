@@ -31,7 +31,6 @@ body[data-page="home"] .main{
   line-height:.9;
   letter-spacing:-.075em;
   padding-right:.075em;
-  animation:home-mark-blink 2.2s ease-in-out both;
 }
 .home-intro-half{ position:absolute; display:block; white-space:nowrap; }
 .home-intro-top{ clip-path:inset(0 0 50% 0); }
@@ -105,10 +104,6 @@ body[data-page="home"] .main{
 }
 .home-intro-skip:hover,.home-intro-skip:focus-visible{ background:var(--accent,#183B66); color:var(--bg,#F5F1E8); }
 .home-intro.is-done{ display:none; }
-@keyframes home-mark-blink{
-  0%,7%,17%,27%,37%,44%,54%,64%,74%,82%,92%,100%{ opacity:1; }
-  12%,42%,80%{ opacity:.08; }
-}
 @keyframes home-identity-reveal{
   from{ opacity:0; }
   to{ opacity:1; }
