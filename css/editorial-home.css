@@ -342,6 +342,11 @@ html.home-scroll-ready [data-scroll-reveal].is-visible{ opacity:1; transform:tra
   .home-intro-reveal strong{ font-size:clamp(1.05rem,6.2vw,2.5rem); }
   .home-intro-reveal span{ font-size:clamp(.8rem,3.2vw,1.15rem); }
 }
+.home-values-mobile-break{ display:none; }
+@media(max-width:700px){
+  .home-values-mobile-break{ display:block; }
+}
+
 @media(prefers-reduced-motion:reduce){
   .home-intro{ display:none; animation:none; }
   .home-intro-mark::after,.home-intro-half,.home-intro-clear,.home-intro-reveal{ animation:none; }
