@@ -277,11 +277,12 @@ body[data-page="courses"] .course-domain-view__title-block{ max-width:min(1100px
 body[data-page="courses"] .course-domain-view__title-block h1{
   margin:0;
   color:#fff!important;
-  font:500 clamp(3.5rem,11vw,9.5rem)/.82 var(--font-display);
+  font:500 clamp(1.2rem,5.4vw,5.5rem)/.82 var(--font-display);
   font-family:'Abril Fatface',Georgia,serif!important;
   letter-spacing:-.045em;
-  text-wrap:balance;
-  overflow-wrap:anywhere;
+  white-space:nowrap;
+  text-wrap:nowrap;
+  overflow-wrap:normal;
   text-shadow:0 2px 30px rgba(0,0,0,.14);
 }
 body[data-page="courses"] .course-domain-view__content{
@@ -363,10 +364,11 @@ body[data-page="courses"] #course-domain-courses{
   body[data-page="courses"] .course-domain-view__cover-content{ gap:46px; padding:18px 20px 34px; }
   body[data-page="courses"] .course-domain-view__title-block h1{
     max-width:100%;
-    font-size:clamp(1.7rem,9.5vw,4.25rem);
+    font-size:clamp(1rem,5.2vw,2.25rem);
     line-height:.94;
-    overflow-wrap:anywhere;
-    hyphens:auto;
+    white-space:nowrap;
+    text-wrap:nowrap;
+    overflow-wrap:normal;
   }
   body[data-page="courses"] .course-domain-view__content{ width:calc(100% - 36px); padding-top:44px; }
 }
