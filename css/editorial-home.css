@@ -8,7 +8,7 @@ body[data-page="home"] .main{
 
 .home-editorial{ position:relative; width:100%; isolation:isolate; }
 
-/* Timed opening ident. The two clipped halves part to reveal the committee name. */
+/* Timed opening ident: hold the IC, strike it, reveal the name, then lift the IC away. */
 .home-intro{
   position:fixed;
   z-index:10000;
@@ -32,7 +32,9 @@ body[data-page="home"] .main{
   line-height:.9;
   letter-spacing:-.075em;
   padding-right:.075em;
+  animation:home-intro-mark-exit .72s 2.2s cubic-bezier(.2,.75,.25,1) forwards;
 }
+.home-intro-letters{ display:block; white-space:nowrap; }
 .home-intro-mark::after{
   position:absolute;
   z-index:1;
@@ -44,11 +46,8 @@ body[data-page="home"] .main{
   content:"";
   transform:translate(-50%,-50%) scaleX(0);
   transform-origin:center;
-  animation:home-intro-strike .38s .12s cubic-bezier(.2,.75,.25,1) forwards;
+  animation:home-intro-strike .42s 1s cubic-bezier(.2,.75,.25,1) forwards;
 }
-.home-intro-half{ position:absolute; display:block; white-space:nowrap; }
-.home-intro-top{ clip-path:inset(0 0 50% 0); }
-.home-intro-bottom{ clip-path:inset(50% 0 0 0); }
 .home-intro-clear{
   position:absolute;
   z-index:1;
@@ -57,10 +56,9 @@ body[data-page="home"] .main{
   top:50%;
   height:clamp(132px,23vh,240px);
   background:var(--bg,#F5F1E8);
-  opacity:1;
   transform:translateY(-50%) scaleX(0);
   transform-origin:left center;
-  animation:home-intro-open .52s .56s cubic-bezier(.76,0,.24,1) forwards;
+  animation:home-intro-open .52s 1.43s cubic-bezier(.76,0,.24,1) forwards;
 }
 .home-intro-reveal{
   position:relative;
@@ -71,18 +69,12 @@ body[data-page="home"] .main{
   gap:clamp(5px,.8vw,12px);
   width:min(98vw,1900px);
   text-align:center;
-  opacity:1;
-  transform:translateY(-50%);
   position:absolute;
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%);
-  width:min(98vw,1900px);
-  clip-path:none;
   opacity:0;
-  animation:
-    home-identity-reveal .65s 1.48s ease-out forwards,
-    home-identity-exit .45s 3.05s ease-in forwards;
+  transform:translate(-50%,calc(-50% + 18px));
+  animation:home-identity-reveal .65s 1.55s ease-out forwards;
 }
 .home-intro-reveal strong{
   display:block;
@@ -122,26 +114,17 @@ body[data-page="home"] .main{
   to{ transform:translate(-50%,-50%) scaleX(1); }
 }
 @keyframes home-identity-reveal{
-  from{ opacity:0; }
-  to{ opacity:1; }
-}
-@keyframes home-identity-exit{
-  to{ opacity:0; }
+  to{ opacity:1; transform:translate(-50%,-50%); }
 }
 @keyframes home-intro-open{
   to{ transform:translateY(-50%) scaleX(1); }
 }
-@keyframes home-intro-top-part{
-  to{ transform:translateY(-112%); opacity:.15; }
-}
-@keyframes home-intro-bottom-part{
-  to{ transform:translateY(112%); opacity:.15; }
+@keyframes home-intro-mark-exit{
+  to{ opacity:0; transform:translateY(-14vh); }
 }
 @keyframes home-intro-exit{
   to{ opacity:0; visibility:hidden; }
 }
-.home-intro-top{ animation:home-intro-top-part .8s .98s cubic-bezier(.76,0,.24,1) forwards; }
-.home-intro-bottom{ animation:home-intro-bottom-part .8s .98s cubic-bezier(.76,0,.24,1) forwards; }
 
 .home-index{
   position:relative;
@@ -361,7 +344,7 @@ html.home-scroll-ready [data-scroll-reveal].is-visible{ opacity:1; transform:tra
 }
 @media(prefers-reduced-motion:reduce){
   .home-intro{ display:none; animation:none; }
-  .home-intro-half,.home-intro-clear,.home-intro-reveal{ animation:none; }
+  .home-intro-mark,.home-intro-mark::after,.home-intro-clear,.home-intro-reveal{ animation:none; }
   html.home-scroll-ready [data-scroll-reveal]{ opacity:1; transform:none; transition:none; }
   .home-index-row{ transition:none; }
 }
