@@ -32,42 +32,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.title = `${project.company} — Live Project · IC IIM Rohtak`;
 
   const deadlineText = project.deadline ? formatDate(project.deadline) : "Rolling";
-  const canApply = project.stageLabel === "Applications Open";
-  const applyButton = canApply ? applyBtn(project.applyUrl) : "";
   const stage = project.stage; // 1, 2, or 3 (0/"Closed" rows never reach this page)
-  const isOngoing = stage === 3;
-  const selectedInterns = Array.isArray(project.selectedInterns) ? project.selectedInterns : [];
-  const internColumnSize = Math.ceil(selectedInterns.length / 2);
-  const renderInternColumn = (names, offset, side) => `
-    <ol class="selected-interns-list selected-interns-list--${side}">
-      ${names.map((name, index) => `<li><span class="selected-interns-number">${String(offset + index + 1).padStart(2, "0")}</span><span class="selected-interns-name">${escapeHtml(name)}</span></li>`).join("")}
-    </ol>`;
-  const headerAction = isOngoing
-    ? `<section class="glass-card selected-interns-card" aria-labelledby="selected-interns-heading">
-        <h2 id="selected-interns-heading">Selected Interns</h2>
-        ${selectedInterns.length
-          ? `<div class="selected-interns-grid${selectedInterns.length > 1 ? " is-two-col" : ""}">${renderInternColumn(selectedInterns.slice(0, internColumnSize), 0, "left")}${renderInternColumn(selectedInterns.slice(internColumnSize), internColumnSize, "right")}</div>`
-          : `<p>Names will be announced soon.</p>`}
-      </section>`
-    : canApply ? `<div class="lp-header-cta">
-        ${applyButton}
-        <span class="deadline-note">${ICIcons.calendar} Apply by ${escapeHtml(deadlineText)}</span>
-      </div>` : "";
-  const sidebarApplicationCard = canApply ? `
-        <div class="glass-card apply-card">
-          <span class="deadline-label">Application Deadline</span>
-          <div class="deadline-big">${escapeHtml(deadlineText)}</div>
-          ${applyButton}
-        </div>` : "";
+  const hasApplicationActions = stage === 1 || stage === 2;
+  const applyButton = hasApplicationActions ? applyBtn(project.applyUrl) : "";
+  const deadlineButton = hasApplicationActions
+    ? `<span class="deadline-note">${ICIcons.calendar} Apply by ${escapeHtml(deadlineText)}</span>`
+    : "";
 
   root.innerHTML = `
-    <div class="lp-header${isOngoing ? " lp-header--ongoing" : ""}">
+    <div class="lp-header">
       <div>
         <span class="live-flag stage-${stage}"><span class="pulse-dot"></span> ${escapeHtml(project.stageLabel.toUpperCase())}</span>
         <h1>${escapeHtml(project.company)}</h1>
         ${project.tagline ? `<p class="lp-tagline">${escapeHtml(project.tagline)}</p>` : ""}
       </div>
-      ${headerAction}
+      ${hasApplicationActions ? `<div class="lp-header-cta">${applyButton}${deadlineButton}</div>` : ""}
     </div>
 
     ${stageBar(stage)}
@@ -80,7 +59,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
 
       <aside class="lp-sidebar">
-        ${sidebarApplicationCard}
         <div class="glass-card">
           <div class="info-row">${ICIcons.pin}<div><div class="info-label">Location</div><div class="info-value">${escapeHtml(project.location)}</div></div></div>
           ${project.duration ? `<div class="info-row">${ICIcons.clock}<div><div class="info-label">Project Duration</div><div class="info-value">${escapeHtml(project.duration)}</div></div></div>` : ""}
